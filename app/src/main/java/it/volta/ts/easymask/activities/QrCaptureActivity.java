@@ -15,8 +15,7 @@ import com.google.zxing.integration.android.IntentResult;
 import it.volta.ts.easymask.R;
 
 
-// implements onClickListener for the onclick behaviour of button
-public class QrCaptureActivity extends AppCompatActivity implements View.OnClickListener {
+public class QrCaptureActivity extends AppCompatActivity{
     Button scanBtn;
     TextView messageText;
 
@@ -24,20 +23,14 @@ public class QrCaptureActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr_capture);
-        scanBtn = findViewById(R.id.scanBtn);
         messageText = findViewById(R.id.textContent);
-        scanBtn.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onClick(View v) {
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
         intentIntegrator.setPrompt("Scan a barcode or a QR Code");
         intentIntegrator.setOrientationLocked(false);
         intentIntegrator.initiateScan();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
