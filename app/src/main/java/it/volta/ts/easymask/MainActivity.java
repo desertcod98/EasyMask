@@ -4,14 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import it.volta.ts.easymask.activities.QrCaptureActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView imgLogo, imgScritta;
-
+    private ImageView imgLogo, imgScritta, btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,16 @@ public class MainActivity extends AppCompatActivity {
         imgScritta.setImageResource(R.drawable.scrittamain);
 
         Intent intent = new Intent(this, QrCaptureActivity.class);
-        startActivity(intent);
+
+        btn = (ImageView)findViewById(R.id.btnAct);
+        btn.setImageResource(R.drawable.btnqr);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(intent);
+            }
+        });
 
     }
 }
