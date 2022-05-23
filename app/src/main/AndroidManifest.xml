@@ -4,6 +4,7 @@
     package="it.volta.ts.easymask">
 
     <uses-permission android:name="android.permission.CAMERA"/>
+    pene
 
     <application
         android:allowBackup="true"
