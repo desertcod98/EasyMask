@@ -15,6 +15,7 @@
         android:layout_marginTop="130sp"
         android:src="@drawable/logo">
     </ImageView>
+       
 
     <ImageView
         android:id="@+id/ImageScritta"
@@ -34,7 +35,6 @@
         android:layout_marginBottom="-100sp"
         android:src="@drawable/btnqr">
     </ImageView>
-
 
 
 </RelativeLayout>
