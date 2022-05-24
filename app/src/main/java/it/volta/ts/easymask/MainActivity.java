@@ -1,16 +1,19 @@
 package it.volta.ts.easymask;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import it.volta.ts.easymask.activities.QrCaptureActivity;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
+import it.volta.ts.easymask.activities.MaskActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,14 +24,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, QrCaptureActivity.class);
+        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+        intentIntegrator.setPrompt("Scan a barcode or a QR Code");
+        intentIntegrator.setOrientationLocked(false);
+
 
         btn = (ImageView)findViewById(R.id.btnAct);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(intent);
+                intentIntegrator.initiateScan();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() == null) {
+                Toast.makeText(getBaseContext(), "Scan cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, MaskActivity.class);
+                intent.putExtra("url", intentResult.getContents());
+                startActivity(intent);
+                /*downloadManager = new DownloadManager();
+                downloadManager.saveImgToFile(intentResult.getContents());
+                messageText.setText(intentResult.getContents());
+                */
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
