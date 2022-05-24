@@ -4,31 +4,29 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 
 public class DownloadManager {
-    private ReadableByteChannel urlByteChannel;
-    private String url;
     private final String urlKeyword = "code=";
     private final String imgExtension = ".png";
 
-    public int setUrlByteChannel(String url){
+    private ReadableByteChannel getUrlByteChannel(String url){
         try {
-            urlByteChannel = Channels.newChannel(new URL(url).openStream());
-            this.url = url;
-            return 0;
+            ReadableByteChannel urlByteChannel = Channels.newChannel(new URL(url).openStream());
+            return urlByteChannel;
         } catch (IOException e) {
-            return -1;
+            return null;
         }
     }
 
-    public int saveImgToFile(){
+    public int saveImgToFile(String url){
+        ReadableByteChannel urlByteChannel = getUrlByteChannel(url);
+        if (urlByteChannel == null){
+            return -1;
+        }
         String filename = (url.substring(url.indexOf(urlKeyword)+urlKeyword.length()))+imgExtension;
-        System.out.println(filename);
         FileOutputStream fileOutputStream = null;
         try {
             urlByteChannel = Channels.newChannel(new URL(url).openStream());
@@ -38,7 +36,8 @@ public class DownloadManager {
         try {
             fileOutputStream = new FileOutputStream(filename);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            new File(filename);
+            saveImgToFile(url);
         }
         try {
             fileOutputStream.getChannel()
