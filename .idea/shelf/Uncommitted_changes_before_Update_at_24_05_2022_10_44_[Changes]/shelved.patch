@@ -1,0 +1,18 @@
+Index: app/src/main/res/layout/activity_mask.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imgSlot\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"300sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"120sp\"\r\n        android:src=\"@drawable/placeholder\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_marginLeft=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/brush\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginLeft=\"115sp\"\r\n        android:src=\"@drawable/brush\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/eraser\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginRight=\"115sp\"\r\n        android:src=\"@drawable/eraser\"\r\n        android:layout_alignParentRight=\"true\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnSave\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"150sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginBottom=\"45sp\"\r\n        android:src=\"@drawable/savebtn\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+--- a/app/src/main/res/layout/activity_mask.xml	(revision fc6646c6d4e6e6f34de11a1002f25de087ddf541)
++++ b/app/src/main/res/layout/activity_mask.xml	(date 1653380751595)
+@@ -1,7 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <RelativeLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
