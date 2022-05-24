@@ -1,6 +1,7 @@
 package it.volta.ts.easymask.activities;
 
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,7 +15,7 @@ import it.volta.ts.easymask.widgets.MaskImage;
 
 public class MaskActivity extends AppCompatActivity
 {
-    ImageView downloadedImg, brush, eraser;
+    ImageView downloadedImg, brush, eraser, btnUpload;
     MaskImage maskImage;
     String url;
 
@@ -34,11 +35,13 @@ public class MaskActivity extends AppCompatActivity
 
         brush = findViewById(R.id.brush);
         eraser = findViewById(R.id.eraser);
+        btnUpload = findViewById(R.id.btnUp);
 
         brush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 1;
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
 
@@ -46,6 +49,14 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            }
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
     }

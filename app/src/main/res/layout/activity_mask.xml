@@ -58,8 +58,9 @@
         android:layout_width="30sp"
         android:layout_height="30sp"
         android:layout_marginTop="440sp"
-        android:layout_marginLeft="115sp"
-        android:src="@drawable/brush">
+        android:layout_marginLeft="95sp"
+        android:src="@drawable/brush"
+        android:hapticFeedbackEnabled="true">
     </ImageView>
 
     <ImageView
@@ -67,9 +68,10 @@
         android:layout_width="30sp"
         android:layout_height="30sp"
         android:layout_marginTop="440sp"
-        android:layout_marginRight="115sp"
+        android:layout_marginRight="95sp"
         android:src="@drawable/eraser"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:hapticFeedbackEnabled="true">
     </ImageView>
 
     <ImageView
@@ -79,7 +81,8 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45sp"
-        android:src="@drawable/savebtn">
+        android:src="@drawable/savebtn"
+        android:visibility="invisible">
     </ImageView>
 
     <ImageView
@@ -88,8 +91,9 @@
         android:layout_height="150sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-30sp"
-        android:src="@drawable/uploadbtn">
+        android:layout_marginBottom="45sp"
+        android:src="@drawable/uploadbtn"
+        android:hapticFeedbackEnabled="true">
     </ImageView>
 
 </RelativeLayout>
