@@ -1,4 +1,4 @@
-package it.volta.ts.easymask.maskUtility;
+package it.volta.ts.easymask.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
