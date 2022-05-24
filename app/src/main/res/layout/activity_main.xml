@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-100sp"
-        android:src="@drawable/scrittamain"></ImageView>
+        android:src="@drawable/scrittamain">
+    </ImageView>
 
     <ImageView
         android:id="@+id/btnAct"

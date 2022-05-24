@@ -13,10 +13,18 @@
         android:layout_height="100sp"
         android:src="@drawable/logo"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15sp">
-
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="-15sp">
     </ImageView>
 
+    <ImageView
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:src="@drawable/volta"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="115sp"
+        android:layout_marginTop="10sp">
+    </ImageView>
 
     <ImageView
         android:id="@+id/imgSlot"
@@ -25,16 +33,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120sp"
         android:src="@drawable/placeholder">
-
     </ImageView>
 
     <ImageView
         android:layout_width="300sp"
         android:layout_height="50sp"
         android:src="@drawable/toolbar"
-        android:layout_marginLeft="55sp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="430sp">
-
     </ImageView>
 
     <ImageView
@@ -44,7 +50,6 @@
         android:layout_marginTop="440sp"
         android:layout_marginLeft="115sp"
         android:src="@drawable/brush">
-
     </ImageView>
 
     <ImageView
@@ -55,7 +60,6 @@
         android:layout_marginRight="115sp"
         android:src="@drawable/eraser"
         android:layout_alignParentRight="true">
-
     </ImageView>
 
     <ImageView
@@ -66,7 +70,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="45sp"
         android:src="@drawable/savebtn">
-
     </ImageView>
 
 </RelativeLayout>
