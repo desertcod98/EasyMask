@@ -13,11 +13,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import it.volta.ts.easymask.R;
+import it.volta.ts.easymask.networking.DownloadManager;
 
 
 public class QrCaptureActivity extends AppCompatActivity{
     Button scanBtn;
     TextView messageText;
+    DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class QrCaptureActivity extends AppCompatActivity{
             if (intentResult.getContents() == null) {
                 Toast.makeText(getBaseContext(), "Scan cancelled", Toast.LENGTH_SHORT).show();
             } else {
+                downloadManager = new DownloadManager();
+                downloadManager.saveImgToFile(intentResult.getContents());
                 messageText.setText(intentResult.getContents());
             }
         } else {
