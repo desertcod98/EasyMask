@@ -51,6 +51,8 @@ public class MaskActivity extends AppCompatActivity
     }
 
 
+
+
     MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
     {
         @Override
