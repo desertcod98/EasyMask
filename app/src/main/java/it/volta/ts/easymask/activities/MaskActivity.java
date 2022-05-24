@@ -1,6 +1,7 @@
 package it.volta.ts.easymask.activities;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,16 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 
 import it.volta.ts.easymask.R;
+import it.volta.ts.easymask.tools.ToolSelector;
 import it.volta.ts.easymask.widgets.MaskImage;
-
-/**
- *  https://vuo.elettra.eu/vuo/cgi-bin/easymask.py?action=get_map&code=S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5
- */
-
 
 public class MaskActivity extends AppCompatActivity
 {
-    ImageView downloadedImg;
+    ImageView downloadedImg, brush, eraser;
     MaskImage maskImage;
     String url;
 
@@ -34,6 +31,23 @@ public class MaskActivity extends AppCompatActivity
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
+
+        brush = findViewById(R.id.brush);
+        eraser = findViewById(R.id.eraser);
+
+        brush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolSelector.toolState = 1;
+            }
+        });
+
+        eraser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolSelector.toolState = 0;
+            }
+        });
     }
 
 

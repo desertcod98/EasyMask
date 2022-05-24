@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.volta.ts.easymask.obj.FPoint;
+import it.volta.ts.easymask.tools.ToolSelector;
 
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 {
@@ -80,28 +81,43 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
             switch(event.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
-                    fromX = x;
-                    fromY = y;
-                    track = new ArrayList<>();
-                    track.add(new FPoint(x,y));
-                    points.add(track);
+                    if (ToolSelector.toolState == 1)
+                    {
+                        fromX = x;
+                        fromY = y;
+                        track = new ArrayList<>();
+                        track.add(new FPoint(x,y));
+                        points.add(track);
 
-                    if (onMaskTouch != null)
-                        onMaskTouch.onPoint(x,y);
+                        if (onMaskTouch != null)
+                            onMaskTouch.onPoint(x,y);
+                    } else {
+
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
-//TODO: togliere                    show();
+                    if (ToolSelector.toolState == 1)
+                    {
+
+                    } else {
+
+                    }
+                    //show();
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    toX = x;
-                    toY = y;
-                    track.add(new FPoint(x,y));
-                    fromX = x;
-                    fromY = y;
+                    if (ToolSelector.toolState == 1)
+                    {
+                        toX = x;
+                        toY = y;
+                        track.add(new FPoint(x,y));
+                        fromX = x;
+                        fromY = y;
 
-                    if (onMaskTouch != null)
-                        onMaskTouch.onPoint(x,y);
+                        if (onMaskTouch != null)
+                            onMaskTouch.onPoint(x,y);
+                    } else {
 
+                    }
                     break;
             }
 
