@@ -51,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MaskActivity.class);
                 intent.putExtra("url", intentResult.getContents());
                 startActivity(intent);
-                /*downloadManager = new DownloadManager();
-                downloadManager.saveImgToFile(intentResult.getContents());
-                messageText.setText(intentResult.getContents());
-                */
             }
 
         } else {

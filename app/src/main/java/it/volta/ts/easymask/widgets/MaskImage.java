@@ -32,35 +32,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     float fromX, fromY, toX, toY;
     Paint paint;
 
-    public MaskImage(Context context) {
-        super(context);
-        init();
-    }
-
-    public MaskImage(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init()
-    {
-        points = new ArrayList<>();
-
-        paint = new Paint();
-        paint.setColor(drawColor);
-        paint.setAntiAlias(true);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-
-        setBackgroundColor(0x00000000);
-        setOnTouchListener(onTouch);
-    }
-
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
@@ -126,16 +97,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         }
     };
 
-    private void show()
-    {
-        System.out.println("--------------------");
-        for (List<FPoint> track : points) {
-            System.out.println("New track");
-            for (FPoint point : track)
-                System.out.println("    " + (int)point.x + ", " + (int)point.y);
-        }
-    }
-
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -165,4 +126,46 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     {
         void onPoint(float x, float y);
     }
+
+    //----------------------------------------------------------------------------------------------
+
+    public MaskImage(Context context) {
+        super(context);
+        init();
+    }
+
+    public MaskImage(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init()
+    {
+        points = new ArrayList<>();
+
+        paint = new Paint();
+        paint.setColor(drawColor);
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+        setBackgroundColor(0x00000000);
+        setOnTouchListener(onTouch);
+    }
+
+    /*
+    private void show()
+    {
+        System.out.println("--------------------");
+        for (List<FPoint> track : points) {
+            System.out.println("New track");
+            for (FPoint point : track)
+                System.out.println("    " + (int)point.x + ", " + (int)point.y);
+        }
+    }
+    */
 }
