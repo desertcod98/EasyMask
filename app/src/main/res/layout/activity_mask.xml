@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".activities.MaskActivity">
+
+    <ImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@drawable/logo"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15sp">
+
+    </ImageView>
+
 
     <ImageView
         android:id="@+id/imgSlot"
@@ -20,24 +29,13 @@
     </ImageView>
 
     <ImageView
-        android:layout_width="150sp"
+        android:layout_width="300sp"
         android:layout_height="50sp"
         android:src="@drawable/toolbar"
         android:layout_marginLeft="55sp"
         android:layout_marginTop="430sp">
 
     </ImageView>
-
-    <ImageView
-        android:layout_width="150sp"
-        android:layout_height="50sp"
-        android:src="@drawable/toolbar"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="55sp"
-        android:layout_marginTop="430sp">
-
-    </ImageView>
-
 
     <ImageView
         android:id="@+id/brush"
