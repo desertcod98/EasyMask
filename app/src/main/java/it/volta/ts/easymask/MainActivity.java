@@ -1,8 +1,12 @@
 package it.volta.ts.easymask;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +15,9 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.io.File;
+import java.io.FileWriter;
 
 import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
 import it.volta.ts.easymask.activities.MaskActivity;
@@ -24,6 +31,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
+        this.getFilesDir().mkdir();
+        File dir = new File(this.getFilesDir(), "mydir");
+        System.out.println(this.getFilesDir());
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        try {
+            File gpxfile = new File(dir, "sus.txt");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append("lol");
+            writer.flush();
+            writer.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
