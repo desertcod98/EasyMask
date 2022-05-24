@@ -19,13 +19,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
 
         Intent intent = new Intent(this, QrCaptureActivity.class);
 
         btn = (ImageView)findViewById(R.id.btnAct);
-        btn.setImageResource(R.drawable.btnqr);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
