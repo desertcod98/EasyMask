@@ -67,10 +67,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
                     }
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (ToolSelector.toolState == 1)
+                    if (ToolSelector.toolState != 1)
                     {
-
-                    } else {
 
                     }
                     //show();
