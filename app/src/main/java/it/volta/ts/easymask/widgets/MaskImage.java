@@ -2,8 +2,8 @@ package it.volta.ts.easymask.widgets;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,19 +52,21 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
             switch(event.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
+                    fromX = x;
+                    fromY = y;
+                    track = new ArrayList<>();
+
+                    points.add(track);
+
+
                     if (ToolSelector.toolState == 1)
                     {
-                        fromX = x;
-                        fromY = y;
-                        track = new ArrayList<>();
-                        track.add(new FPoint(x,y));
-                        points.add(track);
-
-                        if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x,y);
+                        track.add(new FPoint(x,y, false));
                     } else {
-
+                        track.add(new FPoint(x,y, true));
                     }
+                    if (onMaskTouch != null)
+                        onMaskTouch.onPoint(x,y);
                     break;
                 case MotionEvent.ACTION_UP:
                     if (ToolSelector.toolState != 1)
@@ -74,19 +76,20 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
                     //show();
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    toX = x;
+                    toY = y;
+
+                    fromX = x;
+                    fromY = y;
                     if (ToolSelector.toolState == 1)
                     {
-                        toX = x;
-                        toY = y;
-                        track.add(new FPoint(x,y));
-                        fromX = x;
-                        fromY = y;
-
-                        if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x,y);
+                        track.add(new FPoint(x,y, false));
                     } else {
-
+                        track.add(new FPoint(x,y, true));
                     }
+                    if (onMaskTouch != null)
+                        onMaskTouch.onPoint(x,y);
+
                     break;
             }
 
@@ -98,17 +101,25 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     @Override
     protected void onDraw(Canvas canvas)
     {
-        super.onDraw(canvas);
+        //super.onDraw(canvas);
 
         for (List<FPoint> track : points)
         {
             if (track.size() > 1) {
                 for (int idx = 1; idx < track.size(); idx++) {
-                    canvas.drawLine(track.get(idx-1).x, track.get(idx-1).y,
-                                    track.get(idx  ).x, track.get(idx  ).y,
-                                    paint);
+                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {
+
+                        paint.setColor(drawColor);
+                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
+                                track.get(idx).x, track.get(idx).y,
+                                paint);
+                    }
+
+
+                    }
+
                 }
-            } else {
+             else {
 
             }
         }
@@ -147,7 +158,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         points = new ArrayList<>();
 
         paint = new Paint();
-        paint.setColor(drawColor);
+
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.ROUND);
 

@@ -19,6 +19,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import it.volta.ts.easymask.R;
 import it.volta.ts.easymask.tools.ToolSelector;
+import it.volta.ts.easymask.widgets.MaskEraser;
 import it.volta.ts.easymask.widgets.MaskImage;
 
 import android.widget.RelativeLayout.LayoutParams;
@@ -28,8 +29,8 @@ public class MaskActivity extends AppCompatActivity
 {
     ImageView downloadedImg, brush, eraser, btnUpload;
     MaskImage maskImage;
+    MaskEraser maskEraser;
     RelativeLayout rel;
-    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +65,8 @@ public class MaskActivity extends AppCompatActivity
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
+        maskEraser = findViewById(R.id.imgMaskEraser);
+        maskEraser.setOnMaskTouch(onMaskEraserTouch);
 
         brush = findViewById(R.id.brush);
         eraser = findViewById(R.id.eraser);
@@ -73,6 +76,8 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 1;
+                maskEraser.setEnabled(false);
+                maskImage.setEnabled(true);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
@@ -81,6 +86,8 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
+                maskEraser.setEnabled(true);
+                maskImage.setEnabled(false);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
@@ -94,6 +101,15 @@ public class MaskActivity extends AppCompatActivity
     }
 
     //-----------------------------------------------------------------------------------------
+
+
+    MaskEraser.OnMaskTouch onMaskEraserTouch = new MaskEraser.OnMaskTouch() {
+        @Override
+        public void onPoint(float x, float y) {
+
+        }
+    };
+
 
     MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
     {
