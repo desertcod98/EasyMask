@@ -1,9 +1,12 @@
 package it.volta.ts.easymask.widgets;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,17 +23,46 @@ import it.volta.ts.easymask.tools.ToolSelector;
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 {
     @ColorInt
-    int drawColor = 0xffffff00;
+    int drawColor  = 0xffffff00;
     int stroke;
 
     private OnMaskTouch onMaskTouch;
+    private Bitmap eraseBitmap;
 
     List<List<FPoint>> points;
     List<FPoint>       track;
 
     int width, height;
     float fromX, fromY, toX, toY;
-    Paint paint;
+    Paint paint, paintEraser;
+
+    public MaskImage(Context context) {
+        super(context);
+        init();
+    }
+
+    public MaskImage(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init()
+    {
+        points = new ArrayList<>();
+
+        paint = new Paint();
+
+        paint.setAntiAlias(true);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+        setBackgroundColor(0x80ff0000);
+        setOnTouchListener(onTouch);
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -95,8 +127,15 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
             MaskImage.this.invalidate();
             return true;
+
         }
     };
+
+    public void erase(Bitmap bitmap){
+        eraseBitmap = bitmap;
+        paintEraser = new Paint();
+        MaskImage.this.invalidate();
+    }
 
     @Override
     protected void onDraw(Canvas canvas)
@@ -113,13 +152,19 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
                                 track.get(idx).x, track.get(idx).y,
                                 paint);
+
+                        if(eraseBitmap!=null){
+                            paintEraser.setAlpha(0);
+                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);
+                        }
                     }
 
 
                     }
 
                 }
-             else {
+            else {
 
             }
         }
@@ -137,34 +182,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     }
 
     //----------------------------------------------------------------------------------------------
-
-    public MaskImage(Context context) {
-        super(context);
-        init();
-    }
-
-    public MaskImage(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init()
-    {
-        points = new ArrayList<>();
-
-        paint = new Paint();
-
-        paint.setAntiAlias(true);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-
-        setBackgroundColor(0x00000000);
-        setOnTouchListener(onTouch);
-    }
 
     /*
     private void show()

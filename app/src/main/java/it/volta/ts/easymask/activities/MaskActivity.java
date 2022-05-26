@@ -1,20 +1,22 @@
 package it.volta.ts.easymask.activities;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
 import it.volta.ts.easymask.R;
@@ -23,14 +25,15 @@ import it.volta.ts.easymask.widgets.MaskEraser;
 import it.volta.ts.easymask.widgets.MaskImage;
 
 import android.widget.RelativeLayout.LayoutParams;
-import android.view.View;
 
 public class MaskActivity extends AppCompatActivity
 {
     ImageView downloadedImg, brush, eraser, btnUpload;
     MaskImage maskImage;
     MaskEraser maskEraser;
-    RelativeLayout rel;
+//    RelativeLayout rel;
+
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,35 +41,18 @@ public class MaskActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mask);
 
+
         Bundle b = getIntent().getExtras();
-        String url = b.getString("url");
+        url = b.getString("url");
         downloadedImg = findViewById(R.id.imgSlot);
-        Glide.with(this).load(url).into(downloadedImg);
-
-        rel = findViewById(R.id.layout);
-
-        Glide.with(this)
-                .asBitmap()
-                .load(url)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                        int w = bitmap.getWidth();
-                        int h = bitmap.getHeight();
-                        LayoutParams params = new LayoutParams(w, h);
-                        rel.setLayoutParams(params);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+        loadImage(downloadedImg, url);
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
-        maskEraser = findViewById(R.id.imgMaskEraser);
+        maskEraser = findViewById(R.id.imgEraser);
         maskEraser.setOnMaskTouch(onMaskEraserTouch);
+
+        maskEraser.setMaskImage(maskImage);
 
         brush = findViewById(R.id.brush);
         eraser = findViewById(R.id.eraser);
@@ -98,6 +84,38 @@ public class MaskActivity extends AppCompatActivity
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        int width  = downloadedImg.getWidth();
+        int height = downloadedImg.getHeight();
+    }
+
+    private void loadImage(ImageView view, String url)
+    {
+        Glide.with(this)
+                .asBitmap()
+                .load(url)
+                .into(new CustomTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+                        int w = bitmap.getWidth();
+                        int h = bitmap.getHeight();
+                        view.setImageBitmap(bitmap);
+
+                        Bitmap transBmp = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+                        BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+                        drawable.setAlpha(100);
+                        maskImage.setImageDrawable(drawable);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                    }
+                });
     }
 
     //-----------------------------------------------------------------------------------------

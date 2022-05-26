@@ -27,32 +27,33 @@
     </ImageView>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width ="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120sp">
-        <RelativeLayout
-            android:layout_width="300sp"
-            android:layout_height="300sp"
+        android:layout_marginTop="120dp">
+        <!--RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/layout"
-            >
+            -->
             <ImageView
                 android:id="@+id/imgSlot"
-                android:layout_width="wrap_content"
+                android:layout_width ="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/placeholder"
                 />
             <it.volta.ts.easymask.widgets.MaskImage
                 android:id="@+id/imgMask"
-                android:layout_width="match_parent"
+                android:layout_width ="match_parent"
                 android:layout_height="match_parent"
                 />
+
             <it.volta.ts.easymask.widgets.MaskEraser
-                android:id="@+id/imgMaskEraser"
-                android:layout_width="match_parent"
+                android:id="@+id/imgEraser"
+                android:layout_width ="match_parent"
                 android:layout_height="match_parent"
                 />
-        </RelativeLayout>
+        <!--/RelativeLayout-->
     </RelativeLayout>
 
     <ImageView

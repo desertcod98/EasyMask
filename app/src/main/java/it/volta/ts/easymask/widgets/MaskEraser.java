@@ -1,9 +1,12 @@
 package it.volta.ts.easymask.widgets;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,8 +22,11 @@ import it.volta.ts.easymask.tools.ToolSelector;
 
 public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
 {
+
+    private MaskImage maskImage;
+
     @ColorInt
-    int eraseColor = Color.WHITE;
+    int eraseColor = Color.TRANSPARENT;
     int stroke;
 
     private OnMaskTouch onMaskTouch;
@@ -32,10 +38,12 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
     float fromX, fromY, toX, toY;
     Paint paint;
 
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        this.setDrawingCacheEnabled(true);
         width  = MeasureSpec.getSize(widthMeasureSpec );
         height = MeasureSpec.getSize(heightMeasureSpec);
         stroke = width * 5 / 100;
@@ -98,6 +106,7 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
         }
     };
 
+
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -108,12 +117,12 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
             if (track.size() > 1) {
                 for (int idx = 1; idx < track.size(); idx++) {
                     if(track.get(idx-1).eraser || track.get(idx).eraser) {
-                        
+
                         paint.setColor(eraseColor);
                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
                                 track.get(idx).x, track.get(idx).y,
                                 paint);
-
+                        maskImage.erase(this.getDrawingCache());
                     }
                 }
             }
@@ -164,4 +173,7 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
         setOnTouchListener(onTouch);
     }
 
+    public void setMaskImage(MaskImage maskImage) {
+        this.maskImage = maskImage;
+    }
 }
