@@ -15,17 +15,16 @@ import com.google.zxing.integration.android.IntentResult;
 
 import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
 import it.volta.ts.easymask.activities.MaskActivity;
+import it.volta.ts.easymask.util.GraphicUtil;
 
 
 public class MainActivity extends AppCompatActivity {
-
     private ImageView btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
         intentIntegrator.setPrompt("Scan a barcode or a QR Code");

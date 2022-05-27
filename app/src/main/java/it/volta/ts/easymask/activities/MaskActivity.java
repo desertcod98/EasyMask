@@ -4,13 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +17,9 @@ import com.bumptech.glide.request.transition.Transition;
 
 import it.volta.ts.easymask.R;
 import it.volta.ts.easymask.tools.ToolSelector;
+import it.volta.ts.easymask.util.GraphicUtil;
 import it.volta.ts.easymask.widgets.MaskEraser;
 import it.volta.ts.easymask.widgets.MaskImage;
-
-import android.widget.RelativeLayout.LayoutParams;
 
 public class MaskActivity extends AppCompatActivity
 {
@@ -32,27 +27,43 @@ public class MaskActivity extends AppCompatActivity
     MaskImage maskImage;
     MaskEraser maskEraser;
 //    RelativeLayout rel;
-
+    private int screenHeight;
+    private int screenWidth;
     private String url;
+    private int maxHeight;
+    private int maxWidth;
+    private int imgHeight;
+    private int imgWidth;
 
+    private final double maxHeightRatio = 2;
+    private final double maxWidthRatio = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mask);
-
-
+        screenHeight = GraphicUtil.getScreenHeight(this);
+        screenWidth = GraphicUtil.getScreenWidth(this);
+        maxHeight = (int)(screenHeight *maxHeightRatio);
+        maxWidth = (int)(screenWidth*maxWidthRatio);
         Bundle b = getIntent().getExtras();
         url = b.getString("url");
         downloadedImg = findViewById(R.id.imgSlot);
         loadImage(downloadedImg, url);
 
+
+
+
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
+
+
+
         maskEraser = findViewById(R.id.imgEraser);
         maskEraser.setOnMaskTouch(onMaskEraserTouch);
-
         maskEraser.setMaskImage(maskImage);
+
+
 
         brush = findViewById(R.id.brush);
         eraser = findViewById(R.id.eraser);
@@ -86,6 +97,15 @@ public class MaskActivity extends AppCompatActivity
         });
     }
 
+    private void setDimens(int imgWidth, int imgHeight){
+        downloadedImg.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
+        downloadedImg.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
+        maskImage.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
+        maskImage.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
+        maskEraser.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
+        maskEraser.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -102,11 +122,12 @@ public class MaskActivity extends AppCompatActivity
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                        int w = bitmap.getWidth();
-                        int h = bitmap.getHeight();
+                        imgWidth = bitmap.getWidth();
+                        imgHeight = bitmap.getHeight();
                         view.setImageBitmap(bitmap);
+                        setDimens(imgWidth,imgHeight);
 
-                        Bitmap transBmp = Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888);
+                        Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
                         drawable.setAlpha(100);
                         maskImage.setImageDrawable(drawable);

@@ -30,7 +30,8 @@
         android:layout_width ="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp">
+        android:layout_marginTop="120dp"
+        android:layout_centerInParent="true">
         <!--RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,17 +42,20 @@
                 android:layout_width ="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/placeholder"
+                android:layout_centerHorizontal="true"
                 />
             <it.volta.ts.easymask.widgets.MaskImage
                 android:id="@+id/imgMask"
                 android:layout_width ="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 />
 
             <it.volta.ts.easymask.widgets.MaskEraser
                 android:id="@+id/imgEraser"
                 android:layout_width ="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
                 />
         <!--/RelativeLayout-->
     </RelativeLayout>
@@ -63,6 +67,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="430sp">
     </ImageView>
+
 
     <ImageView
         android:id="@+id/brush"
@@ -85,16 +90,16 @@
         android:hapticFeedbackEnabled="true">
     </ImageView>
 
-    <ImageView
-        android:id="@+id/btnSave"
-        android:layout_width="300sp"
-        android:layout_height="150sp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="45sp"
-        android:src="@drawable/savebtn"
-        android:visibility="invisible">
-    </ImageView>
+<!--    <ImageView-->
+<!--        android:id="@+id/btnSave"-->
+<!--        android:layout_width="300sp"-->
+<!--        android:layout_height="150sp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginBottom="45sp"-->
+<!--        android:src="@drawable/savebtn"-->
+<!--        android:visibility="invisible">-->
+<!--    </ImageView>-->
 
     <ImageView
         android:id="@+id/btnUp"
@@ -102,7 +107,6 @@
         android:layout_height="150sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="45sp"
         android:src="@drawable/uploadbtn"
         android:hapticFeedbackEnabled="true">
     </ImageView>
