@@ -26,7 +26,7 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
     private MaskImage maskImage;
 
     @ColorInt
-    int eraseColor = Color.TRANSPARENT;
+    int eraseColor = Color.WHITE;
     int stroke;
 
     private OnMaskTouch onMaskTouch;
