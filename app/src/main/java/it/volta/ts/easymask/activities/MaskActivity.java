@@ -35,8 +35,8 @@ public class MaskActivity extends AppCompatActivity
     private int imgHeight;
     private int imgWidth;
 
-    private final double maxHeightRatio = 2;
-    private final double maxWidthRatio = 2;
+    private final double maxHeightRatio = 0.7;
+    private final double maxWidthRatio = 0.9;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -98,13 +98,25 @@ public class MaskActivity extends AppCompatActivity
     }
 
     private void setDimens(int imgWidth, int imgHeight){
-        downloadedImg.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
-        downloadedImg.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
-        maskImage.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
-        maskImage.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
-        maskEraser.getLayoutParams().height = (imgHeight*maxHeight)/screenHeight;
-        maskEraser.getLayoutParams().width = (imgWidth*maxWidth)/screenWidth;
+        System.out.println(imgHeight+ imgWidth);
+        if((imgHeight*maxWidth)/imgWidth <= maxHeight){
+            downloadedImg.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
+            downloadedImg.getLayoutParams().width = maxWidth;
+            maskImage.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
+            maskImage.getLayoutParams().width = maxWidth;
+            maskEraser.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
+            maskEraser.getLayoutParams().width = maxWidth;
+        }
+        else if((maxHeight*imgWidth)/imgHeight <= maxWidth){
+            downloadedImg.getLayoutParams().height = maxHeight;
+            downloadedImg.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
+            maskImage.getLayoutParams().height = maxHeight;
+            maskImage.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
+            maskEraser.getLayoutParams().height = maxHeight;
+            maskEraser.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
+        }
     }
+
 
     @Override
     protected void onResume() {
