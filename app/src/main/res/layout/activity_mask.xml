@@ -9,8 +9,8 @@
     tools:context=".activities.MaskActivity">
 
     <ImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/logo"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5sp"
@@ -18,20 +18,20 @@
     </ImageView>
 
     <ImageView
-        android:layout_width="50sp"
-        android:layout_height="50sp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/volta"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="115sp"
-        android:layout_marginTop="10sp">
+        android:layout_marginRight="115dp"
+        android:layout_marginTop="10dp">
     </ImageView>
 
     <RelativeLayout
         android:layout_width ="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginBottom="200sp"
-        android:layout_marginTop="100sp"
+        android:layout_marginBottom="200dp"
+        android:layout_marginTop="100dp"
         android:id="@+id/layout">
         <!--RelativeLayout
             android:layout_width="wrap_content"
@@ -62,32 +62,32 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="400sp"
-        android:layout_height="50sp"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
         android:src="@drawable/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150sp">
+        android:layout_marginBottom="150dp">
     </ImageView>
 
     <ImageView
         android:id="@+id/brush"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="160sp"
-        android:layout_marginLeft="95sp"
+        android:layout_marginBottom="160dp"
+        android:layout_marginLeft="95dp"
         android:src="@drawable/brush"
         android:hapticFeedbackEnabled="true">
     </ImageView>
 
     <ImageView
         android:id="@+id/eraser"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="160sp"
-        android:layout_marginRight="95sp"
+        android:layout_marginBottom="160dp"
+        android:layout_marginRight="95dp"
         android:src="@drawable/eraser"
         android:layout_alignParentRight="true"
         android:hapticFeedbackEnabled="true">
@@ -106,8 +106,8 @@
 
     <ImageView
         android:id="@+id/btnUp"
-        android:layout_width="300sp"
-        android:layout_height="150sp"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/uploadbtn"

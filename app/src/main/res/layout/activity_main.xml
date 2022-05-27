@@ -8,32 +8,39 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/ImageLogo"
-        android:layout_width="350sp"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="450dp"
+        android:layout_height="350dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="130sp"
-        android:src="@drawable/logo">
-    </ImageView>
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/ImageLogo"
+            android:layout_width="400dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo">
+        </ImageView>
 
 
-    <ImageView
-        android:id="@+id/ImageScritta"
-        android:layout_width="450sp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="-100sp"
-        android:src="@drawable/scrittamain">
-    </ImageView>
+        <ImageView
+            android:id="@+id/ImageScritta"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:src="@drawable/scrittamain">
+        </ImageView>
+    </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/btnAct"
-        android:layout_width="150sp"
-        android:layout_height="150sp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50sp"
+        android:layout_marginBottom="50dp"
         android:src="@drawable/btnqr">
     </ImageView>
 
