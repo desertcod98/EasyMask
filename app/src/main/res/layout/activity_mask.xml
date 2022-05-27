@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="75dp"
             android:layout_height="50dp"
-            android:src="@drawable/logoEasyMask"
+            android:src="@drawable/newlogoeasymask"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             />

@@ -20,7 +20,7 @@
             android:id="@+id/ImageLogo"
             android:layout_width="400dp"
             android:layout_height="150dp"
-            android:src="@drawable/logoEasyMask"></ImageView>
+            android:src="@drawable/newlogoeasymask"></ImageView>
 
 
         <ImageView
