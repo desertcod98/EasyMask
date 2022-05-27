@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,51 +24,48 @@ import it.volta.ts.easymask.widgets.MaskImage;
 
 public class MaskActivity extends AppCompatActivity
 {
-    ImageView downloadedImg, brush, eraser, btnUpload;
-    MaskImage maskImage;
-    MaskEraser maskEraser;
-//    RelativeLayout rel;
+    private ImageView downloadedImg, brush, eraser, btnUpload;
+    private MaskImage maskImage;
+    private MaskEraser maskEraser;
+    RelativeLayout imageLayout;
     private int screenHeight;
     private int screenWidth;
     private String url;
-    private int maxHeight;
-    private int maxWidth;
-    private int imgHeight;
-    private int imgWidth;
+    private int maxHeight, maxWidth;
+    private int imgHeight, imgWidth;
+    private int newHeight, newWidth;
 
-    private final double maxHeightRatio = 0.7;
-    private final double maxWidthRatio = 0.9;
+    private final double maxHeightRatio = 0.6;
+    private final double maxWidthRatio  = 0.9;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mask);
+
         screenHeight = GraphicUtil.getScreenHeight(this);
-        screenWidth = GraphicUtil.getScreenWidth(this);
-        maxHeight = (int)(screenHeight *maxHeightRatio);
-        maxWidth = (int)(screenWidth*maxWidthRatio);
+        screenWidth  = GraphicUtil.getScreenWidth(this);
+        maxHeight    = (int)(screenHeight * maxHeightRatio);
+        maxWidth     = (int)(screenWidth  * maxWidthRatio );
+
         Bundle b = getIntent().getExtras();
         url = b.getString("url");
         downloadedImg = findViewById(R.id.imgSlot);
         loadImage(downloadedImg, url);
 
-
-
+        imageLayout = findViewById(R.id.image_layout);
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
-
-
 
         maskEraser = findViewById(R.id.imgEraser);
         maskEraser.setOnMaskTouch(onMaskEraserTouch);
         maskEraser.setMaskImage(maskImage);
 
 
-
-        brush = findViewById(R.id.brush);
-        eraser = findViewById(R.id.eraser);
-        btnUpload = findViewById(R.id.btnUp);
+        brush     = findViewById(R.id.brush );
+        eraser    = findViewById(R.id.eraser);
+        btnUpload = findViewById(R.id.btnUp );
 
         brush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,24 +95,23 @@ public class MaskActivity extends AppCompatActivity
         });
     }
 
-    private void setDimens(int imgWidth, int imgHeight){
-        System.out.println(imgHeight+ imgWidth);
-        if((imgHeight*maxWidth)/imgWidth <= maxHeight){
-            downloadedImg.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
-            downloadedImg.getLayoutParams().width = maxWidth;
-            maskImage.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
-            maskImage.getLayoutParams().width = maxWidth;
-            maskEraser.getLayoutParams().height = (imgHeight*maxWidth)/imgWidth;
-            maskEraser.getLayoutParams().width = maxWidth;
+    private void setDimens(int imgWidth, int imgHeight)
+    {
+        newHeight = imgHeight;
+        newWidth  = imgWidth;
+
+        if (imgWidth > imgHeight) {
+            float ratio = (float) maxWidth / (float) imgWidth;
+            newWidth  = (int)((float) imgWidth  * ratio);
+            newHeight = (int)((float) imgHeight * ratio);
+
+        } else {
+            float ratio = (float) maxHeight / (float) imgHeight;
+            newWidth  = (int)((float) imgWidth  * ratio);
+            newHeight = (int)((float) imgHeight * ratio);
         }
-        else if((maxHeight*imgWidth)/imgHeight <= maxWidth){
-            downloadedImg.getLayoutParams().height = maxHeight;
-            downloadedImg.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
-            maskImage.getLayoutParams().height = maxHeight;
-            maskImage.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
-            maskEraser.getLayoutParams().height = maxHeight;
-            maskEraser.getLayoutParams().width = (maxHeight*imgWidth)/imgHeight;
-        }
+
+        GraphicUtil.applySize(imageLayout, newWidth, newHeight);
     }
 
 
@@ -137,8 +134,9 @@ public class MaskActivity extends AppCompatActivity
                         imgWidth = bitmap.getWidth();
                         imgHeight = bitmap.getHeight();
                         view.setImageBitmap(bitmap);
-                        setDimens(imgWidth,imgHeight);
 
+                        setDimens(imgWidth,imgHeight);
+                        //TODO Error: maskImage == null nella seconda scansione del qr
                         Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
                         drawable.setAlpha(100);
