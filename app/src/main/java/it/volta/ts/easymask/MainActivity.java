@@ -22,8 +22,13 @@ import java.io.IOException;
 
 import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
 import it.volta.ts.easymask.activities.MaskActivity;
+import it.volta.ts.easymask.networking.RetrofitServices;
+import it.volta.ts.easymask.networking.RetrofitUpload;
 import it.volta.ts.easymask.networking.ThreadRunner;
 import it.volta.ts.easymask.networking.UploadManager;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,15 +43,22 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, 1);
 
-        //----------
-        File dir = new File(getApplicationContext().getFilesDir(),"mydir");
-        System.out.println("----------------------------"+dir);
-        if(!dir.exists()){
-            dir.mkdir();
-        }
 
-        threadRunner.setDir(dir);
-        threadRunner.start();
+        //------
+
+
+        //-------
+
+        //----------
+//        File dir = new File(getApplicationContext().getFilesDir(),"mydir");
+//        System.out.println("----------------------------"+dir);
+//        if(!dir.exists()){
+//            dir.mkdir();
+//        }
+//
+//        threadRunner.setDir(dir);
+//        threadRunner.start();
+        //---------
 
         IntentIntegrator intentIntegrator = new IntentIntegrator(this);
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
@@ -58,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                File dir = new File(getApplicationContext().getFilesDir(),"mydir");
+                String filePath = dir+File.separator+"line.png";
+                File file = new File(filePath);
+                new RetrofitUpload("upload","S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5",file);
                 intentIntegrator.initiateScan();
             }
         });
