@@ -39,7 +39,6 @@
         android:layout_below ="@+id/header"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:background="#80008000"
         >
         <!--RelativeLayout
             android:layout_width="wrap_content"
@@ -62,12 +61,11 @@
                 android:layout_centerHorizontal="true"
                 />
 
-            <it.volta.ts.easymask.widgets.MaskEraser
-                android:id="@+id/imgEraser"
-                android:layout_width ="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                />
+        <it.volta.ts.easymask.widgets.MaskEraser
+            android:id="@+id/imgEraser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
         <!--/RelativeLayout-->
     </RelativeLayout>
 
