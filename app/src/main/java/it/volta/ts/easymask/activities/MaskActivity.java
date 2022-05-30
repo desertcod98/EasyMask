@@ -51,6 +51,7 @@ public class MaskActivity extends AppCompatActivity
         Bundle b = getIntent().getExtras();
         url = b.getString("url");
         downloadedImg = findViewById(R.id.imgSlot);
+        loadImage(downloadedImg, url);
 
         imageLayout = findViewById(R.id.image_layout);
 
@@ -61,25 +62,29 @@ public class MaskActivity extends AppCompatActivity
         maskEraser.setOnMaskTouch(onMaskEraserTouch);
         maskEraser.setMaskImage(maskImage);
 
-        loadImage(downloadedImg, url);
-
 
         brush     = findViewById(R.id.brush );
         eraser    = findViewById(R.id.eraser);
         btnUpload = findViewById(R.id.btnUp );
 
-        brush.setOnClickListener(view -> {
-            ToolSelector.toolState = 1;
-            maskEraser.setEnabled(false);
-            maskImage.setEnabled(true);
-            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        brush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolSelector.toolState = 1;
+                maskEraser.setEnabled(false);
+                maskImage.setEnabled(true);
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            }
         });
 
-        eraser.setOnClickListener(view -> {
-            ToolSelector.toolState = 0;
-            maskEraser.setEnabled(true);
-            maskImage.setEnabled(false);
-            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        eraser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolSelector.toolState = 0;
+                maskEraser.setEnabled(true);
+                maskImage.setEnabled(false);
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            }
         });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +95,7 @@ public class MaskActivity extends AppCompatActivity
         });
     }
 
-    private void setDimens(RelativeLayout imageLayout, int imgWidth, int imgHeight)
+    private void setDimens(int imgWidth, int imgHeight)
     {
         newHeight = imgHeight;
         newWidth  = imgWidth;
@@ -125,11 +130,11 @@ public class MaskActivity extends AppCompatActivity
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                        imgWidth  = bitmap.getWidth();
+                        imgWidth = bitmap.getWidth();
                         imgHeight = bitmap.getHeight();
                         view.setImageBitmap(bitmap);
 
-                        setDimens(imageLayout, imgWidth,imgHeight);
+                        setDimens(imgWidth,imgHeight);
                         //TODO Error: maskImage == null nella seconda scansione del qr
                         Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
