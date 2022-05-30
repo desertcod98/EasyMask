@@ -60,7 +60,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         paint.setAntiAlias(true);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        setBackgroundColor(0x80ff0000);
         setOnTouchListener(onTouch);
     }
 

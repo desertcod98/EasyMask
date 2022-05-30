@@ -40,6 +40,7 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:background="#80008000"
+        android:layout_marginBottom="10dp"
         >
         <!--RelativeLayout
             android:layout_width="wrap_content"
@@ -80,6 +81,7 @@
         android:layout_above="@+id/btnUp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:layout_marginBottom="15dp"
         >
         <ImageView
             android:id="@+id/brush"
@@ -117,12 +119,13 @@
 
     <ImageView
         android:id="@+id/btnUp"
-        android:layout_width ="150dp"
-        android:layout_height="150dp"
+        android:layout_width ="100dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal ="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/uploadbtn"
         android:hapticFeedbackEnabled="true"
+        android:layout_marginBottom="15dp"
         >
     </ImageView>
 
