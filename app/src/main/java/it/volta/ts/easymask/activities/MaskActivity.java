@@ -99,7 +99,6 @@ public class MaskActivity extends AppCompatActivity
             float ratio = (float) maxWidth / (float) imgWidth;
             newWidth  = (int)((float) imgWidth  * ratio);
             newHeight = (int)((float) imgHeight * ratio);
-
         } else {
             float ratio = (float) maxHeight / (float) imgHeight;
             newWidth  = (int)((float) imgWidth  * ratio);
