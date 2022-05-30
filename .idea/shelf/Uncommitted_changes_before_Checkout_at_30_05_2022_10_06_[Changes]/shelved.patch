@@ -1,0 +1,38 @@
+Index: app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.widgets;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.graphics.PorterDuff;\r\nimport android.graphics.PorterDuffXfermode;\r\nimport android.util.AttributeSet;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\n\r\nimport androidx.annotation.ColorInt;\r\nimport androidx.annotation.Nullable;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport it.volta.ts.easymask.obj.FPoint;\r\nimport it.volta.ts.easymask.tools.ToolSelector;\r\n\r\npublic class MaskImage extends androidx.appcompat.widget.AppCompatImageView\r\n{\r\n    @ColorInt\r\n    int drawColor  = 0xffffff00;\r\n    int stroke;\r\n\r\n    private OnMaskTouch onMaskTouch;\r\n    private Bitmap eraseBitmap;\r\n\r\n    List<List<FPoint>> points;\r\n    List<FPoint>       track;\r\n\r\n    int width, height;\r\n    float fromX, fromY, toX, toY;\r\n    Paint paint, paintEraser;\r\n\r\n    public MaskImage(Context context) {\r\n        super(context);\r\n        init();\r\n    }\r\n\r\n    public MaskImage(Context context, @Nullable AttributeSet attrs) {\r\n        super(context, attrs);\r\n        init();\r\n    }\r\n\r\n    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\r\n        super(context, attrs, defStyleAttr);\r\n        init();\r\n    }\r\n\r\n    private void init()\r\n    {\r\n        points = new ArrayList<>();\r\n\r\n        paint = new Paint();\r\n\r\n        paint.setAntiAlias(true);\r\n        paint.setStrokeCap(Paint.Cap.ROUND);\r\n\r\n        setBackgroundColor(0x80ff0000);\r\n        setOnTouchListener(onTouch);\r\n    }\r\n\r\n    @Override\r\n    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)\r\n    {\r\n        super.onMeasure(widthMeasureSpec, heightMeasureSpec);\r\n        width  = MeasureSpec.getSize(widthMeasureSpec );\r\n        height = MeasureSpec.getSize(heightMeasureSpec);\r\n        stroke = width * 5 / 100;\r\n        paint.setStrokeWidth(stroke);\r\n    }\r\n\r\n    OnTouchListener onTouch = new OnTouchListener() {\r\n        @Override\r\n        public boolean onTouch(View view, MotionEvent event)\r\n        {\r\n            float x = event.getX();\r\n            float y = event.getY();\r\n\r\n            switch(event.getAction())\r\n            {\r\n                case MotionEvent.ACTION_DOWN:\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    track = new ArrayList<>();\r\n\r\n                    points.add(track);\r\n\r\n\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n                    break;\r\n                case MotionEvent.ACTION_UP:\r\n                    if (ToolSelector.toolState != 1)\r\n                    {\r\n\r\n                    }\r\n                    //show();\r\n                    break;\r\n                case MotionEvent.ACTION_MOVE:\r\n                    toX = x;\r\n                    toY = y;\r\n\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n\r\n                    break;\r\n            }\r\n\r\n            MaskImage.this.invalidate();\r\n            return true;\r\n\r\n        }\r\n    };\r\n\r\n    public void erase(Bitmap bitmap){\r\n        eraseBitmap = bitmap;\r\n        paintEraser = new Paint();\r\n        MaskImage.this.invalidate();\r\n    }\r\n\r\n    @Override\r\n    protected void onDraw(Canvas canvas)\r\n    {\r\n        //super.onDraw(canvas);\r\n\r\n        for (List<FPoint> track : points)\r\n        {\r\n            if (track.size() > 1) {\r\n                for (int idx = 1; idx < track.size(); idx++) {\r\n                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {\r\n\r\n                        paint.setColor(drawColor);\r\n                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,\r\n                                track.get(idx).x, track.get(idx).y,\r\n                                paint);\r\n\r\n                        if(eraseBitmap!=null){\r\n                            paintEraser.setAlpha(0);\r\n                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));\r\n                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);\r\n                        }\r\n                    }\r\n\r\n\r\n                    }\r\n\r\n                }\r\n            else {\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {\r\n        this.onMaskTouch = onMaskTouch;\r\n    }\r\n\r\n    public interface OnMaskTouch\r\n    {\r\n        void onPoint(float x, float y);\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    /*\r\n    private void show()\r\n    {\r\n        System.out.println(\"--------------------\");\r\n        for (List<FPoint> track : points) {\r\n            System.out.println(\"New track\");\r\n            for (FPoint point : track)\r\n                System.out.println(\"    \" + (int)point.x + \", \" + (int)point.y);\r\n        }\r\n    }\r\n    */\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+--- a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	(revision d8de7ee65ca5217aabf09857c816aeb9e7ad6d51)
++++ b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	(date 1653893238217)
+@@ -153,10 +153,10 @@
+                                 track.get(idx).x, track.get(idx).y,
+                                 paint);
+ 
+-                        if(eraseBitmap!=null){
+-                            paintEraser.setAlpha(0);
+-                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+-                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);
++//                        if(eraseBitmap!=null){
++//                            paintEraser.setAlpha(0);
++//                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
++//                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);
+                         }
+                     }
+ 
+@@ -164,11 +164,9 @@
+                     }
+ 
+                 }
+-            else {
+ 
+-            }
+         }
+-    }
++
+ 
+     //----------------------------------------------------------------------------------------------
+ 
