@@ -30,7 +30,7 @@ public class MaskActivity extends AppCompatActivity
         Glide.with(this).load(url).into(downloadedImg);
 
         maskImage = findViewById(R.id.imgMask);
-        maskImage.setOnMaskTouch(onMaskTouch);
+//        maskImage.setOnMaskTouch(onMaskTouch);
 
         brush = findViewById(R.id.brush);
         eraser = findViewById(R.id.eraser);
@@ -51,12 +51,12 @@ public class MaskActivity extends AppCompatActivity
     }
 
 
-    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
-    {
-        @Override
-        public void onPoint(float x, float y) {
-            System.out.println(x + ", " + y);
-        }
-    };
+//    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
+//    {
+//        @Override
+//        public void onPoint(float x, float y) {
+//            System.out.println(x + ", " + y);
+//        }
+//    };
 
 }

@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 File dir = new File(getApplicationContext().getFilesDir(),"mydir");
-                String filePath = dir+File.separator+"line.png";
+                String filePath = dir+File.separator+"image.png";
                 File file = new File(filePath);
-                new RetrofitUpload("upload","S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5",file);
+                new RetrofitUpload("do_upload","S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5",file);
                 intentIntegrator.initiateScan();
             }
         });
