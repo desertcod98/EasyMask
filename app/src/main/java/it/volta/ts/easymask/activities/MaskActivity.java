@@ -24,7 +24,7 @@ import it.volta.ts.easymask.widgets.MaskImage;
 
 public class MaskActivity extends AppCompatActivity
 {
-    private ImageView downloadedImg, brush, eraser, btnUpload;
+    private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
     private MaskImage maskImage;
     private MaskEraser maskEraser;
     RelativeLayout imageLayout;
@@ -67,6 +67,8 @@ public class MaskActivity extends AppCompatActivity
 
         brush     = findViewById(R.id.brush );
         eraser    = findViewById(R.id.eraser);
+        undo      = findViewById(R.id.undo);
+        redo      = findViewById(R.id.redo);
         btnUpload = findViewById(R.id.btnUp );
 
         brush.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +88,22 @@ public class MaskActivity extends AppCompatActivity
 //                maskEraser.setEnabled(true);
                 maskImage.setEnabled(false);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            }
+        });
+
+        undo.setOnClickListener(view -> {
+            if (ToolSelector.toolState == 1) {
+                maskImage.undo();
+            } else {
+                maskEraser.undo();
+            }
+        });
+
+        redo.setOnClickListener(view -> {
+            if (ToolSelector.toolState == 1) {
+                maskImage.redo();
+            } else {
+                maskEraser.redo();
             }
         });
 

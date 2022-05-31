@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="mask_buttons_size">30.000dp</dimen>
-    <dimen name="mask_buttons_mSE" >40.000dp</dimen>
+    <dimen name="mask_buttons_width">80.000dp</dimen>
+    <dimen name="mask_buttons_height">40.000dp</dimen>
+    <dimen name="mask_buttons_mSE" >10.000dp</dimen>
 
 </resources>

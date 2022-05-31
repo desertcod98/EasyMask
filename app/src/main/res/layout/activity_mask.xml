@@ -39,6 +39,8 @@
         android:layout_below ="@+id/header"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+        android:background="#80008000"
+        android:layout_marginBottom="10dp"
         >
         <!--RelativeLayout
             android:layout_width="wrap_content"
@@ -61,11 +63,12 @@
                 android:layout_centerHorizontal="true"
                 />
 
-        <it.volta.ts.easymask.widgets.MaskEraser
-            android:id="@+id/imgEraser"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true" />
+            <it.volta.ts.easymask.widgets.MaskEraser
+                android:id="@+id/imgEraser"
+                android:layout_width ="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                />
         <!--/RelativeLayout-->
     </RelativeLayout>
 
@@ -74,17 +77,17 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="@drawable/toolbar"
         android:layout_above="@+id/btnUp"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
+        android:layout_marginBottom="35dp"
         >
         <ImageView
             android:id="@+id/brush"
-            android:layout_width    ="@dimen/mask_buttons_size"
-            android:layout_height   ="@dimen/mask_buttons_size"
+            android:layout_width    ="@dimen/mask_buttons_width"
+            android:layout_height   ="@dimen/mask_buttons_height"
             android:layout_marginEnd="@dimen/mask_buttons_mSE"
-            android:src="@drawable/brush"
+            android:src="@drawable/btnpenna"
             android:hapticFeedbackEnabled="true"
             android:layout_marginTop="5dp"
             >
@@ -92,10 +95,34 @@
 
         <ImageView
             android:id="@+id/eraser"
-            android:layout_width       ="@dimen/mask_buttons_size"
-            android:layout_height      ="@dimen/mask_buttons_size"
+            android:layout_width       ="@dimen/mask_buttons_width"
+            android:layout_height      ="@dimen/mask_buttons_height"
             android:layout_marginStart ="@dimen/mask_buttons_mSE"
-            android:src="@drawable/eraser"
+            android:layout_marginEnd   ="@dimen/mask_buttons_mSE"
+            android:src="@drawable/btngomma"
+            android:hapticFeedbackEnabled="true"
+            android:layout_marginTop="5dp"
+            >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/undo"
+            android:layout_width       ="@dimen/mask_buttons_width"
+            android:layout_height      ="@dimen/mask_buttons_height"
+            android:layout_marginStart ="@dimen/mask_buttons_mSE"
+            android:layout_marginEnd   ="@dimen/mask_buttons_mSE"
+            android:src="@drawable/btnundo"
+            android:hapticFeedbackEnabled="true"
+            android:layout_marginTop="5dp"
+            >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/redo"
+            android:layout_width       ="@dimen/mask_buttons_width"
+            android:layout_height      ="@dimen/mask_buttons_height"
+            android:layout_marginStart ="@dimen/mask_buttons_mSE"
+            android:src="@drawable/btnredo"
             android:hapticFeedbackEnabled="true"
             android:layout_marginTop="5dp"
             >
@@ -115,12 +142,13 @@
 
     <ImageView
         android:id="@+id/btnUp"
-        android:layout_width ="150dp"
-        android:layout_height="150dp"
+        android:layout_width ="100dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal ="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/uploadbtn"
         android:hapticFeedbackEnabled="true"
+        android:layout_marginBottom="15dp"
         >
     </ImageView>
 
