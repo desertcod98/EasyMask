@@ -1,0 +1,946 @@
+Index: app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.activities;\n\nimport android.graphics.Bitmap;\nimport android.graphics.drawable.BitmapDrawable;\nimport android.graphics.drawable.Drawable;\nimport android.os.Bundle;\nimport android.view.HapticFeedbackConstants;\nimport android.view.View;\nimport android.widget.ImageView;\nimport android.widget.RelativeLayout;\n\nimport androidx.annotation.Nullable;\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport com.bumptech.glide.Glide;\nimport com.bumptech.glide.request.target.CustomTarget;\nimport com.bumptech.glide.request.transition.Transition;\n\nimport it.volta.ts.easymask.R;\nimport it.volta.ts.easymask.tools.ToolSelector;\nimport it.volta.ts.easymask.util.GraphicUtil;\nimport it.volta.ts.easymask.widgets.MaskEraser;\nimport it.volta.ts.easymask.widgets.MaskImage;\n\npublic class MaskActivity extends AppCompatActivity\n{\n    private ImageView downloadedImg, brush, eraser, btnUpload;\n    private MaskImage maskImage;\n    private MaskEraser maskEraser;\n    RelativeLayout imageLayout;\n    private int screenHeight;\n    private int screenWidth;\n    private String url;\n    private int maxHeight, maxWidth;\n    private int imgHeight, imgWidth;\n    private int newHeight, newWidth;\n\n    private final double maxHeightRatio = 0.6;\n    private final double maxWidthRatio  = 0.9;\n    @Override\n    protected void onCreate(Bundle savedInstanceState)\n    {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_mask);\n\n        screenHeight = GraphicUtil.getScreenHeight(this);\n        screenWidth  = GraphicUtil.getScreenWidth(this);\n        maxHeight    = (int)(screenHeight * maxHeightRatio);\n        maxWidth     = (int)(screenWidth  * maxWidthRatio );\n\n        Bundle b = getIntent().getExtras();\n        url = b.getString(\"url\");\n        downloadedImg = findViewById(R.id.imgSlot);\n\n        imageLayout = findViewById(R.id.image_layout);\n\n        maskImage = findViewById(R.id.imgMask);\n        maskImage.setOnMaskTouch(onMaskTouch);\n\n        maskEraser = findViewById(R.id.imgEraser);\n        maskEraser.setOnMaskTouch(onMaskEraserTouch);\n        maskEraser.setMaskImage(maskImage);\n\n        loadImage(downloadedImg, url);\n\n\n        brush     = findViewById(R.id.brush );\n        eraser    = findViewById(R.id.eraser);\n        btnUpload = findViewById(R.id.btnUp );\n\n        brush.setOnClickListener(view -> {\n            ToolSelector.toolState = 1;\n            maskEraser.setEnabled(false);\n            maskImage.setEnabled(true);\n            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\n        });\n\n        eraser.setOnClickListener(view -> {\n            ToolSelector.toolState = 0;\n            maskEraser.setEnabled(true);\n            maskImage.setEnabled(false);\n            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\n        });\n\n        btnUpload.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View view) {\n                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\n            }\n        });\n    }\n\n    private void setDimens(RelativeLayout imageLayout, int imgWidth, int imgHeight)\n    {\n        newHeight = imgHeight;\n        newWidth  = imgWidth;\n\n        if (imgWidth > imgHeight) {\n            float ratio = (float) maxWidth / (float) imgWidth;\n            newWidth  = (int)((float) imgWidth  * ratio);\n            newHeight = (int)((float) imgHeight * ratio);\n\n        } else {\n            float ratio = (float) maxHeight / (float) imgHeight;\n            newWidth  = (int)((float) imgWidth  * ratio);\n            newHeight = (int)((float) imgHeight * ratio);\n        }\n\n        GraphicUtil.applySize(imageLayout, newWidth, newHeight);\n    }\n\n\n    @Override\n    protected void onResume() {\n        super.onResume();\n\n        int width  = downloadedImg.getWidth();\n        int height = downloadedImg.getHeight();\n    }\n\n    private void loadImage(ImageView view, String url)\n    {\n        Glide.with(this)\n                .asBitmap()\n                .load(url)\n                .into(new CustomTarget<Bitmap>() {\n                    @Override\n                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {\n                        imgWidth  = bitmap.getWidth();\n                        imgHeight = bitmap.getHeight();\n                        view.setImageBitmap(bitmap);\n\n                        setDimens(imageLayout, imgWidth,imgHeight);\n                        //TODO Error: maskImage == null nella seconda scansione del qr\n                        Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);\n                        BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);\n                        drawable.setAlpha(100);\n                        maskImage.setImageDrawable(drawable);\n                    }\n\n                    @Override\n                    public void onLoadCleared(@Nullable Drawable placeholder) {\n                    }\n                });\n    }\n\n    //-----------------------------------------------------------------------------------------\n\n\n    MaskEraser.OnMaskTouch onMaskEraserTouch = new MaskEraser.OnMaskTouch() {\n        @Override\n        public void onPoint(float x, float y) {\n\n        }\n    };\n\n\n    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()\n    {\n        @Override\n        public void onPoint(float x, float y) {\n            System.out.println(x + \", \" + y);\n        }\n    };\n\n\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java b/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java
+--- a/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java	
++++ b/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java	
+@@ -8,10 +8,13 @@
+ import android.view.View;
+ import android.widget.ImageView;
+ import android.widget.RelativeLayout;
++import android.widget.Toast;
+ 
+ import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
+ 
++import com.ablanco.zoomy.TapListener;
++import com.ablanco.zoomy.Zoomy;
+ import com.bumptech.glide.Glide;
+ import com.bumptech.glide.request.target.CustomTarget;
+ import com.bumptech.glide.request.transition.Transition;
+@@ -22,9 +25,8 @@
+ import it.volta.ts.easymask.widgets.MaskEraser;
+ import it.volta.ts.easymask.widgets.MaskImage;
+ 
+-public class MaskActivity extends AppCompatActivity
+-{
+-    private ImageView downloadedImg, brush, eraser, btnUpload;
++public class MaskActivity extends AppCompatActivity {
++    private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
+     private MaskImage maskImage;
+     private MaskEraser maskEraser;
+     RelativeLayout imageLayout;
+@@ -36,17 +38,17 @@
+     private int newHeight, newWidth;
+ 
+     private final double maxHeightRatio = 0.6;
+-    private final double maxWidthRatio  = 0.9;
++    private final double maxWidthRatio = 0.9;
++
+     @Override
+-    protected void onCreate(Bundle savedInstanceState)
+-    {
++    protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_mask);
+ 
+         screenHeight = GraphicUtil.getScreenHeight(this);
+-        screenWidth  = GraphicUtil.getScreenWidth(this);
+-        maxHeight    = (int)(screenHeight * maxHeightRatio);
+-        maxWidth     = (int)(screenWidth  * maxWidthRatio );
++        screenWidth = GraphicUtil.getScreenWidth(this);
++        maxHeight = (int) (screenHeight * maxHeightRatio);
++        maxWidth = (int) (screenWidth * maxWidthRatio);
+ 
+         Bundle b = getIntent().getExtras();
+         url = b.getString("url");
+@@ -63,10 +65,12 @@
+ 
+         loadImage(downloadedImg, url);
+ 
+-
+-        brush     = findViewById(R.id.brush );
+-        eraser    = findViewById(R.id.eraser);
+-        btnUpload = findViewById(R.id.btnUp );
++        brush = findViewById(R.id.brush);
++        eraser = findViewById(R.id.eraser);
++        undo = findViewById(R.id.undo);
++        redo = findViewById(R.id.redo);
++
++        btnUpload = findViewById(R.id.btnUp);
+ 
+         brush.setOnClickListener(view -> {
+             ToolSelector.toolState = 1;
+@@ -82,28 +86,39 @@
+             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+         });
+ 
++        undo.setOnClickListener(view -> {
++            maskImage.undo();
++            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
++        });
++
++        redo.setOnClickListener(view -> {
++            maskImage.redo();
++            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
++        });
++
+         btnUpload.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+             }
+         });
++
++//
+     }
+ 
+-    private void setDimens(RelativeLayout imageLayout, int imgWidth, int imgHeight)
+-    {
++    private void setDimens(RelativeLayout imageLayout, int imgWidth, int imgHeight) {
+         newHeight = imgHeight;
+-        newWidth  = imgWidth;
++        newWidth = imgWidth;
+ 
+         if (imgWidth > imgHeight) {
+             float ratio = (float) maxWidth / (float) imgWidth;
+-            newWidth  = (int)((float) imgWidth  * ratio);
+-            newHeight = (int)((float) imgHeight * ratio);
++            newWidth = (int) ((float) imgWidth * ratio);
++            newHeight = (int) ((float) imgHeight * ratio);
+ 
+         } else {
+             float ratio = (float) maxHeight / (float) imgHeight;
+-            newWidth  = (int)((float) imgWidth  * ratio);
+-            newHeight = (int)((float) imgHeight * ratio);
++            newWidth = (int) ((float) imgWidth * ratio);
++            newHeight = (int) ((float) imgHeight * ratio);
+         }
+ 
+         GraphicUtil.applySize(imageLayout, newWidth, newHeight);
+@@ -114,25 +129,24 @@
+     protected void onResume() {
+         super.onResume();
+ 
+-        int width  = downloadedImg.getWidth();
++        int width = downloadedImg.getWidth();
+         int height = downloadedImg.getHeight();
+     }
+ 
+-    private void loadImage(ImageView view, String url)
+-    {
++    private void loadImage(ImageView view, String url) {
+         Glide.with(this)
+                 .asBitmap()
+                 .load(url)
+                 .into(new CustomTarget<Bitmap>() {
+                     @Override
+                     public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+-                        imgWidth  = bitmap.getWidth();
++                        imgWidth = bitmap.getWidth();
+                         imgHeight = bitmap.getHeight();
+                         view.setImageBitmap(bitmap);
+ 
+-                        setDimens(imageLayout, imgWidth,imgHeight);
++                        setDimens(imageLayout, imgWidth, imgHeight);
+                         //TODO Error: maskImage == null nella seconda scansione del qr
+-                        Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
++                        Bitmap transBmp = Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888);
+                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+                         drawable.setAlpha(100);
+                         maskImage.setImageDrawable(drawable);
+@@ -155,14 +169,52 @@
+     };
+ 
+ 
+-    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
+-    {
++    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch() {
+         @Override
+         public void onPoint(float x, float y) {
+             System.out.println(x + ", " + y);
+         }
+     };
+ 
++    //-----------------------------------------------------------------------------------------
+ 
++//        Zoomy.Builder lowestLayerZoom = new Zoomy.Builder(this)
++//                .target(downloadedImg)
++//                .animateZooming(false)
++//                .enableImmersiveMode(false)
++//                .tapListener(new TapListener() {
++//                    @Override
++//                    public void onTap(View v) {
++//                        Toast.makeText(getApplicationContext(),"low", Toast.LENGTH_SHORT).show();
++//                    }
++//        });
++//
++//        lowestLayerZoom.register();
++//
++//        Zoomy.Builder midLayerZoom = new Zoomy.Builder(this)
++//                .target(maskImage)
++//                .animateZooming(false)
++//                .enableImmersiveMode(false)
++//                .tapListener(new TapListener() {
++//                    @Override
++//                    public void onTap(View v) {
++//                        Toast.makeText(getApplicationContext(),"mid", Toast.LENGTH_SHORT).show();
++//                    }
++//                });
++//
++//        midLayerZoom.register();
++//
++//        Zoomy.Builder higherLayerZoom = new Zoomy.Builder(this)
++//                .target(maskEraser)
++//                .animateZooming(false)
++//                .enableImmersiveMode(false)
++//                .tapListener(new TapListener() {
++//                    @Override
++//                    public void onTap(View v) {
++//                        Toast.makeText(getApplicationContext(),"high", Toast.LENGTH_SHORT).show();
++//                    }
++//                });
++//
++//        higherLayerZoom.register();
+ 
+ }
+Index: app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.util;\n\nimport android.app.Activity;\nimport android.content.Context;\nimport android.util.DisplayMetrics;\nimport android.view.ViewGroup;\nimport android.widget.RelativeLayout;\n\npublic class GraphicUtil\n{\n    public static int getScreenWidth(Activity activity)\n    {\n        DisplayMetrics displayMetrics = new DisplayMetrics();\n        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);\n        return displayMetrics.widthPixels;\n    }\n    public static int getScreenHeight(Activity activity)\n    {\n        DisplayMetrics displayMetrics = new DisplayMetrics();\n        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);\n        return displayMetrics.heightPixels;\n    }\n\n    public static void applySize(RelativeLayout layout, int width, int height)\n    {\n        layout.getLayoutParams().width = width;\n        layout.getLayoutParams().height = height;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java b/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java
+--- a/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java	
++++ b/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java	
+@@ -6,23 +6,20 @@
+ import android.view.ViewGroup;
+ import android.widget.RelativeLayout;
+ 
+-public class GraphicUtil
+-{
+-    public static int getScreenWidth(Activity activity)
+-    {
++public class GraphicUtil {
++    public static int getScreenWidth(Activity activity) {
+         DisplayMetrics displayMetrics = new DisplayMetrics();
+         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+         return displayMetrics.widthPixels;
+     }
+-    public static int getScreenHeight(Activity activity)
+-    {
++
++    public static int getScreenHeight(Activity activity) {
+         DisplayMetrics displayMetrics = new DisplayMetrics();
+         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+         return displayMetrics.heightPixels;
+     }
+ 
+-    public static void applySize(RelativeLayout layout, int width, int height)
+-    {
++    public static void applySize(RelativeLayout layout, int width, int height) {
+         layout.getLayoutParams().width = width;
+         layout.getLayoutParams().height = height;
+     }
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"@color/white\"\n    tools:context=\".MainActivity\">\n\n    <LinearLayout\n        android:layout_width=\"450dp\"\n        android:layout_height=\"350dp\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"60dp\"\n        android:gravity=\"center\"\n        android:orientation=\"vertical\">\n\n        <ImageView\n            android:id=\"@+id/ImageLogo\"\n            android:layout_width=\"400dp\"\n            android:layout_height=\"150dp\"\n            android:src=\"@drawable/newlogoeasymask\"></ImageView>\n\n\n        <ImageView\n            android:id=\"@+id/ImageScritta\"\n            android:layout_width=\"250dp\"\n            android:layout_height=\"80dp\"\n            android:src=\"@drawable/logo\"></ImageView>\n    </LinearLayout>\n\n\n\n    <ImageView\n        android:id=\"@+id/btnAct\"\n        android:layout_width=\"200dp\"\n        android:layout_height=\"150dp\"\n        android:layout_alignParentBottom=\"true\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginBottom=\"60dp\"\n        android:src=\"@drawable/btnqr2\">\n    </ImageView>\n\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_main.xml b/app/src/main/res/layout/activity_main.xml
+--- a/app/src/main/res/layout/activity_main.xml	
++++ b/app/src/main/res/layout/activity_main.xml	
+@@ -1,11 +1,10 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical"
+     android:background="@color/white"
++    android:orientation="vertical"
+     tools:context=".MainActivity">
+ 
+     <LinearLayout
+@@ -31,7 +30,6 @@
+     </LinearLayout>
+ 
+ 
+-
+     <ImageView
+         android:id="@+id/btnAct"
+         android:layout_width="200dp"
+@@ -39,8 +37,7 @@
+         android:layout_alignParentBottom="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginBottom="60dp"
+-        android:src="@drawable/btnqr2">
+-    </ImageView>
++        android:src="@drawable/btnqr2"></ImageView>
+ 
+ 
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\n    id 'com.android.application'\n}\n\n\nandroid {\n    compileSdk 32\n\n    defaultConfig {\n        applicationId \"it.volta.ts.easymask\"\n        minSdk 26\n        targetSdk 32\n        versionCode 1\n        versionName '0.01'\n\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            minifyEnabled false\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\n        }\n    }\n    compileOptions {\n        sourceCompatibility JavaVersion.VERSION_1_8\n        targetCompatibility JavaVersion.VERSION_1_8\n    }\n}\n\ndependencies {\n    implementation 'com.github.bumptech.glide:glide:4.13.0' //img downloading library\n    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'\n    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'\n    implementation 'androidx.appcompat:appcompat:1.4.1'\n    implementation 'com.google.android.material:material:1.6.0'\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\n    testImplementation 'junit:junit:4.13.2'\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle b/app/build.gradle
+--- a/app/build.gradle	
++++ b/app/build.gradle	
+@@ -29,6 +29,7 @@
+ }
+ 
+ dependencies {
++    implementation 'io.github.imablanco:zoomy:1.0.0'
+     implementation 'com.github.bumptech.glide:glide:4.13.0' //img downloading library
+     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+Index: app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.widgets;\n\nimport android.content.Context;\nimport android.graphics.Bitmap;\nimport android.graphics.Canvas;\nimport android.graphics.Color;\nimport android.graphics.Paint;\nimport android.graphics.PorterDuff;\nimport android.graphics.PorterDuffXfermode;\nimport android.util.AttributeSet;\nimport android.view.MotionEvent;\nimport android.view.View;\n\nimport androidx.annotation.ColorInt;\nimport androidx.annotation.Nullable;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nimport it.volta.ts.easymask.obj.FPoint;\nimport it.volta.ts.easymask.tools.ToolSelector;\n\npublic class MaskEraser extends androidx.appcompat.widget.AppCompatImageView\n{\n\n    private MaskImage maskImage;\n\n    @ColorInt\n    int eraseColor = Color.WHITE;\n    int stroke;\n\n    private OnMaskTouch onMaskTouch;\n\n    List<List<FPoint>> points;\n    List<FPoint>       track;\n\n    int width, height;\n    float fromX, fromY, toX, toY;\n    Paint paint;\n\n\n    @Override\n    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)\n    {\n        super.onMeasure(widthMeasureSpec, heightMeasureSpec);\n        this.setDrawingCacheEnabled(true);\n        width  = MeasureSpec.getSize(widthMeasureSpec );\n        height = MeasureSpec.getSize(heightMeasureSpec);\n        stroke = width * 5 / 100;\n        paint.setStrokeWidth(stroke);\n    }\n\n    OnTouchListener onTouch = new OnTouchListener() {\n        @Override\n        public boolean onTouch(View view, MotionEvent event)\n        {\n            float x = event.getX();\n            float y = event.getY();\n\n            switch(event.getAction())\n            {\n                case MotionEvent.ACTION_DOWN:\n                    fromX = x;\n                    fromY = y;\n                    track = new ArrayList<>();\n\n                    points.add(track);\n\n\n                    if (ToolSelector.toolState == 1)\n                    {\n                        track.add(new FPoint(x,y, false));\n                    } else {\n                        track.add(new FPoint(x,y, true));\n                    }\n                    if (onMaskTouch != null)\n                        onMaskTouch.onPoint(x,y);\n                    break;\n                case MotionEvent.ACTION_UP:\n                    if (ToolSelector.toolState != 1)\n                    {\n\n                    }\n                    //show();\n                    break;\n                case MotionEvent.ACTION_MOVE:\n                    toX = x;\n                    toY = y;\n\n                    fromX = x;\n                    fromY = y;\n                    if (ToolSelector.toolState == 1)\n                    {\n                        track.add(new FPoint(x,y, false));\n                    } else {\n                        track.add(new FPoint(x,y, true));\n                    }\n                    if (onMaskTouch != null)\n                        onMaskTouch.onPoint(x,y);\n\n                    break;\n            }\n\n            MaskEraser.this.invalidate();\n            return true;\n        }\n    };\n\n\n    @Override\n    protected void onDraw(Canvas canvas)\n    {\n        //super.onDraw(canvas);\n\n        for (List<FPoint> track : points)\n        {\n            if (track.size() > 1) {\n                for (int idx = 1; idx < track.size(); idx++) {\n                    if(track.get(idx-1).eraser || track.get(idx).eraser) {\n\n                        paint.setColor(eraseColor);\n                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,\n                                track.get(idx).x, track.get(idx).y,\n                                paint);\n                        maskImage.erase(this.getDrawingCache());\n                    }\n                }\n            }\n            else {\n\n            }\n        }\n    }\n\n    //----------------------------------------------------------------------------------------------\n\n    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {\n        this.onMaskTouch = onMaskTouch;\n    }\n\n    public interface OnMaskTouch\n    {\n        void onPoint(float x, float y);\n    }\n\n    //----------------------------------------------------------------------------------------------\n\n    public MaskEraser(Context context) {\n        super(context);\n        init();\n    }\n\n    public MaskEraser(Context context, @Nullable AttributeSet attrs) {\n        super(context, attrs);\n        init();\n    }\n\n    public MaskEraser(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init();\n    }\n\n    private void init()\n    {\n        points = new ArrayList<>();\n\n        paint = new Paint();\n\n        paint.setAntiAlias(true);\n        paint.setStrokeCap(Paint.Cap.ROUND);\n\n        setBackgroundColor(0x00000000);\n        setOnTouchListener(onTouch);\n    }\n\n    public void setMaskImage(MaskImage maskImage) {\n        this.maskImage = maskImage;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java b/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java
+--- a/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java	
++++ b/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java	
+@@ -20,8 +20,7 @@
+ import it.volta.ts.easymask.obj.FPoint;
+ import it.volta.ts.easymask.tools.ToolSelector;
+ 
+-public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
+-{
++public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView {
+ 
+     private MaskImage maskImage;
+ 
+@@ -32,7 +31,7 @@
+     private OnMaskTouch onMaskTouch;
+ 
+     List<List<FPoint>> points;
+-    List<FPoint>       track;
++    List<FPoint> track;
+ 
+     int width, height;
+     float fromX, fromY, toX, toY;
+@@ -40,11 +39,10 @@
+ 
+ 
+     @Override
+-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+-    {
++    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+         this.setDrawingCacheEnabled(true);
+-        width  = MeasureSpec.getSize(widthMeasureSpec );
++        width = MeasureSpec.getSize(widthMeasureSpec);
+         height = MeasureSpec.getSize(heightMeasureSpec);
+         stroke = width * 5 / 100;
+         paint.setStrokeWidth(stroke);
+@@ -52,13 +50,11 @@
+ 
+     OnTouchListener onTouch = new OnTouchListener() {
+         @Override
+-        public boolean onTouch(View view, MotionEvent event)
+-        {
++        public boolean onTouch(View view, MotionEvent event) {
+             float x = event.getX();
+             float y = event.getY();
+ 
+-            switch(event.getAction())
+-            {
++            switch (event.getAction()) {
+                 case MotionEvent.ACTION_DOWN:
+                     fromX = x;
+                     fromY = y;
+@@ -67,18 +63,16 @@
+                     points.add(track);
+ 
+ 
+-                    if (ToolSelector.toolState == 1)
+-                    {
+-                        track.add(new FPoint(x,y, false));
++                    if (ToolSelector.toolState == 1) {
++                        track.add(new FPoint(x, y, false));
+                     } else {
+-                        track.add(new FPoint(x,y, true));
++                        track.add(new FPoint(x, y, true));
+                     }
+                     if (onMaskTouch != null)
+-                        onMaskTouch.onPoint(x,y);
++                        onMaskTouch.onPoint(x, y);
+                     break;
+                 case MotionEvent.ACTION_UP:
+-                    if (ToolSelector.toolState != 1)
+-                    {
++                    if (ToolSelector.toolState != 1) {
+ 
+                     }
+                     //show();
+@@ -89,14 +83,13 @@
+ 
+                     fromX = x;
+                     fromY = y;
+-                    if (ToolSelector.toolState == 1)
+-                    {
+-                        track.add(new FPoint(x,y, false));
++                    if (ToolSelector.toolState == 1) {
++                        track.add(new FPoint(x, y, false));
+                     } else {
+-                        track.add(new FPoint(x,y, true));
++                        track.add(new FPoint(x, y, true));
+                     }
+                     if (onMaskTouch != null)
+-                        onMaskTouch.onPoint(x,y);
++                        onMaskTouch.onPoint(x, y);
+ 
+                     break;
+             }
+@@ -108,15 +101,13 @@
+ 
+ 
+     @Override
+-    protected void onDraw(Canvas canvas)
+-    {
++    protected void onDraw(Canvas canvas) {
+         //super.onDraw(canvas);
+ 
+-        for (List<FPoint> track : points)
+-        {
++        for (List<FPoint> track : points) {
+             if (track.size() > 1) {
+                 for (int idx = 1; idx < track.size(); idx++) {
+-                    if(track.get(idx-1).eraser || track.get(idx).eraser) {
++                    if (track.get(idx - 1).eraser || track.get(idx).eraser) {
+ 
+                         paint.setColor(eraseColor);
+                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
+@@ -125,8 +116,7 @@
+                         maskImage.erase(this.getDrawingCache());
+                     }
+                 }
+-            }
+-            else {
++            } else {
+ 
+             }
+         }
+@@ -138,8 +128,7 @@
+         this.onMaskTouch = onMaskTouch;
+     }
+ 
+-    public interface OnMaskTouch
+-    {
++    public interface OnMaskTouch {
+         void onPoint(float x, float y);
+     }
+ 
+@@ -160,8 +149,7 @@
+         init();
+     }
+ 
+-    private void init()
+-    {
++    private void init() {
+         points = new ArrayList<>();
+ 
+         paint = new Paint();
+Index: app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.widgets;\n\nimport android.content.Context;\nimport android.graphics.Bitmap;\nimport android.graphics.Canvas;\nimport android.graphics.Color;\nimport android.graphics.Paint;\nimport android.graphics.PorterDuff;\nimport android.graphics.PorterDuffXfermode;\nimport android.util.AttributeSet;\nimport android.view.MotionEvent;\nimport android.view.View;\n\nimport androidx.annotation.ColorInt;\nimport androidx.annotation.Nullable;\n\nimport java.util.ArrayList;\nimport java.util.List;\n\nimport it.volta.ts.easymask.obj.FPoint;\nimport it.volta.ts.easymask.tools.ToolSelector;\n\npublic class MaskImage extends androidx.appcompat.widget.AppCompatImageView\n{\n    @ColorInt\n    int drawColor  = 0xffffff00;\n    int stroke;\n\n    private OnMaskTouch onMaskTouch;\n    private Bitmap eraseBitmap;\n\n    List<List<FPoint>> points;\n    List<FPoint>       track;\n\n    int width, height;\n    float fromX, fromY, toX, toY;\n    Paint paint, paintEraser;\n\n    public MaskImage(Context context) {\n        super(context);\n        init();\n    }\n\n    public MaskImage(Context context, @Nullable AttributeSet attrs) {\n        super(context, attrs);\n        init();\n    }\n\n    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\n        super(context, attrs, defStyleAttr);\n        init();\n    }\n\n    private void init()\n    {\n        points = new ArrayList<>();\n\n        paint = new Paint();\n\n        paint.setAntiAlias(true);\n        paint.setStrokeCap(Paint.Cap.ROUND);\n\n        setOnTouchListener(onTouch);\n    }\n\n    @Override\n    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)\n    {\n        super.onMeasure(widthMeasureSpec, heightMeasureSpec);\n        width  = MeasureSpec.getSize(widthMeasureSpec );\n        height = MeasureSpec.getSize(heightMeasureSpec);\n        stroke = width * 5 / 100;\n        paint.setStrokeWidth(stroke);\n    }\n\n    OnTouchListener onTouch = new OnTouchListener() {\n        @Override\n        public boolean onTouch(View view, MotionEvent event)\n        {\n            float x = event.getX();\n            float y = event.getY();\n\n            switch(event.getAction())\n            {\n                case MotionEvent.ACTION_DOWN:\n                    fromX = x;\n                    fromY = y;\n                    track = new ArrayList<>();\n\n                    points.add(track);\n\n\n                    if (ToolSelector.toolState == 1)\n                    {\n                        track.add(new FPoint(x,y, false));\n                    } else {\n                        track.add(new FPoint(x,y, true));\n                    }\n                    if (onMaskTouch != null)\n                        onMaskTouch.onPoint(x,y);\n                    break;\n                case MotionEvent.ACTION_UP:\n                    if (ToolSelector.toolState != 1)\n                    {\n\n                    }\n                    //show();\n                    break;\n                case MotionEvent.ACTION_MOVE:\n                    toX = x;\n                    toY = y;\n\n                    fromX = x;\n                    fromY = y;\n                    if (ToolSelector.toolState == 1)\n                    {\n                        track.add(new FPoint(x,y, false));\n                    } else {\n                        track.add(new FPoint(x,y, true));\n                    }\n                    if (onMaskTouch != null)\n                        onMaskTouch.onPoint(x,y);\n\n                    break;\n            }\n\n            MaskImage.this.invalidate();\n            return true;\n\n        }\n    };\n\n    public void erase(Bitmap bitmap){\n        eraseBitmap = bitmap;\n        paintEraser = new Paint();\n        MaskImage.this.invalidate();\n    }\n\n    @Override\n    protected void onDraw(Canvas canvas)\n    {\n        //super.onDraw(canvas);\n\n        for (List<FPoint> track : points)\n        {\n            if (track.size() > 1) {\n                for (int idx = 1; idx < track.size(); idx++) {\n                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {\n\n                        paint.setColor(drawColor);\n                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,\n                                track.get(idx).x, track.get(idx).y,\n                                paint);\n\n                        if(eraseBitmap!=null){\n                            paintEraser.setAlpha(0);\n                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));\n                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);\n                        }\n                    }\n\n\n                    }\n\n                }\n            else {\n\n            }\n        }\n    }\n\n    //----------------------------------------------------------------------------------------------\n\n    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {\n        this.onMaskTouch = onMaskTouch;\n    }\n\n    public interface OnMaskTouch\n    {\n        void onPoint(float x, float y);\n    }\n\n    //----------------------------------------------------------------------------------------------\n\n    /*\n    private void show()\n    {\n        System.out.println(\"--------------------\");\n        for (List<FPoint> track : points) {\n            System.out.println(\"New track\");\n            for (FPoint point : track)\n                System.out.println(\"    \" + (int)point.x + \", \" + (int)point.y);\n        }\n    }\n    */\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+--- a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	
++++ b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	
+@@ -3,7 +3,6 @@
+ import android.content.Context;
+ import android.graphics.Bitmap;
+ import android.graphics.Canvas;
+-import android.graphics.Color;
+ import android.graphics.Paint;
+ import android.graphics.PorterDuff;
+ import android.graphics.PorterDuffXfermode;
+@@ -20,17 +19,18 @@
+ import it.volta.ts.easymask.obj.FPoint;
+ import it.volta.ts.easymask.tools.ToolSelector;
+ 
+-public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
+-{
++public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
+     @ColorInt
+-    int drawColor  = 0xffffff00;
++    int drawColor = 0xffffff00;
+     int stroke;
+ 
+     private OnMaskTouch onMaskTouch;
+     private Bitmap eraseBitmap;
+ 
+     List<List<FPoint>> points;
+-    List<FPoint>       track;
++    List<FPoint> track;
++    int position = 0;
++    List<FPoint> tracKToRedo;
+ 
+     int width, height;
+     float fromX, fromY, toX, toY;
+@@ -51,23 +51,23 @@
+         init();
+     }
+ 
+-    private void init()
+-    {
++    private void init() {
+         points = new ArrayList<>();
+ 
+         paint = new Paint();
+ 
+         paint.setAntiAlias(true);
+         paint.setStrokeCap(Paint.Cap.ROUND);
++        setLayerType(LAYER_TYPE_SOFTWARE, paint);
++        setLayerType(LAYER_TYPE_SOFTWARE, paintEraser);
+ 
+         setOnTouchListener(onTouch);
+     }
+ 
+     @Override
+-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+-    {
++    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+-        width  = MeasureSpec.getSize(widthMeasureSpec );
++        width = MeasureSpec.getSize(widthMeasureSpec);
+         height = MeasureSpec.getSize(heightMeasureSpec);
+         stroke = width * 5 / 100;
+         paint.setStrokeWidth(stroke);
+@@ -75,33 +75,29 @@
+ 
+     OnTouchListener onTouch = new OnTouchListener() {
+         @Override
+-        public boolean onTouch(View view, MotionEvent event)
+-        {
++        public boolean onTouch(View view, MotionEvent event) {
+             float x = event.getX();
+             float y = event.getY();
+ 
+-            switch(event.getAction())
+-            {
++            switch (event.getAction()) {
+                 case MotionEvent.ACTION_DOWN:
+                     fromX = x;
+                     fromY = y;
+                     track = new ArrayList<>();
+ 
+                     points.add(track);
++                    position++;
+ 
+-
+-                    if (ToolSelector.toolState == 1)
+-                    {
+-                        track.add(new FPoint(x,y, false));
++                    if (ToolSelector.toolState == 1) {
++                        track.add(new FPoint(x, y, false));
+                     } else {
+-                        track.add(new FPoint(x,y, true));
++                        track.add(new FPoint(x, y, true));
+                     }
+                     if (onMaskTouch != null)
+-                        onMaskTouch.onPoint(x,y);
++                        onMaskTouch.onPoint(x, y);
+                     break;
+                 case MotionEvent.ACTION_UP:
+-                    if (ToolSelector.toolState != 1)
+-                    {
++                    if (ToolSelector.toolState != 1) {
+ 
+                     }
+                     //show();
+@@ -112,14 +108,13 @@
+ 
+                     fromX = x;
+                     fromY = y;
+-                    if (ToolSelector.toolState == 1)
+-                    {
+-                        track.add(new FPoint(x,y, false));
++                    if (ToolSelector.toolState == 1) {
++                        track.add(new FPoint(x, y, false));
+                     } else {
+-                        track.add(new FPoint(x,y, true));
++                        track.add(new FPoint(x, y, true));
+                     }
+                     if (onMaskTouch != null)
+-                        onMaskTouch.onPoint(x,y);
++                        onMaskTouch.onPoint(x, y);
+ 
+                     break;
+             }
+@@ -130,40 +125,35 @@
+         }
+     };
+ 
+-    public void erase(Bitmap bitmap){
++    public void erase(Bitmap bitmap) {
+         eraseBitmap = bitmap;
+         paintEraser = new Paint();
+         MaskImage.this.invalidate();
+     }
+ 
+     @Override
+-    protected void onDraw(Canvas canvas)
+-    {
++    protected void onDraw(Canvas canvas) {
+         //super.onDraw(canvas);
+ 
+-        for (List<FPoint> track : points)
+-        {
++        for (List<FPoint> track : points) {
+             if (track.size() > 1) {
+                 for (int idx = 1; idx < track.size(); idx++) {
+-                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {
++                    if (!(track.get(idx - 1).eraser || track.get(idx).eraser)) {
+ 
+                         paint.setColor(drawColor);
+                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
+                                 track.get(idx).x, track.get(idx).y,
+                                 paint);
+ 
+-                        if(eraseBitmap!=null){
++                        if (eraseBitmap != null) {
+                             paintEraser.setAlpha(0);
+                             paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+-                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);
++                            canvas.drawBitmap(eraseBitmap, 0, 0, paintEraser);
+                         }
+                     }
+-
+-
+-                    }
++                }
+ 
+-                }
+-            else {
++            } else {
+ 
+             }
+         }
+@@ -175,22 +165,20 @@
+         this.onMaskTouch = onMaskTouch;
+     }
+ 
+-    public interface OnMaskTouch
+-    {
++    public interface OnMaskTouch {
+         void onPoint(float x, float y);
+     }
+ 
+     //----------------------------------------------------------------------------------------------
+ 
+-    /*
+-    private void show()
+-    {
+-        System.out.println("--------------------");
+-        for (List<FPoint> track : points) {
+-            System.out.println("New track");
+-            for (FPoint point : track)
+-                System.out.println("    " + (int)point.x + ", " + (int)point.y);
++    public void undo() {
++        if (position > 0) {
++            tracKToRedo = points.get(position-1);
++            points.remove(position-1);
+         }
+     }
+-    */
++
++    public void redo() {
++        points.add(tracKToRedo);
++    }
+ }
+Index: app/src/main/res/layout/activity_mask.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"@color/white\"\n    tools:context=\".activities.MaskActivity\">\n\n    <LinearLayout\n        android:id           =\"@+id/header\"\n        android:layout_width =\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation  =\"horizontal\"\n        android:gravity=\"end\"\n        >\n        <ImageView\n            android:layout_width=\"75dp\"\n            android:layout_height=\"50dp\"\n            android:src=\"@drawable/newlogoeasymask\"\n            android:layout_marginEnd=\"10dp\"\n            android:layout_marginTop=\"10dp\"\n            />\n        <ImageView\n            android:layout_width=\"90dp\"\n            android:layout_height=\"100dp\"\n            android:src=\"@drawable/logo\"\n            android:layout_marginEnd=\"5sp\"\n            android:layout_marginTop=\"-15sp\"\n            />\n\n    </LinearLayout>\n\n    <RelativeLayout\n        android:id           =\"@+id/image_layout\"\n        android:layout_width =\"400dp\"\n        android:layout_height=\"400dp\"\n        android:layout_below =\"@+id/header\"\n        android:layout_marginTop=\"10dp\"\n        android:layout_centerHorizontal=\"true\"\n        android:background=\"#80008000\"\n        android:layout_marginBottom=\"10dp\"\n        >\n        <!--RelativeLayout\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:id=\"@+id/layout\"\n            -->\n            <ImageView\n                android:id=\"@+id/imgSlot\"\n                android:layout_width =\"match_parent\"\n                android:layout_height=\"match_parent\"\n                android:layout_centerHorizontal=\"true\"\n                android:adjustViewBounds=\"true\"\n                android:scaleType=\"fitXY\"\n                android:src=\"@drawable/placeholder\"\n                />\n            <it.volta.ts.easymask.widgets.MaskImage\n                android:id=\"@+id/imgMask\"\n                android:layout_width =\"match_parent\"\n                android:layout_height=\"match_parent\"\n                android:layout_centerHorizontal=\"true\"\n                />\n\n            <it.volta.ts.easymask.widgets.MaskEraser\n                android:id=\"@+id/imgEraser\"\n                android:layout_width =\"match_parent\"\n                android:layout_height=\"match_parent\"\n                android:layout_centerHorizontal=\"true\"\n                />\n        <!--/RelativeLayout-->\n    </RelativeLayout>\n\n    <LinearLayout\n        android:id=\"@+id/buttons\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"50dp\"\n        android:orientation=\"horizontal\"\n        android:background=\"@drawable/toolbar\"\n        android:layout_above=\"@+id/btnUp\"\n        android:layout_centerHorizontal=\"true\"\n        android:gravity=\"center_horizontal\"\n        android:layout_marginBottom=\"15dp\"\n        >\n        <ImageView\n            android:id=\"@+id/brush\"\n            android:layout_width    =\"@dimen/mask_buttons_size\"\n            android:layout_height   =\"@dimen/mask_buttons_size\"\n            android:layout_marginEnd=\"@dimen/mask_buttons_mSE\"\n            android:src=\"@drawable/brush\"\n            android:hapticFeedbackEnabled=\"true\"\n            android:layout_marginTop=\"5dp\"\n            >\n        </ImageView>\n\n        <ImageView\n            android:id=\"@+id/eraser\"\n            android:layout_width       =\"@dimen/mask_buttons_size\"\n            android:layout_height      =\"@dimen/mask_buttons_size\"\n            android:layout_marginStart =\"@dimen/mask_buttons_mSE\"\n            android:src=\"@drawable/eraser\"\n            android:hapticFeedbackEnabled=\"true\"\n            android:layout_marginTop=\"5dp\"\n            >\n        </ImageView>\n    </LinearLayout>\n\n<!--    <ImageView-->\n<!--        android:id=\"@+id/btnSave\"-->\n<!--        android:layout_width=\"300sp\"-->\n<!--        android:layout_height=\"150sp\"-->\n<!--        android:layout_centerHorizontal=\"true\"-->\n<!--        android:layout_alignParentBottom=\"true\"-->\n<!--        android:layout_marginBottom=\"45sp\"-->\n<!--        android:src=\"@drawable/savebtn\"-->\n<!--        android:visibility=\"invisible\">-->\n<!--    </ImageView>-->\n\n    <ImageView\n        android:id=\"@+id/btnUp\"\n        android:layout_width =\"100dp\"\n        android:layout_height=\"50dp\"\n        android:layout_centerHorizontal =\"true\"\n        android:layout_alignParentBottom=\"true\"\n        android:src=\"@drawable/uploadbtn\"\n        android:hapticFeedbackEnabled=\"true\"\n        android:layout_marginBottom=\"15dp\"\n        >\n    </ImageView>\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+--- a/app/src/main/res/layout/activity_mask.xml	
++++ b/app/src/main/res/layout/activity_mask.xml	
+@@ -1,132 +1,126 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<RelativeLayout
+-    xmlns:android="http://schemas.android.com/apk/res/android"
++<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical"
+     android:background="@color/white"
++    android:orientation="vertical"
+     tools:context=".activities.MaskActivity">
+ 
+     <LinearLayout
+-        android:id           ="@+id/header"
+-        android:layout_width ="match_parent"
++        android:id="@+id/header"
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:orientation  ="horizontal"
+         android:gravity="end"
+-        >
++        android:orientation="horizontal">
++
+         <ImageView
+             android:layout_width="75dp"
+             android:layout_height="50dp"
+-            android:src="@drawable/newlogoeasymask"
++            android:layout_marginTop="10dp"
+             android:layout_marginEnd="10dp"
+-            android:layout_marginTop="10dp"
+-            />
++            android:src="@drawable/newlogoeasymask" />
++
+         <ImageView
+             android:layout_width="90dp"
+             android:layout_height="100dp"
+-            android:src="@drawable/logo"
++            android:layout_marginTop="-15sp"
+             android:layout_marginEnd="5sp"
+-            android:layout_marginTop="-15sp"
+-            />
++            android:src="@drawable/logo" />
+ 
+     </LinearLayout>
+ 
+     <RelativeLayout
+-        android:id           ="@+id/image_layout"
+-        android:layout_width ="400dp"
++        android:id="@+id/image_layout"
++        android:layout_width="400dp"
+         android:layout_height="400dp"
+-        android:layout_below ="@+id/header"
+-        android:layout_marginTop="10dp"
++        android:layout_below="@+id/header"
+         android:layout_centerHorizontal="true"
+-        android:background="#80008000"
++        android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+-        >
++        android:background="#80008000">
+         <!--RelativeLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:id="@+id/layout"
+             -->
+-            <ImageView
+-                android:id="@+id/imgSlot"
+-                android:layout_width ="match_parent"
+-                android:layout_height="match_parent"
+-                android:layout_centerHorizontal="true"
+-                android:adjustViewBounds="true"
+-                android:scaleType="fitXY"
+-                android:src="@drawable/placeholder"
+-                />
+-            <it.volta.ts.easymask.widgets.MaskImage
+-                android:id="@+id/imgMask"
+-                android:layout_width ="match_parent"
+-                android:layout_height="match_parent"
+-                android:layout_centerHorizontal="true"
+-                />
++        <ImageView
++            android:id="@+id/imgSlot"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:layout_centerHorizontal="true"
++            android:adjustViewBounds="true"
++            android:scaleType="fitXY"
++            android:src="@drawable/placeholder" />
++
++        <it.volta.ts.easymask.widgets.MaskImage
++            android:id="@+id/imgMask"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:layout_centerHorizontal="true" />
+ 
+-            <it.volta.ts.easymask.widgets.MaskEraser
+-                android:id="@+id/imgEraser"
+-                android:layout_width ="match_parent"
+-                android:layout_height="match_parent"
+-                android:layout_centerHorizontal="true"
+-                />
++        <it.volta.ts.easymask.widgets.MaskEraser
++            android:id="@+id/imgEraser"
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:layout_centerHorizontal="true"/>
+         <!--/RelativeLayout-->
+     </RelativeLayout>
+ 
+     <LinearLayout
+         android:id="@+id/buttons"
+         android:layout_width="match_parent"
+-        android:layout_height="50dp"
+-        android:orientation="horizontal"
+-        android:background="@drawable/toolbar"
++        android:layout_height="wrap_content"
+         android:layout_above="@+id/btnUp"
+         android:layout_centerHorizontal="true"
++        android:layout_marginBottom="35dp"
+         android:gravity="center_horizontal"
+-        android:layout_marginBottom="15dp"
+-        >
++        android:orientation="horizontal">
++
+         <ImageView
+             android:id="@+id/brush"
+-            android:layout_width    ="@dimen/mask_buttons_size"
+-            android:layout_height   ="@dimen/mask_buttons_size"
++            android:layout_width="@dimen/mask_buttons_width"
++            android:layout_height="@dimen/mask_buttons_height"
+             android:layout_marginEnd="@dimen/mask_buttons_mSE"
+-            android:src="@drawable/brush"
+             android:hapticFeedbackEnabled="true"
+-            android:layout_marginTop="5dp"
+-            >
+-        </ImageView>
++            android:src="@drawable/btnpenna"></ImageView>
+ 
+         <ImageView
+             android:id="@+id/eraser"
+-            android:layout_width       ="@dimen/mask_buttons_size"
+-            android:layout_height      ="@dimen/mask_buttons_size"
+-            android:layout_marginStart ="@dimen/mask_buttons_mSE"
+-            android:src="@drawable/eraser"
++            android:layout_width="@dimen/mask_buttons_width"
++            android:layout_height="@dimen/mask_buttons_height"
++            android:layout_marginStart="@dimen/mask_buttons_mSE"
++            android:layout_marginEnd="@dimen/mask_buttons_mSE"
++            android:hapticFeedbackEnabled="true"
++            android:src="@drawable/btngomma"></ImageView>
++
++        <ImageView
++            android:id="@+id/redo"
++            android:layout_width="@dimen/mask_buttons_width"
++            android:layout_height="@dimen/mask_buttons_height"
+             android:hapticFeedbackEnabled="true"
+-            android:layout_marginTop="5dp"
+-            >
+-        </ImageView>
++            android:layout_marginStart="@dimen/mask_buttons_mSE"
++            android:layout_marginEnd="@dimen/mask_buttons_mSE"
++            android:src="@drawable/btnundo"></ImageView>
++
++        <ImageView
++            android:id="@+id/undo"
++            android:layout_width="@dimen/mask_buttons_width"
++            android:layout_height="@dimen/mask_buttons_height"
++            android:hapticFeedbackEnabled="true"
++            android:layout_marginStart="@dimen/mask_buttons_mSE"
++            android:src="@drawable/btnredo"></ImageView>
++
+     </LinearLayout>
+ 
+-<!--    <ImageView-->
+-<!--        android:id="@+id/btnSave"-->
+-<!--        android:layout_width="300sp"-->
+-<!--        android:layout_height="150sp"-->
+-<!--        android:layout_centerHorizontal="true"-->
+-<!--        android:layout_alignParentBottom="true"-->
+-<!--        android:layout_marginBottom="45sp"-->
+-<!--        android:src="@drawable/savebtn"-->
+-<!--        android:visibility="invisible">-->
+-<!--    </ImageView>-->
+-
+     <ImageView
+         android:id="@+id/btnUp"
+-        android:layout_width ="100dp"
++        android:layout_width="100dp"
+         android:layout_height="50dp"
+-        android:layout_centerHorizontal ="true"
+         android:layout_alignParentBottom="true"
+-        android:src="@drawable/uploadbtn"
++        android:layout_centerHorizontal="true"
++        android:layout_marginBottom="15dp"
+         android:hapticFeedbackEnabled="true"
+-        android:layout_marginBottom="15dp"
+-        >
+-    </ImageView>
++        android:src="@drawable/uploadbtn"></ImageView>
+ 
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/values/dimens.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n    <dimen name=\"mask_buttons_size\">30.000dp</dimen>\n    <dimen name=\"mask_buttons_mSE\" >40.000dp</dimen>\n\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+--- a/app/src/main/res/values/dimens.xml	
++++ b/app/src/main/res/values/dimens.xml	
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <dimen name="mask_buttons_size">30.000dp</dimen>
+-    <dimen name="mask_buttons_mSE" >40.000dp</dimen>
++    <dimen name="mask_buttons_width">80.000dp</dimen>
++    <dimen name="mask_buttons_height">40.000dp</dimen>
++    <dimen name="mask_buttons_mSE" >10.000dp</dimen>
+ 
+ </resources>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]" date="1653372819122" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/2022 08:13 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch	
++++ /dev/null	
+@@ -1,17 +0,0 @@
+-Index: .idea/gradle.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+---- a/.idea/gradle.xml	(revision 9e028738ea3341cf24ff7fef91a13cfd533ca34c)
+-+++ b/.idea/gradle.xml	(date 1653372767378)
+-@@ -1,5 +1,6 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-+  <component name="GradleMigrationSettings" migrationVersion="1" />
+-   <component name="GradleSettings">
+-     <option name="linkedExternalProjectsSettings">
+-       <GradleProjectSettings>

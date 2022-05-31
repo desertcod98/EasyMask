@@ -33,6 +33,8 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
 
     List<List<FPoint>> points;
     List<FPoint>       track;
+    int position = 0;
+    List<FPoint>       trackToRedo;
 
     int width, height;
     float fromX, fromY, toX, toY;
@@ -65,7 +67,7 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
                     track = new ArrayList<>();
 
                     points.add(track);
-
+                    position++;
 
                     if (ToolSelector.toolState == 1)
                     {
@@ -180,5 +182,22 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
 
     public void setMaskImage(MaskImage maskImage) {
         this.maskImage = maskImage;
+    }
+
+    //-----------------------------------------------------------------------------------------
+
+    public void undo () {
+        if (position > 0) {
+            trackToRedo = points.get(position-1);
+            points.remove(position-1);
+            position--;
+            MaskEraser.this.invalidate();
+        }
+    }
+
+    public void redo () {
+        points.add(trackToRedo);
+        position++;
+        MaskEraser.this.invalidate();
     }
 }

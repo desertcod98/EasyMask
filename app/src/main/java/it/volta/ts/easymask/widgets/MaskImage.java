@@ -31,6 +31,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
     List<List<FPoint>> points;
     List<FPoint>       track;
+    int position = 0;
+    List<FPoint>       trackToRedo;
 
     int width, height;
     float fromX, fromY, toX, toY;
@@ -99,7 +101,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
                     track = new ArrayList<>();
 
                     points.add(track);
-
+                    position++;
 
                     if (ToolSelector.toolState == 1)
                     {
@@ -196,15 +198,18 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
     //----------------------------------------------------------------------------------------------
 
-    /*
-    private void show()
-    {
-        System.out.println("--------------------");
-        for (List<FPoint> track : points) {
-            System.out.println("New track");
-            for (FPoint point : track)
-                System.out.println("    " + (int)point.x + ", " + (int)point.y);
+    public void undo () {
+        if (position > 0) {
+            trackToRedo = points.get(position-1);
+            points.remove(position-1);
+            position--;
+            MaskImage.this.invalidate();
         }
     }
-    */
+
+    public void redo () {
+        points.add(trackToRedo);
+        MaskImage.this.invalidate();
+        position++;
+    }
 }
