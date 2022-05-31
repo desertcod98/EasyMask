@@ -3,7 +3,6 @@ package it.volta.ts.easymask.widgets;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -24,6 +23,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 {
     @ColorInt
     int drawColor  = 0xffffff00;
+    int eraseColor = 0xffffffff;
     int stroke;
 
     private OnMaskTouch onMaskTouch;
@@ -34,7 +34,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
     int width, height;
     float fromX, fromY, toX, toY;
-    Paint paint, paintEraser;
+    Paint drawPaint, erasePaint;
 
     public MaskImage(Context context) {
         super(context);
@@ -55,10 +55,19 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     {
         points = new ArrayList<>();
 
-        paint = new Paint();
+        drawPaint = new Paint();
+        drawPaint.setAntiAlias(true);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        drawPaint.setColor(drawColor);
 
-        paint.setAntiAlias(true);
-        paint.setStrokeCap(Paint.Cap.ROUND);
+        erasePaint = new Paint();
+        erasePaint.setAlpha(0);
+        erasePaint.setAntiAlias(true);
+        erasePaint.setStrokeCap(Paint.Cap.ROUND);
+        erasePaint.setColor(eraseColor);
+        erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+
 
         setOnTouchListener(onTouch);
     }
@@ -70,7 +79,9 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         width  = MeasureSpec.getSize(widthMeasureSpec );
         height = MeasureSpec.getSize(heightMeasureSpec);
         stroke = width * 5 / 100;
-        paint.setStrokeWidth(stroke);
+
+        drawPaint .setStrokeWidth(stroke);
+        erasePaint.setStrokeWidth(stroke);
     }
 
     OnTouchListener onTouch = new OnTouchListener() {
@@ -132,7 +143,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
     public void erase(Bitmap bitmap){
         eraseBitmap = bitmap;
-        paintEraser = new Paint();
+        erasePaint = new Paint();
         MaskImage.this.invalidate();
     }
 
@@ -140,23 +151,26 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     protected void onDraw(Canvas canvas)
     {
         //super.onDraw(canvas);
-
-        for (List<FPoint> track : points)
+        for (int tdx=0; tdx < points.size(); tdx++)
+//        for (List<FPoint> track : points)
         {
+            List<FPoint> track = points.get(tdx);
+
             if (track.size() > 1) {
                 for (int idx = 1; idx < track.size(); idx++) {
                     if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {
 
-                        paint.setColor(drawColor);
                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
                                 track.get(idx).x, track.get(idx).y,
-                                paint);
+                                drawPaint
+                                //(tdx % 2 == 0 ? drawPaint : erasePaint)
+                        );
 
-                        if(eraseBitmap!=null){
-                            paintEraser.setAlpha(0);
-                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);
-                        }
+//                        if(eraseBitmap!=null){
+//                            erasePaint.setAlpha(0);
+//                            erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+//                            canvas.drawBitmap(eraseBitmap, 0,0, erasePaint);
+//                        }
                     }
 
 

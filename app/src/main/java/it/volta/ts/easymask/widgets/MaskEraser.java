@@ -112,23 +112,28 @@ public class MaskEraser extends androidx.appcompat.widget.AppCompatImageView
     {
         //super.onDraw(canvas);
 
-        for (List<FPoint> track : points)
-        {
-            if (track.size() > 1) {
-                for (int idx = 1; idx < track.size(); idx++) {
-                    if(track.get(idx-1).eraser || track.get(idx).eraser) {
+        if (points != null) {
+            for (List<FPoint> track : points) {
+                if (track.size() > 1) {
+                    for (int idx = 1; idx < track.size(); idx++) {
+                        if (track.get(idx - 1).eraser || track.get(idx).eraser) {
 
-                        paint.setColor(eraseColor);
-                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
-                                track.get(idx).x, track.get(idx).y,
-                                paint);
-                        maskImage.erase(this.getDrawingCache());
+                            paint.setColor(eraseColor);
+                            canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
+                                    track.get(idx).x, track.get(idx).y,
+                                    paint);
+                        }
                     }
+                } else {
+
                 }
             }
-            else {
 
-            }
+//            try {
+//                maskImage.erase(this.getDrawingCache());
+//            } catch (Exception e) {
+//                System.out.println("eccezione");
+//            }
         }
     }
 
