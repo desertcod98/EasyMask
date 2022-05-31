@@ -67,6 +67,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         erasePaint.setColor(eraseColor);
         erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
+
+
         setOnTouchListener(onTouch);
     }
 
@@ -149,7 +151,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     protected void onDraw(Canvas canvas)
     {
         //super.onDraw(canvas);
-
         for (int tdx=0; tdx < points.size(); tdx++)
 //        for (List<FPoint> track : points)
         {

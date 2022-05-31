@@ -99,16 +99,23 @@ public class MaskActivity extends AppCompatActivity
     {
         newHeight = imgHeight;
         newWidth  = imgWidth;
+        float ratio;
 
         if (imgWidth > imgHeight) {
-            float ratio = (float) maxWidth / (float) imgWidth;
-            newWidth  = (int)((float) imgWidth  * ratio);
-            newHeight = (int)((float) imgHeight * ratio);
-        } else {
-            float ratio = (float) maxHeight / (float) imgHeight;
-            newWidth  = (int)((float) imgWidth  * ratio);
-            newHeight = (int)((float) imgHeight * ratio);
+            ratio = (float) maxWidth / (float) imgWidth;
+
+        } else if (imgHeight > imgWidth){
+            ratio = (float) maxHeight / (float) imgHeight;
+        }else{
+            if(maxWidth>maxWidth){
+                ratio = (float) maxHeight / (float) imgHeight;
+            }
+            else{
+                ratio = (float) maxWidth / (float) imgWidth;
+            }
         }
+        newWidth  = (int)((float) imgWidth  * ratio);
+        newHeight = (int)((float) imgHeight * ratio);
 
         GraphicUtil.applySize(imageLayout, newWidth, newHeight);
     }
@@ -135,7 +142,6 @@ public class MaskActivity extends AppCompatActivity
                         view.setImageBitmap(bitmap);
 
                         setDimens(imgWidth,imgHeight);
-                        //TODO Error: maskImage == null nella seconda scansione del qr
                         Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
                         drawable.setAlpha(100);
