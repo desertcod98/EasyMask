@@ -63,12 +63,12 @@
                 android:layout_centerHorizontal="true"
                 />
 
-            <it.volta.ts.easymask.widgets.MaskEraser
+            <!--it.volta.ts.easymask.widgets.MaskEraser
                 android:id="@+id/imgEraser"
                 android:layout_width ="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                />
+                /-->
         <!--/RelativeLayout-->
     </RelativeLayout>
 

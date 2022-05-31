@@ -26,7 +26,7 @@ public class MaskActivity extends AppCompatActivity
 {
     private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
     private MaskImage maskImage;
-    private MaskEraser maskEraser;
+//    private MaskEraser maskEraser;
     RelativeLayout imageLayout;
     private int screenHeight;
     private int screenWidth;
@@ -59,9 +59,9 @@ public class MaskActivity extends AppCompatActivity
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
 
-        maskEraser = findViewById(R.id.imgEraser);
-        maskEraser.setOnMaskTouch(onMaskEraserTouch);
-        maskEraser.setMaskImage(maskImage);
+//        maskEraser = findViewById(R.id.imgEraser);
+//        maskEraser.setOnMaskTouch(onMaskEraserTouch);
+//        maskEraser.setMaskImage(maskImage);
 
         loadImage(downloadedImg, url);
 
@@ -75,7 +75,7 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 1;
-                maskEraser.setEnabled(false);
+//                maskEraser.setEnabled(false);
                 maskImage.setEnabled(true);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
@@ -94,16 +94,16 @@ public class MaskActivity extends AppCompatActivity
         undo.setOnClickListener(view -> {
             if (ToolSelector.toolState == 1) {
                 maskImage.undo();
-            } else {
-                maskEraser.undo();
+//            } else {
+//                maskEraser.undo();
             }
         });
 
         redo.setOnClickListener(view -> {
             if (ToolSelector.toolState == 1) {
                 maskImage.redo();
-            } else {
-                maskEraser.redo();
+//            } else {
+//                maskEraser.redo();
             }
         });
 

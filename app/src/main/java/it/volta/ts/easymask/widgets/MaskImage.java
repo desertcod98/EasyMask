@@ -155,8 +155,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     {
 //        super.onDraw(canvas);
 
-        Bitmap base  = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
-        canvas.drawBitmap(base,0,0, new Paint());
+//        Bitmap base  = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
+//        canvas.drawBitmap(base,0,0, new Paint());
 
         for (int tdx=0; tdx < points.size(); tdx++)
         {
