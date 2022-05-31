@@ -36,7 +36,8 @@ public class MaskActivity extends AppCompatActivity
     private int newHeight, newWidth;
 
     private final double maxHeightRatio = 0.6;
-    private final double maxWidthRatio  = 0.9;
+    private final double maxWidthRatio  = 0.95;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,7 +52,7 @@ public class MaskActivity extends AppCompatActivity
         Bundle b = getIntent().getExtras();
         url = b.getString("url");
         downloadedImg = findViewById(R.id.imgSlot);
-        loadImage(downloadedImg, url);
+
 
         imageLayout = findViewById(R.id.image_layout);
 
@@ -62,6 +63,7 @@ public class MaskActivity extends AppCompatActivity
         maskEraser.setOnMaskTouch(onMaskEraserTouch);
         maskEraser.setMaskImage(maskImage);
 
+        loadImage(downloadedImg, url);
 
         brush     = findViewById(R.id.brush );
         eraser    = findViewById(R.id.eraser);
