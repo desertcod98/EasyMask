@@ -83,7 +83,7 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
-                maskEraser.setEnabled(true);
+//                maskEraser.setEnabled(true);
                 maskImage.setEnabled(false);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
@@ -109,13 +109,11 @@ public class MaskActivity extends AppCompatActivity
         } else if (imgHeight > imgWidth){
             ratio = (float) maxHeight / (float) imgHeight;
         }else{
-            if(maxWidth>maxWidth){
-                ratio = (float) maxHeight / (float) imgHeight;
-            }
-            else{
-                ratio = (float) maxWidth / (float) imgWidth;
-            }
+            if(maxWidth>maxWidth)
+                 ratio = (float) maxHeight / (float) imgHeight;
+            else ratio = (float) maxWidth / (float) imgWidth;
         }
+
         newWidth  = (int)((float) imgWidth  * ratio);
         newHeight = (int)((float) imgHeight * ratio);
 

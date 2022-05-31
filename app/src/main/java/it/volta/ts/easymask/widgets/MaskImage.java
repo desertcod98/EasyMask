@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
@@ -21,9 +22,8 @@ import it.volta.ts.easymask.tools.ToolSelector;
 
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 {
-    @ColorInt
-    int drawColor  = 0xffffff00;
-    int eraseColor = 0xffffffff;
+    @ColorInt int drawColor  = 0xffffff00;
+    @ColorInt int eraseColor = 0x00ffffff;
     int stroke;
 
     private OnMaskTouch onMaskTouch;
@@ -56,18 +56,19 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         points = new ArrayList<>();
 
         drawPaint = new Paint();
-        drawPaint.setAntiAlias(true);
+        drawPaint.setAntiAlias(false);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
+        drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setColor(drawColor);
 
         erasePaint = new Paint();
-        erasePaint.setAlpha(0);
-        erasePaint.setAntiAlias(true);
+        erasePaint.setAntiAlias(false);
         erasePaint.setStrokeCap(Paint.Cap.ROUND);
-        erasePaint.setColor(eraseColor);
+        erasePaint.setStyle(Paint.Style.STROKE);
+//        erasePaint.setColor(eraseColor);
         erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
-
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         setOnTouchListener(onTouch);
     }
@@ -143,42 +144,34 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 
     public void erase(Bitmap bitmap){
         eraseBitmap = bitmap;
-        erasePaint = new Paint();
+        erasePaint  = new Paint();
         MaskImage.this.invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas)
     {
-        //super.onDraw(canvas);
+//        super.onDraw(canvas);
+
+        Bitmap base  = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
+        canvas.drawBitmap(base,0,0, new Paint());
+
         for (int tdx=0; tdx < points.size(); tdx++)
-//        for (List<FPoint> track : points)
         {
             List<FPoint> track = points.get(tdx);
 
-            if (track.size() > 1) {
-                for (int idx = 1; idx < track.size(); idx++) {
-                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {
+            if (track.size() > 1)
+            {
+                Path path = new Path();
 
-                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
-                                track.get(idx).x, track.get(idx).y,
-                                drawPaint
-                                //(tdx % 2 == 0 ? drawPaint : erasePaint)
-                        );
-
-//                        if(eraseBitmap!=null){
-//                            erasePaint.setAlpha(0);
-//                            erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-//                            canvas.drawBitmap(eraseBitmap, 0,0, erasePaint);
-//                        }
-                    }
-
-
-                    }
-
+                for (int idx = 0; idx < track.size(); idx++)
+                {
+                    if (idx == 0)
+                         path.moveTo(track.get(idx).x, track.get(idx).y);
+                    else path.lineTo(track.get(idx).x, track.get(idx).y);
                 }
-            else {
 
+                canvas.drawPath(path, (tdx % 2 == 0 ? drawPaint : erasePaint));
             }
         }
     }
