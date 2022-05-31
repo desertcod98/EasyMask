@@ -24,23 +24,22 @@ import it.volta.ts.easymask.tools.ToolSelector;
 
 /**
  * https://stackoverflow.com/questions/6650398/android-imageview-zoom-in-and-zoom-out
- *
  */
 
-public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
-{
-    @ColorInt int drawColor  = 0xffffff00;
+public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
+    @ColorInt
+    int drawColor = 0xffffff00;
 
     int stroke;
     private OnMaskTouch onMaskTouch;
 
     List<List<FPoint>> points;
-    List<FPoint>       track;
+    List<FPoint> track;
     int position = 0;
-    List<FPoint>       trackToRedo;
+    List<FPoint> trackToRedo;
 
-    int    fingerCounter = 0;
-    boolean multiTouch   = false;
+    int fingerCounter = 0;
+    boolean multiTouch = false;
     int width, height;
     float fromX, fromY, toX, toY;
     Paint drawPaint, erasePaint;
@@ -60,8 +59,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         points = new ArrayList<>();
 
         drawPaint = new Paint();
@@ -83,30 +81,27 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        width  = MeasureSpec.getSize(widthMeasureSpec );
+        width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
         stroke = width * 5 / 100;
 
-        drawPaint .setStrokeWidth(stroke);
+        drawPaint.setStrokeWidth(stroke);
         erasePaint.setStrokeWidth(stroke);
     }
 
     OnTouchListener onTouch = new OnTouchListener() {
         @Override
-        public boolean onTouch(View view, MotionEvent event)
-        {
+        public boolean onTouch(View view, MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
 
-            switch(event.getAction() & MotionEvent.ACTION_MASK)
-            {
+            switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_POINTER_DOWN:
                     fingerCounter++;
-System.out.println("DOWN " + fingerCounter);
+                    System.out.println("DOWN " + fingerCounter);
 
                     if (fingerCounter == 1) {
                         fromX = x;
@@ -117,15 +112,15 @@ System.out.println("DOWN " + fingerCounter);
                         position++;
 
                         if (ToolSelector.toolState == 1)
-                             track.add(new FPoint(x,y, false));
-                        else track.add(new FPoint(x,y, true));
+                            track.add(new FPoint(x, y, false));
+                        else track.add(new FPoint(x, y, true));
 
                         if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x,y);
+                            onMaskTouch.onPoint(x, y);
                     } else {
                         multiTouch = true;
                         if (points.size() > 0)
-                            points.remove(points.size()-1);
+                            points.remove(points.size() - 1);
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -140,7 +135,7 @@ System.out.println("DOWN " + fingerCounter);
                     break;
                 case MotionEvent.ACTION_MOVE:
 
-System.out.println("MOVE " + fingerCounter);
+                    System.out.println("MOVE " + fingerCounter);
                     if (!multiTouch) {
                         toX = x;
                         toY = y;
@@ -148,10 +143,10 @@ System.out.println("MOVE " + fingerCounter);
                         fromX = x;
                         fromY = y;
                         if (ToolSelector.toolState == 1)
-                             track.add(new FPoint(x,y, false));
-                        else track.add(new FPoint(x,y, true));
+                            track.add(new FPoint(x, y, false));
+                        else track.add(new FPoint(x, y, true));
                         if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x,y);
+                            onMaskTouch.onPoint(x, y);
                     }
                     break;
             }
@@ -165,22 +160,18 @@ System.out.println("MOVE " + fingerCounter);
     //----------------------------------------------------------------------------------------------
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
-        for (int tdx=0; tdx < points.size(); tdx++)
-        {
+    protected void onDraw(Canvas canvas) {
+        for (int tdx = 0; tdx < points.size(); tdx++) {
             List<FPoint> track = points.get(tdx);
 
-            if (track.size() > 1)
-            {
+            if (track.size() > 1) {
                 Path path = new Path();
-                for (int idx = 0; idx < track.size(); idx++)
-                {
+                for (int idx = 0; idx < track.size(); idx++) {
                     if (idx == 0)
-                         path.moveTo(track.get(idx).x, track.get(idx).y);
+                        path.moveTo(track.get(idx).x, track.get(idx).y);
                     else path.lineTo(track.get(idx).x, track.get(idx).y);
                 }
-                canvas.drawPath(path, (tdx % 2 == 0 ? drawPaint : erasePaint));
+                canvas.drawPath(path, (points.get(tdx).get(0).eraser == false ? drawPaint : erasePaint));
             }
         }
     }
@@ -191,23 +182,22 @@ System.out.println("MOVE " + fingerCounter);
         this.onMaskTouch = onMaskTouch;
     }
 
-    public interface OnMaskTouch
-    {
+    public interface OnMaskTouch {
         void onPoint(float x, float y);
     }
 
     //----------------------------------------------------------------------------------------------
 
-    public void undo () {
+    public void undo() {
         if (position > 0) {
-            trackToRedo = points.get(position-1);
-            points.remove(position-1);
+            trackToRedo = points.get(position - 1);
+            points.remove(position - 1);
             position--;
             MaskImage.this.invalidate();
         }
     }
 
-    public void redo () {
+    public void redo() {
         points.add(trackToRedo);
         MaskImage.this.invalidate();
         position++;

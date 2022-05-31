@@ -27,7 +27,7 @@ public class MaskActivity extends AppCompatActivity
     private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
     private MaskImage maskImage;
     private RelativeLayout imageLayout;
-    private Button zoomIn, zoomOut;
+    private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
 
     private int screenHeight;
@@ -72,8 +72,6 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 1;
-//                maskEraser.setEnabled(false);
-                maskImage.setEnabled(true);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
@@ -82,19 +80,18 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
-                maskImage.setEnabled(false);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
 
         undo.setOnClickListener(view -> {
-            if (ToolSelector.toolState == 1)
-                maskImage.undo();
+            maskImage.undo();
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         });
 
         redo.setOnClickListener(view -> {
-            if (ToolSelector.toolState == 1)
-                maskImage.redo();
+            maskImage.redo();
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +178,8 @@ public class MaskActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+
             float scale = downloadedImg.getScaleX();
 
             switch (v.getId()) {

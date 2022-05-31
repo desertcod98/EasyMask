@@ -37,7 +37,7 @@
         android:layout_width     ="400dp"
         android:layout_height    ="400dp"
         android:layout_below     ="@+id/header"
-        android:layout_marginTop ="10dp"
+        android:layout_marginTop ="35dp"
         android:layout_centerHorizontal="true"
         android:background       ="#80008000"
         android:layout_marginBottom="10dp"
@@ -130,19 +130,31 @@
             >
         </ImageView>
 
-        <Button
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        >
+        <ImageView
             android:id="@+id/zoom_in"
             android:layout_width    ="@dimen/mask_buttons_width"
             android:layout_height   ="@dimen/mask_buttons_height"
-            android:layout_marginStart ="@dimen/mask_buttons_mSE"
-            android:text="+"
+            android:layout_marginEnd ="@dimen/mask_buttons_mSE"
+            android:src="@drawable/btnzoomin"
+            android:hapticFeedbackEnabled="true"
             />
-        <Button
+        <ImageView
             android:id="@+id/zoom_out"
             android:layout_width    ="@dimen/mask_buttons_width"
             android:layout_height   ="@dimen/mask_buttons_height"
             android:layout_marginStart ="@dimen/mask_buttons_mSE"
-            android:text="-"
+            android:src="@drawable/btnzoomout"
+            android:hapticFeedbackEnabled="true"
             />
     </LinearLayout>
 
