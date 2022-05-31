@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,20 +22,25 @@ import java.util.List;
 import it.volta.ts.easymask.obj.FPoint;
 import it.volta.ts.easymask.tools.ToolSelector;
 
+/**
+ * https://stackoverflow.com/questions/6650398/android-imageview-zoom-in-and-zoom-out
+ *
+ */
+
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
 {
     @ColorInt int drawColor  = 0xffffff00;
-    @ColorInt int eraseColor = 0x00ffffff;
-    int stroke;
 
+    int stroke;
     private OnMaskTouch onMaskTouch;
-    private Bitmap eraseBitmap;
 
     List<List<FPoint>> points;
     List<FPoint>       track;
     int position = 0;
     List<FPoint>       trackToRedo;
 
+    int    fingerCounter = 0;
+    boolean multiTouch   = false;
     int width, height;
     float fromX, fromY, toX, toY;
     Paint drawPaint, erasePaint;
@@ -67,12 +74,12 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         erasePaint.setAntiAlias(false);
         erasePaint.setStrokeCap(Paint.Cap.ROUND);
         erasePaint.setStyle(Paint.Style.STROKE);
-//        erasePaint.setColor(eraseColor);
         erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-
         setOnTouchListener(onTouch);
+
+//        drawable = new BitmapDrawable(getResources(), this.getDrawingCache());
     }
 
     @Override
@@ -94,47 +101,58 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
             float x = event.getX();
             float y = event.getY();
 
-            switch(event.getAction())
+            switch(event.getAction() & MotionEvent.ACTION_MASK)
             {
                 case MotionEvent.ACTION_DOWN:
-                    fromX = x;
-                    fromY = y;
-                    track = new ArrayList<>();
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    fingerCounter++;
+System.out.println("DOWN " + fingerCounter);
 
-                    points.add(track);
-                    position++;
+                    if (fingerCounter == 1) {
+                        fromX = x;
+                        fromY = y;
+                        track = new ArrayList<>();
 
-                    if (ToolSelector.toolState == 1)
-                    {
-                        track.add(new FPoint(x,y, false));
+                        points.add(track);
+                        position++;
+
+                        if (ToolSelector.toolState == 1)
+                             track.add(new FPoint(x,y, false));
+                        else track.add(new FPoint(x,y, true));
+
+                        if (onMaskTouch != null)
+                            onMaskTouch.onPoint(x,y);
                     } else {
-                        track.add(new FPoint(x,y, true));
+                        multiTouch = true;
+                        if (points.size() > 0)
+                            points.remove(points.size()-1);
                     }
-                    if (onMaskTouch != null)
-                        onMaskTouch.onPoint(x,y);
                     break;
                 case MotionEvent.ACTION_UP:
-                    if (ToolSelector.toolState != 1)
-                    {
-
+                    fingerCounter--;
+                    if (multiTouch) {
+                        multiTouch = false;
+                        fingerCounter = 0;
                     }
-                    //show();
+
+                    System.out.println("UP   " + fingerCounter);
+
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    toX = x;
-                    toY = y;
 
-                    fromX = x;
-                    fromY = y;
-                    if (ToolSelector.toolState == 1)
-                    {
-                        track.add(new FPoint(x,y, false));
-                    } else {
-                        track.add(new FPoint(x,y, true));
+System.out.println("MOVE " + fingerCounter);
+                    if (!multiTouch) {
+                        toX = x;
+                        toY = y;
+
+                        fromX = x;
+                        fromY = y;
+                        if (ToolSelector.toolState == 1)
+                             track.add(new FPoint(x,y, false));
+                        else track.add(new FPoint(x,y, true));
+                        if (onMaskTouch != null)
+                            onMaskTouch.onPoint(x,y);
                     }
-                    if (onMaskTouch != null)
-                        onMaskTouch.onPoint(x,y);
-
                     break;
             }
 
@@ -144,20 +162,11 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
         }
     };
 
-    public void erase(Bitmap bitmap){
-        eraseBitmap = bitmap;
-        erasePaint  = new Paint();
-        MaskImage.this.invalidate();
-    }
+    //----------------------------------------------------------------------------------------------
 
     @Override
     protected void onDraw(Canvas canvas)
     {
-//        super.onDraw(canvas);
-
-//        Bitmap base  = Bitmap.createBitmap(this.width, this.height, Bitmap.Config.ARGB_8888);
-//        canvas.drawBitmap(base,0,0, new Paint());
-
         for (int tdx=0; tdx < points.size(); tdx++)
         {
             List<FPoint> track = points.get(tdx);
@@ -165,14 +174,12 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView
             if (track.size() > 1)
             {
                 Path path = new Path();
-
                 for (int idx = 0; idx < track.size(); idx++)
                 {
                     if (idx == 0)
                          path.moveTo(track.get(idx).x, track.get(idx).y);
                     else path.lineTo(track.get(idx).x, track.get(idx).y);
                 }
-
                 canvas.drawPath(path, (tdx % 2 == 0 ? drawPaint : erasePaint));
             }
         }

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -19,21 +20,22 @@ import com.bumptech.glide.request.transition.Transition;
 import it.volta.ts.easymask.R;
 import it.volta.ts.easymask.tools.ToolSelector;
 import it.volta.ts.easymask.util.GraphicUtil;
-import it.volta.ts.easymask.widgets.MaskEraser;
 import it.volta.ts.easymask.widgets.MaskImage;
 
 public class MaskActivity extends AppCompatActivity
 {
     private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
     private MaskImage maskImage;
-//    private MaskEraser maskEraser;
-    RelativeLayout imageLayout;
+    private RelativeLayout imageLayout;
+    private Button zoomIn, zoomOut;
+    private BitmapDrawable sourceImage;
+
     private int screenHeight;
     private int screenWidth;
     private String url;
-    private int maxHeight, maxWidth;
-    private int imgHeight, imgWidth;
-    private int newHeight, newWidth;
+    private int    maxHeight, maxWidth;
+    private int    imgHeight, imgWidth;
+    private int    newHeight, newWidth;
 
     private final double maxHeightRatio = 0.6;
     private final double maxWidthRatio  = 0.95;
@@ -51,17 +53,12 @@ public class MaskActivity extends AppCompatActivity
 
         Bundle b = getIntent().getExtras();
         url = b.getString("url");
-        downloadedImg = findViewById(R.id.imgSlot);
-
-
-        imageLayout = findViewById(R.id.image_layout);
+        downloadedImg = findViewById(R.id.imgSlot     );
+        imageLayout   = findViewById(R.id.image_layout);
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setOnMaskTouch(onMaskTouch);
-
-//        maskEraser = findViewById(R.id.imgEraser);
-//        maskEraser.setOnMaskTouch(onMaskEraserTouch);
-//        maskEraser.setMaskImage(maskImage);
+        maskImage.setFocusable(true);
 
         loadImage(downloadedImg, url);
 
@@ -85,26 +82,19 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
-//                maskEraser.setEnabled(true);
                 maskImage.setEnabled(false);
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
 
         undo.setOnClickListener(view -> {
-            if (ToolSelector.toolState == 1) {
+            if (ToolSelector.toolState == 1)
                 maskImage.undo();
-//            } else {
-//                maskEraser.undo();
-            }
         });
 
         redo.setOnClickListener(view -> {
-            if (ToolSelector.toolState == 1) {
+            if (ToolSelector.toolState == 1)
                 maskImage.redo();
-//            } else {
-//                maskEraser.redo();
-            }
         });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +103,11 @@ public class MaskActivity extends AppCompatActivity
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
+
+        zoomIn  = findViewById(R.id.zoom_in );
+        zoomOut = findViewById(R.id.zoom_out);
+        zoomIn .setOnClickListener(onZoom);
+        zoomOut.setOnClickListener(onZoom);
     }
 
     private void setDimens(int imgWidth, int imgHeight)
@@ -161,9 +156,9 @@ public class MaskActivity extends AppCompatActivity
 
                         setDimens(imgWidth,imgHeight);
                         Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
-                        BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-                        drawable.setAlpha(100);
-                        maskImage.setImageDrawable(drawable);
+                        sourceImage = new BitmapDrawable(getResources(), bitmap);
+                        sourceImage.setAlpha(100);
+                        maskImage.setImageDrawable(sourceImage);
                     }
 
                     @Override
@@ -174,23 +169,34 @@ public class MaskActivity extends AppCompatActivity
 
     //-----------------------------------------------------------------------------------------
 
-
-    MaskEraser.OnMaskTouch onMaskEraserTouch = new MaskEraser.OnMaskTouch() {
-        @Override
-        public void onPoint(float x, float y) {
-
-        }
-    };
-
-
     MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
     {
         @Override
         public void onPoint(float x, float y) {
-            System.out.println(x + ", " + y);
+//            System.out.println(x + ", " + y);
         }
     };
 
+    View.OnClickListener onZoom = new View.OnClickListener() {
+        @Override
+        public void onClick(View v)
+        {
+            float scale = downloadedImg.getScaleX();
 
+            switch (v.getId()) {
+                case R.id.zoom_in:
+                    scale += 0.1f;
+                    break;
+                case R.id.zoom_out:
+                    if (downloadedImg.getScaleX() > 1f)
+                        scale -= 0.1f;
+                    break;
+            }
 
+            downloadedImg.setScaleX(scale);
+            downloadedImg.setScaleY(scale);
+            maskImage    .setScaleX(scale);
+            maskImage    .setScaleY(scale);
+        }
+    };
 }

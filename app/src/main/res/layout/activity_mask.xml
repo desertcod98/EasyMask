@@ -33,14 +33,15 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id           ="@+id/image_layout"
-        android:layout_width ="400dp"
-        android:layout_height="400dp"
-        android:layout_below ="@+id/header"
-        android:layout_marginTop="10dp"
+        android:id               ="@+id/image_layout"
+        android:layout_width     ="400dp"
+        android:layout_height    ="400dp"
+        android:layout_below     ="@+id/header"
+        android:layout_marginTop ="10dp"
         android:layout_centerHorizontal="true"
-        android:background="#80008000"
+        android:background       ="#80008000"
         android:layout_marginBottom="10dp"
+        android:splitMotionEvents="true"
         >
         <!--RelativeLayout
             android:layout_width="wrap_content"
@@ -56,12 +57,13 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/placeholder"
                 />
-            <it.volta.ts.easymask.widgets.MaskImage
-                android:id="@+id/imgMask"
-                android:layout_width ="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                />
+
+        <it.volta.ts.easymask.widgets.MaskImage
+            android:id="@+id/imgMask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            />
 
             <!--it.volta.ts.easymask.widgets.MaskEraser
                 android:id="@+id/imgEraser"
@@ -127,6 +129,21 @@
             android:layout_marginTop="5dp"
             >
         </ImageView>
+
+        <Button
+            android:id="@+id/zoom_in"
+            android:layout_width    ="@dimen/mask_buttons_width"
+            android:layout_height   ="@dimen/mask_buttons_height"
+            android:layout_marginStart ="@dimen/mask_buttons_mSE"
+            android:text="+"
+            />
+        <Button
+            android:id="@+id/zoom_out"
+            android:layout_width    ="@dimen/mask_buttons_width"
+            android:layout_height   ="@dimen/mask_buttons_height"
+            android:layout_marginStart ="@dimen/mask_buttons_mSE"
+            android:text="-"
+            />
     </LinearLayout>
 
 <!--    <ImageView-->
