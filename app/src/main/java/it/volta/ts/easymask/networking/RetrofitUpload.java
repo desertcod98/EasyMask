@@ -1,5 +1,7 @@
 package it.volta.ts.easymask.networking;
 
+import android.util.Log;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +28,6 @@ public class RetrofitUpload {
         action = RequestBody.create(actionString,MediaType.parse("multipart/form-data"));
         code = RequestBody.create(codeString,MediaType.parse("multipart/form-data"));
         RequestBody requestFile = RequestBody.create(file ,MediaType.parse("multipart/form-data"));
-        //TODO
         MultipartBody.Part imageForm = MultipartBody.Part.createFormData("file_upload",file.getName(),requestFile);
         services = new RetrofitServices() {
             @Override
@@ -35,11 +36,15 @@ public class RetrofitUpload {
             }
         };
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://vuo.elettra.eu/vuo/cgi-bin/")
-//                .baseUrl("https://webhook.site/")
-                .addConverterFactory(GsonConverterFactory.create()).client(okHttpClient)
+//                .baseUrl("https://vuo.elettra.eu/vuo/cgi-bin/")
+                .baseUrl("https://httpbin.org/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create()).client(client)
                 .build();
         services = retrofit.create(RetrofitServices.class);
 
@@ -48,12 +53,10 @@ public class RetrofitUpload {
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-
             }
         });
 
