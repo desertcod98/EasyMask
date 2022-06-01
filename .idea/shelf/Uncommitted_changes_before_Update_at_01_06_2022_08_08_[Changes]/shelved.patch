@@ -1,0 +1,299 @@
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]" date="1653383075469" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 11:04 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,64 +0,0 @@
+-Index: app/build.gradle
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>plugins {\r\n    id 'com.android.application'\r\n}\r\n\r\n\r\nandroid {\r\n    compileSdk 32\r\n\r\n    defaultConfig {\r\n        applicationId \"it.volta.ts.easymask\"\r\n        minSdk 26\r\n        targetSdk 32\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'\r\n    implementation 'androidx.appcompat:appcompat:1.4.1'\r\n    implementation 'com.google.android.material:material:1.6.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n}\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/build.gradle b/app/build.gradle
+---- a/app/build.gradle	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/app/build.gradle	(date 1653376258618)
+-@@ -29,6 +29,8 @@
+- }
+- 
+- dependencies {
+-+    implementation 'com.github.bumptech.glide:glide:4.13.0' //img downloading library
+-+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+-     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+-     implementation 'androidx.appcompat:appcompat:1.4.1'
+-     implementation 'com.google.android.material:material:1.6.0'
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".maskUtility.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:src=\"\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653376717319)
+-@@ -7,7 +7,7 @@
+-     android:layout_height="match_parent"
+-     android:orientation="vertical"
+-     android:background="@color/white"
+--    tools:context=".maskUtility.MaskActivity">
+-+    tools:context=".activities.MaskActivity">
+- 
+-     <ImageView
+-         android:layout_width="wrap_content"
+-Index: .idea/misc.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml\" value=\"0.26766304347826086\" />\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_qr_capture.xml\" value=\"0.1609375\" />\r\n        <entry key=\"app/src/main/res/drawable-v24/ic_launcher_foreground.xml\" value=\"0.3365\" />\r\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.27203647416413373\" />\r\n        <entry key=\"app/src/main/res/layout/activity_mask.xml\" value=\"0.28442028985507245\" />\r\n        <entry key=\"app/src/main/res/layout/activity_qr_capture.xml\" value=\"0.1\" />\r\n        <entry key=\"app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml\" value=\"0.3365\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"Android Studio default JDK\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+---- a/.idea/misc.xml	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/.idea/misc.xml	(date 1653376810166)
+-@@ -3,13 +3,8 @@
+-   <component name="DesignSurface">
+-     <option name="filePathToZoomLevelMap">
+-       <map>
+--        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.26766304347826086" />
+--        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_qr_capture.xml" value="0.1609375" />
+--        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3365" />
+--        <entry key="app/src/main/res/layout/activity_main.xml" value="0.27203647416413373" />
+--        <entry key="app/src/main/res/layout/activity_mask.xml" value="0.28442028985507245" />
+--        <entry key="app/src/main/res/layout/activity_qr_capture.xml" value="0.1" />
+--        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3365" />
+-+        <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.15450861195542046" />
+-+        <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_mask.xml" value="0.16236068895643363" />
+-       </map>
+-     </option>
+-   </component>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]" date="1653381848211" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 10:44 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]" date="1653376833543" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 09:20 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]" date="1653376247319" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/2022 09:10 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,18 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imgSlot\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"300sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"120sp\"\r\n        android:src=\"@drawable/placeholder\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_marginLeft=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/brush\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginLeft=\"115sp\"\r\n        android:src=\"@drawable/brush\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/eraser\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginRight=\"115sp\"\r\n        android:src=\"@drawable/eraser\"\r\n        android:layout_alignParentRight=\"true\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnSave\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"150sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginBottom=\"45sp\"\r\n        android:src=\"@drawable/savebtn\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision fc6646c6d4e6e6f34de11a1002f25de087ddf541)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653380751595)
+-@@ -1,7 +1,6 @@
+- <?xml version="1.0" encoding="utf-8"?>
+- <RelativeLayout
+-     xmlns:android="http://schemas.android.com/apk/res/android"
+--    xmlns:android="http://schemas.android.com/apk/res/android"
+-     xmlns:tools="http://schemas.android.com/tools"
+-     android:layout_width="match_parent"
+-     android:layout_height="match_parent"
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,79 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"@color/white\"\n    tools:context=\".activities.MaskActivity\">\n\n    <ImageView\n        android:id=\"@+id/imgSlot\"\n        android:layout_width=\"350sp\"\n        android:layout_height=\"350sp\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"80sp\"\n        android:src=\"@drawable/placeholder\">\n\n    </ImageView>\n\n    <ImageView\n        android:layout_width=\"350sp\"\n        android:layout_height=\"50sp\"\n        android:src=\"@drawable/toolbar\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"440sp\">\n\n    </ImageView>\n\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 856adaafd860cc381695cf139cdcf149777e6ce6)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653380423171)
+-@@ -11,20 +11,63 @@
+- 
+-     <ImageView
+-         android:id="@+id/imgSlot"
+--        android:layout_width="350sp"
+--        android:layout_height="350sp"
+-+        android:layout_width="300sp"
+-+        android:layout_height="300sp"
+-         android:layout_centerHorizontal="true"
+--        android:layout_marginTop="80sp"
+-+        android:layout_marginTop="120sp"
+-         android:src="@drawable/placeholder">
+- 
+-     </ImageView>
+- 
+-     <ImageView
+--        android:layout_width="350sp"
+-+        android:layout_width="150sp"
+-         android:layout_height="50sp"
+-         android:src="@drawable/toolbar"
+-+        android:layout_marginLeft="55sp"
+-+        android:layout_marginTop="430sp">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:layout_width="150sp"
+-+        android:layout_height="50sp"
+-+        android:src="@drawable/toolbar"
+-+        android:layout_alignParentRight="true"
+-+        android:layout_marginRight="55sp"
+-+        android:layout_marginTop="430sp">
+-+
+-+    </ImageView>
+-+
+-+
+-+    <ImageView
+-+        android:id="@+id/brush"
+-+        android:layout_width="30sp"
+-+        android:layout_height="30sp"
+-+        android:layout_marginTop="440sp"
+-+        android:layout_marginLeft="115sp"
+-+        android:src="@drawable/brush">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:id="@+id/eraser"
+-+        android:layout_width="30sp"
+-+        android:layout_height="30sp"
+-+        android:layout_marginTop="440sp"
+-+        android:layout_marginRight="115sp"
+-+        android:src="@drawable/eraser"
+-+        android:layout_alignParentRight="true">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:id="@+id/btnSave"
+-+        android:layout_width="300sp"
+-+        android:layout_height="150sp"
+-         android:layout_centerHorizontal="true"
+--        android:layout_marginTop="440sp">
+-+        android:layout_alignParentBottom="true"
+-+        android:layout_marginBottom="45sp"
+-+        android:src="@drawable/savebtn">
+- 
+-     </ImageView>
+- 
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]" date="1653380438707" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/22, 10:20 AM [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
++++ /dev/null	(revision 9978478e485c4dcafe182d45527a67aeee641f56)
+@@ -1,48 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"100sp\"\r\n        android:layout_height=\"100sp\"\r\n        android:src=\"@drawable/logo\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"15sp\">\r\n\r\n    </ImageView>\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imgSlot\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"300sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"120sp\"\r\n        android:src=\"@drawable/placeholder\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_marginLeft=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/brush\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginLeft=\"115sp\"\r\n        android:src=\"@drawable/brush\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/eraser\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginRight=\"115sp\"\r\n        android:src=\"@drawable/eraser\"\r\n        android:layout_alignParentRight=\"true\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnSave\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"150sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginBottom=\"45sp\"\r\n        android:src=\"@drawable/savebtn\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653381917521)
+-@@ -32,7 +32,7 @@
+-         android:layout_width="300sp"
+-         android:layout_height="50sp"
+-         android:src="@drawable/toolbar"
+--        android:layout_marginLeft="55sp"
+-+        android:layout_centerHorizontal="true"
+-         android:layout_marginTop="430sp">
+- 
+-     </ImageView>
+-Index: .idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ /dev/null	(revision 71406386270664a192128f994801df6d6cba8e98)
+-@@ -1,9 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Merge_at_24_05_22,_9_12_AM_[Default_Changelist]" date="1653376403529" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22,_9_12_AM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Merge at 24/05/22, 9:12 AM [Default Changelist]" />
+--  <binary>
+--    <option name="BEFORE_PATH" value="app/src/main/res/drawable/placeholder-image-square.jpeg" />
+--    <option name="AFTER_PATH" />
+--    <option name="SHELVED_PATH" />
+--  </binary>
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ /dev/null	(revision 71406386270664a192128f994801df6d6cba8e98)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Checkout_at_24_05_22,_9_13_AM_[Default_Changelist]" date="1653376415573" recycled="false" toDelete="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22,_9_13_AM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/22, 9:13 AM [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch
+deleted file mode 100644

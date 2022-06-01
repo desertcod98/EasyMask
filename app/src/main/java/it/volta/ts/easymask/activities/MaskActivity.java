@@ -190,7 +190,7 @@ public class MaskActivity extends AppCompatActivity
             }
 
             System.out.println(maskImage.getStrokeWidthConst());
-            maskImage.setStrokeWidth(scale*maskImage.getStrokeWidthConst());
+            maskImage.setStrokeWidth((1-(scale-1))*maskImage.getStrokeWidthConst());
             downloadedImg.setScaleX(scale);
             downloadedImg.setScaleY(scale);
             maskImage    .setScaleX(scale);
