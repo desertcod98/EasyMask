@@ -30,6 +30,7 @@ public class MaskActivity extends AppCompatActivity
     private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
 
+
     private int screenHeight;
     private int screenWidth;
     private String url;
@@ -57,7 +58,6 @@ public class MaskActivity extends AppCompatActivity
         imageLayout   = findViewById(R.id.image_layout);
 
         maskImage = findViewById(R.id.imgMask);
-        maskImage.setOnMaskTouch(onMaskTouch);
         maskImage.setFocusable(true);
 
         loadImage(downloadedImg, url);
@@ -72,6 +72,8 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 1;
+                brush.setColorFilter(0x50000000);
+                eraser.clearColorFilter();
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
@@ -80,6 +82,8 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 ToolSelector.toolState = 0;
+                eraser.setColorFilter(0x50000000);
+                brush.clearColorFilter();
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
@@ -166,13 +170,6 @@ public class MaskActivity extends AppCompatActivity
 
     //-----------------------------------------------------------------------------------------
 
-    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()
-    {
-        @Override
-        public void onPoint(float x, float y) {
-//            System.out.println(x + ", " + y);
-        }
-    };
 
     View.OnClickListener onZoom = new View.OnClickListener() {
         @Override
@@ -192,6 +189,8 @@ public class MaskActivity extends AppCompatActivity
                     break;
             }
 
+            System.out.println(maskImage.getStrokeWidthConst());
+            maskImage.setStrokeWidth(scale*maskImage.getStrokeWidthConst());
             downloadedImg.setScaleX(scale);
             downloadedImg.setScaleY(scale);
             maskImage    .setScaleX(scale);

@@ -5,13 +5,13 @@ import android.graphics.Bitmap;
 
 import java.io.File;
 
-public class fileWriter {
+public class FileWriter {
     private final String dirName = "imgs";
     private String dirPath;
     private Context context;
     private File dir;
 
-    public fileWriter(Context context){
+    public FileWriter(Context context){
         this.context = context;
         dir = new File(context.getFilesDir(),dirName);
         if(!dir.exists()){

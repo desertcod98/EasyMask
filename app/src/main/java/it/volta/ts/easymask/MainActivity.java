@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
         intentIntegrator.setPrompt("Scan a barcode or a QR Code");
         intentIntegrator.setOrientationLocked(false);
+        intentIntegrator.setBeepEnabled(false);
 
 
         btn = findViewById(R.id.btnAct);

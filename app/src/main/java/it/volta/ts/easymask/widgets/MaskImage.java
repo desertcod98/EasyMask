@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Stack;
 
 import it.volta.ts.easymask.obj.FPoint;
+import it.volta.ts.easymask.obj.Track;
 import it.volta.ts.easymask.tools.ToolSelector;
 
 /**
@@ -31,23 +32,20 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @ColorInt
     private int drawColor = 0xffffff00;
 
-    private int stroke;
-    private OnMaskTouch onMaskTouch;
+    private float stroke;
 
-    private List<List<FPoint>> points;
-    private List<FPoint> track;
+    private List<Track> points;
+    private Track track;
 
 
     private int position = 0;
-    private Stack<List<FPoint>> pointsToRedo;
-    private List<FPoint> trackToRedo;
+    private Stack<Track> pointsToRedo;
+    private Track trackToRedo;
 
-
-    private int fingerCounter = 0;
-    private boolean multiTouch = false;
     private int width, height;
     private float fromX, fromY, toX, toY;
     private Paint drawPaint, erasePaint;
+    private int fingerCount;
 
     public MaskImage(Context context) {
         super(context);
@@ -91,10 +89,13 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
-        stroke = width * 5 / 100;
 
-        drawPaint.setStrokeWidth(stroke);
-        erasePaint.setStrokeWidth(stroke);
+        if(drawPaint.getStrokeWidth() == 0 || erasePaint.getStrokeWidth() == 0){
+            stroke = width * 5 / 100;
+
+            drawPaint.setStrokeWidth(stroke);
+            erasePaint.setStrokeWidth(stroke);
+        }
     }
 
     OnTouchListener onTouch = new OnTouchListener() {
@@ -103,63 +104,57 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
             float x = event.getX();
             float y = event.getY();
 
-            switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                case MotionEvent.ACTION_POINTER_DOWN:
-                    fingerCounter++;
-                    System.out.println("DOWN " + fingerCounter);
 
-                    if (fingerCounter == 1) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (event.getPointerCount() == 1) {
                         fromX = x;
                         fromY = y;
-                        track = new ArrayList<>();
+                        track = new Track();
 
                         points.add(track);
                         position++;
 
                         if (ToolSelector.toolState == 1)
-                            track.add(new FPoint(x, y, false));
-                        else track.add(new FPoint(x, y, true));
+                            track.setEraser(false);
+                        else track.setEraser(true);
+                        track.getTrackList().add(new FPoint(x, y));
 
-                        if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x, y);
-                    } else {
-                        multiTouch = true;
-                        if (points.size() > 0)
-                            points.remove(points.size() - 1);
                     }
+                    fingerCount = event.getPointerCount();
                     break;
                 case MotionEvent.ACTION_UP:
-                    fingerCounter--;
-                    if (multiTouch) {
-                        multiTouch = false;
-                        fingerCounter = 0;
-                    }
 
-                    System.out.println("UP   " + fingerCounter);
 
                     break;
                 case MotionEvent.ACTION_MOVE:
-
-                    System.out.println("MOVE " + fingerCounter);
-                    if (!multiTouch) {
+                    if (event.getPointerCount() == 1) {
                         toX = x;
                         toY = y;
 
                         fromX = x;
                         fromY = y;
-                        if (ToolSelector.toolState == 1)
-                            track.add(new FPoint(x, y, false));
-                        else track.add(new FPoint(x, y, true));
-                        if (onMaskTouch != null)
-                            onMaskTouch.onPoint(x, y);
+                        if (ToolSelector.toolState == 1){
+                            track.setEraser(false);
+                        }
+                        else {
+                            track.setEraser(true);
+                        }
+                        track.getTrackList().add(new FPoint(x, y));
                     }
-                    break;
+                    else{
+                        if(fingerCount == 1){
+                            fingerCount = 2;
+                            points.remove(points.size()-1);
+                            position--;
+                        }
+
+                    }
+                    MaskImage.this.invalidate();
+
+
             }
-
-            MaskImage.this.invalidate();
             return true;
-
         }
     };
 
@@ -168,31 +163,20 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         for (int tdx = 0; tdx < points.size(); tdx++) {
-            List<FPoint> track = points.get(tdx);
+            Track track = new Track();
+            track.setTrackList(points.get(tdx).getTrackList());
 
-            if (track != null && track.size() > 1) {
+            if (track != null && track.getTrackList().size() > 1) {
                 Path path = new Path();
-                for (int idx = 0; idx < track.size(); idx++) {
+                for (int idx = 0; idx < track.getTrackList().size(); idx++) {
                     if (idx == 0)
-                        path.moveTo(track.get(idx).x, track.get(idx).y);
-                    else path.lineTo(track.get(idx).x, track.get(idx).y);
+                        path.moveTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
+                    else path.lineTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
                 }
-                canvas.drawPath(path, (points.get(tdx).get(0).eraser  ? erasePaint : drawPaint));
+                canvas.drawPath(path, (points.get(tdx).isEraser() ? erasePaint : drawPaint));
             }
         }
     }
-
-    //----------------------------------------------------------------------------------------------
-
-    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {
-        this.onMaskTouch = onMaskTouch;
-    }
-
-    public interface OnMaskTouch {
-        void onPoint(float x, float y);
-    }
-
-    //----------------------------------------------------------------------------------------------
 
     public void undo() {
         if (position > 0) {
@@ -202,6 +186,15 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
             position--;
             MaskImage.this.invalidate();
         }
+    }
+
+    public void setStrokeWidth(float strokeWidth) {
+        erasePaint.setStrokeWidth(stroke);
+        drawPaint.setStrokeWidth(stroke);
+    }
+
+    public float getStrokeWidthConst(){
+        return stroke;
     }
 
     public void redo() {
@@ -214,3 +207,4 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     }
 
 }
+

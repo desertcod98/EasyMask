@@ -4,8 +4,7 @@ public class FPoint {
     public float x,y;
     public boolean eraser;
 
-    public FPoint(float x, float y, boolean eraser) {
-        this.eraser = eraser;
+    public FPoint(float x, float y) {
         this.x = x;
         this.y = y;
     }
