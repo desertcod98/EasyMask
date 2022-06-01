@@ -30,7 +30,7 @@ import it.volta.ts.easymask.tools.ToolSelector;
 
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @ColorInt
-    private int drawColor = 0xffffff00;
+    private int drawColor = 0x50ff0000;
 
     private float stroke = 50;
 

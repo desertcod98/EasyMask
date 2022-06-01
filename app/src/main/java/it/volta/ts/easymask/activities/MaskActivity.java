@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.slider.Slider;
 
 import it.volta.ts.easymask.R;
+import it.volta.ts.easymask.bean.Stats;
 import it.volta.ts.easymask.tools.ToolSelector;
 import it.volta.ts.easymask.util.GraphicUtil;
 import it.volta.ts.easymask.widgets.MaskImage;
@@ -112,6 +114,7 @@ public class MaskActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                Toast.makeText(MaskActivity.this, ("Coverage percentage: " + Stats.getDimensStats(downloadedImg.getWidth(), downloadedImg.getHeight(), maskImage) + "%"), Toast.LENGTH_SHORT).show();
             }
         });
 
