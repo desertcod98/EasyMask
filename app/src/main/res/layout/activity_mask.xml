@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".activities.MaskActivity">
@@ -62,8 +62,7 @@
             android:id="@+id/imgMask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            />
+            android:layout_centerHorizontal="true" />
 
 
         <!--/RelativeLayout-->
@@ -135,11 +134,24 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="150dp"
         >
+        <com.google.android.material.slider.Slider
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/strokeSlider"
+            app:trackColor="#3880C8"
+            app:thumbColor="@color/black"
+            android:valueFrom="0.1"
+            android:valueTo="2.0"
+            android:value="1"
+            android:stepSize="0.1">
+        </com.google.android.material.slider.Slider>
+
         <ImageView
             android:id="@+id/zoom_in"
             android:layout_width    ="@dimen/mask_buttons_width"
             android:layout_height   ="@dimen/mask_buttons_height"
             android:layout_marginEnd ="@dimen/mask_buttons_mSE"
+            android:layout_marginStart="@dimen/mask_buttons_mSE"
             android:src="@drawable/btnzoomin"
             android:hapticFeedbackEnabled="true"
             />
@@ -151,6 +163,7 @@
             android:src="@drawable/btnzoomout"
             android:hapticFeedbackEnabled="true"
             />
+
     </LinearLayout>
 
 <!--    <ImageView-->

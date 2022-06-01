@@ -32,11 +32,10 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @ColorInt
     private int drawColor = 0xffffff00;
 
-    private float stroke;
+    private float stroke = 50;
 
     private List<Track> points;
     private Track track;
-
 
     private int position = 0;
     private Stack<Track> pointsToRedo;
@@ -71,17 +70,17 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setColor(drawColor);
+        drawPaint.setStrokeWidth(stroke);
 
         erasePaint = new Paint();
         erasePaint.setAntiAlias(false);
         erasePaint.setStrokeCap(Paint.Cap.ROUND);
         erasePaint.setStyle(Paint.Style.STROKE);
+        erasePaint.setStrokeWidth(stroke);
         erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setOnTouchListener(onTouch);
-
-//        drawable = new BitmapDrawable(getResources(), this.getDrawingCache());
     }
 
     @Override
@@ -89,13 +88,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
-
-        if(drawPaint.getStrokeWidth() == 0 || erasePaint.getStrokeWidth() == 0){
-            stroke = width * 5 / 100;
-
-            drawPaint.setStrokeWidth(stroke);
-            erasePaint.setStrokeWidth(stroke);
-        }
     }
 
     OnTouchListener onTouch = new OnTouchListener() {
@@ -103,7 +95,6 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         public boolean onTouch(View view, MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
-
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -119,7 +110,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                             track.setEraser(false);
                         else track.setEraser(true);
                         track.getTrackList().add(new FPoint(x, y));
-
+                        track.setStroke(stroke);
                     }
                     fingerCount = event.getPointerCount();
                     break;
@@ -141,6 +132,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                             track.setEraser(true);
                         }
                         track.getTrackList().add(new FPoint(x, y));
+                        track.setStroke(stroke);
                     }
                     else{
                         if(fingerCount == 1){
@@ -173,6 +165,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                         path.moveTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
                     else path.lineTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
                 }
+                drawPaint.setStrokeWidth(points.get(tdx).getStroke());
+                erasePaint.setStrokeWidth(points.get(tdx).getStroke());
                 canvas.drawPath(path, (points.get(tdx).isEraser() ? erasePaint : drawPaint));
             }
         }
@@ -189,12 +183,16 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     public void setStrokeWidth(float strokeWidth) {
-        erasePaint.setStrokeWidth(stroke);
-        drawPaint.setStrokeWidth(stroke);
+        erasePaint.setStrokeWidth(strokeWidth);
+        drawPaint.setStrokeWidth(strokeWidth);
     }
 
-    public float getStrokeWidthConst(){
+    public float getStroke(){
         return stroke;
+    }
+
+    public void setStroke(float stroke){
+        this.stroke = stroke;
     }
 
     public void redo() {

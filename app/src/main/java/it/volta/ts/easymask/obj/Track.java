@@ -6,7 +6,7 @@ import java.util.List;
 public class Track{
     private List<FPoint> trackList;
     private boolean eraser;
-    private int stroke;
+    private float stroke;
 
     public Track(){
         trackList = new ArrayList<>();
@@ -28,11 +28,11 @@ public class Track{
         this.eraser = eraser;
     }
 
-    public int getStroke() {
+    public float getStroke() {
         return stroke;
     }
 
-    public void setStroke(int stroke) {
+    public void setStroke(float stroke) {
         this.stroke = stroke;
     }
 }

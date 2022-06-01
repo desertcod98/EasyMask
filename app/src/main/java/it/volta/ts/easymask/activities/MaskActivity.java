@@ -10,12 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.slider.Slider;
 
 import it.volta.ts.easymask.R;
 import it.volta.ts.easymask.tools.ToolSelector;
@@ -29,7 +31,7 @@ public class MaskActivity extends AppCompatActivity
     private RelativeLayout imageLayout;
     private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
-
+    private Slider slider;
 
     private int screenHeight;
     private int screenWidth;
@@ -59,6 +61,14 @@ public class MaskActivity extends AppCompatActivity
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setFocusable(true);
+
+        slider = findViewById(R.id.strokeSlider);
+        slider.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                maskImage.setStroke(value * 50);
+            }
+        });
 
         loadImage(downloadedImg, url);
 
@@ -189,8 +199,8 @@ public class MaskActivity extends AppCompatActivity
                     break;
             }
 
-            System.out.println(maskImage.getStrokeWidthConst());
-            maskImage.setStrokeWidth((1-(scale-1))*maskImage.getStrokeWidthConst());
+//            System.out.println(maskImage.getStrokeWidthConst());
+//            maskImage.setStrokeWidth((1-(scale-1))*maskImage.getStrokeWidthConst());
             downloadedImg.setScaleX(scale);
             downloadedImg.setScaleY(scale);
             maskImage    .setScaleX(scale);
