@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import it.volta.ts.easymask.obj.FPoint;
 import it.volta.ts.easymask.tools.ToolSelector;
@@ -28,21 +29,25 @@ import it.volta.ts.easymask.tools.ToolSelector;
 
 public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @ColorInt
-    int drawColor = 0xffffff00;
+    private int drawColor = 0xffffff00;
 
-    int stroke;
+    private int stroke;
     private OnMaskTouch onMaskTouch;
 
-    List<List<FPoint>> points;
-    List<FPoint> track;
-    int position = 0;
-    List<FPoint> trackToRedo;
+    private List<List<FPoint>> points;
+    private List<FPoint> track;
 
-    int fingerCounter = 0;
-    boolean multiTouch = false;
-    int width, height;
-    float fromX, fromY, toX, toY;
-    Paint drawPaint, erasePaint;
+
+    private int position = 0;
+    private Stack<List<FPoint>> pointsToRedo;
+    private List<FPoint> trackToRedo;
+
+
+    private int fingerCounter = 0;
+    private boolean multiTouch = false;
+    private int width, height;
+    private float fromX, fromY, toX, toY;
+    private Paint drawPaint, erasePaint;
 
     public MaskImage(Context context) {
         super(context);
@@ -61,6 +66,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
 
     private void init() {
         points = new ArrayList<>();
+        pointsToRedo = new Stack<>();
 
         drawPaint = new Paint();
         drawPaint.setAntiAlias(false);
@@ -164,14 +170,14 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         for (int tdx = 0; tdx < points.size(); tdx++) {
             List<FPoint> track = points.get(tdx);
 
-            if (track.size() > 1) {
+            if (track != null && track.size() > 1) {
                 Path path = new Path();
                 for (int idx = 0; idx < track.size(); idx++) {
                     if (idx == 0)
                         path.moveTo(track.get(idx).x, track.get(idx).y);
                     else path.lineTo(track.get(idx).x, track.get(idx).y);
                 }
-                canvas.drawPath(path, (points.get(tdx).get(0).eraser == false ? drawPaint : erasePaint));
+                canvas.drawPath(path, (points.get(tdx).get(0).eraser  ? erasePaint : drawPaint));
             }
         }
     }
@@ -191,6 +197,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     public void undo() {
         if (position > 0) {
             trackToRedo = points.get(position - 1);
+            pointsToRedo.push(trackToRedo);
             points.remove(position - 1);
             position--;
             MaskImage.this.invalidate();
@@ -198,8 +205,12 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     public void redo() {
-        points.add(trackToRedo);
+        if(!(pointsToRedo.isEmpty())){
+            points.add(pointsToRedo.pop());
+            position++;
+        }
         MaskImage.this.invalidate();
-        position++;
+
     }
+
 }
