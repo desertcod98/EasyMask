@@ -1,43 +1,39 @@
 package it.volta.ts.easymask.networking;
 
+import android.content.Context;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
 import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ThreadRunner extends Thread{
+    Context context;
 
     private File dir;
     @Override
     public void run() {
         try {
-            //---
-            String charset = "UTF-8";
-            String requestURL = "https://vuo.elettra.eu/vuo/cgi-bin/easymask.py?action=upload&code=YlfZSqJnIY0wSzyTpot9ypbqxZTKdzt6";
-
-            String filePath = dir+File.separator+"630658.png";
-            String fileName = filePath.substring(filePath.lastIndexOf("/")+1);
-
-            UploadManager multipart = null;
-            try {
-                multipart = new UploadManager(requestURL, charset);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            multipart.setFormField("code", "YlfZSqJnIY0wSzyTpot9ypbqxZTKdzt6");
-            multipart.setFormField("submit", "Start upload");
-            multipart.setFormField("action", "do_upload");
-            File file = new File(filePath);
-            try {
-                multipart.setFilePart("file", file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                String response = multipart.getResponse();
-                System.out.println("::::::::::::"+response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //---
+            File file = new File(dir + File.separator + "line.png");
+            MultipartRequest multipartRequest;
+            Map<String,String> map= new HashMap<>();
+            map.put("code", "S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5");
+            map.put("action","do_upload");
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(new MultipartRequest("https://vuo.elettra.eu/vuo/cgi-bin/easymask.py?",
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                }
+            },file,map));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,5 +41,9 @@ public class ThreadRunner extends Thread{
 
     public void setDir(File dir) {
         this.dir = dir;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 }

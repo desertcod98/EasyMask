@@ -22,13 +22,10 @@ import java.io.IOException;
 
 import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
 import it.volta.ts.easymask.activities.MaskActivity;
-import it.volta.ts.easymask.networking.RetrofitServices;
-import it.volta.ts.easymask.networking.RetrofitUpload;
+
 import it.volta.ts.easymask.networking.ThreadRunner;
-import it.volta.ts.easymask.networking.UploadManager;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 File dir = new File(getApplicationContext().getFilesDir(),"mydir");
-                String filePath = dir+File.separator+"line.png";
-                File file = new File(filePath);
-                new RetrofitUpload("do_upload","S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5",file);
+                threadRunner.setDir(dir);
+                threadRunner.setContext(getApplicationContext());
+                threadRunner.start();
+
+//                new RetrofitUpload("do_upload","S7O61G6Gr5qKDl0XlEy9vnx8pVvttnS5",file);
                 //intentIntegrator.initiateScan();
             }
         });
