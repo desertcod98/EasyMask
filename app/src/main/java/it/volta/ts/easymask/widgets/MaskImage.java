@@ -8,13 +8,15 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,13 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     @ColorInt
     private int drawColor = 0x50ff0000;
 
-    private float stroke = 50;
+    private float standardStroke;
+    private float currentStroke;
 
     private List<Track> points;
     private Track track;
+
+    private ScaleGestureDetector scaleGestureDetector;
 
     private int position = 0;
     private Stack<Track> pointsToRedo;
@@ -45,6 +50,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     private float fromX, fromY, toX, toY;
     private Paint drawPaint, erasePaint;
     private int fingerCount;
+
+    private ImageView downloadedImg;
 
     public MaskImage(Context context) {
         super(context);
@@ -62,25 +69,27 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     private void init() {
+        this.setDrawingCacheEnabled(true);
         points = new ArrayList<>();
         pointsToRedo = new Stack<>();
 
         drawPaint = new Paint();
-        drawPaint.setAntiAlias(false);
+        drawPaint.setAntiAlias(true);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setColor(drawColor);
-        drawPaint.setStrokeWidth(stroke);
+        drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
 
         erasePaint = new Paint();
-        erasePaint.setAntiAlias(false);
+        erasePaint.setAntiAlias(true);
         erasePaint.setStrokeCap(Paint.Cap.ROUND);
         erasePaint.setStyle(Paint.Style.STROKE);
-        erasePaint.setStrokeWidth(stroke);
         erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         setOnTouchListener(onTouch);
+        scaleGestureDetector = new ScaleGestureDetector(this.getContext()
+                ,new ScaleGestureDetector.SimpleOnScaleGestureListener());
     }
 
     @Override
@@ -88,6 +97,14 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         width = MeasureSpec.getSize(widthMeasureSpec);
         height = MeasureSpec.getSize(heightMeasureSpec);
+
+        if(drawPaint.getStrokeWidth() == 0 || erasePaint.getStrokeWidth() == 0){
+            standardStroke = width * 5 / 100;
+            currentStroke = standardStroke;
+
+            drawPaint.setStrokeWidth(standardStroke);
+            erasePaint.setStrokeWidth(standardStroke);
+        }
     }
 
     OnTouchListener onTouch = new OnTouchListener() {
@@ -95,6 +112,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
         public boolean onTouch(View view, MotionEvent event) {
             float x = event.getX();
             float y = event.getY();
+            scaleGestureDetector.onTouchEvent(event);
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
@@ -110,7 +128,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                             track.setEraser(false);
                         else track.setEraser(true);
                         track.getTrackList().add(new FPoint(x, y));
-                        track.setStroke(stroke);
+                        track.setStroke(currentStroke);
+
                     }
                     fingerCount = event.getPointerCount();
                     break;
@@ -132,7 +151,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                             track.setEraser(true);
                         }
                         track.getTrackList().add(new FPoint(x, y));
-                        track.setStroke(stroke);
+                        track.setStroke(currentStroke);
                     }
                     else{
                         if(fingerCount == 1){
@@ -140,7 +159,14 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                             points.remove(points.size()-1);
                             position--;
                         }
-
+                        float currentScale = scaleGestureDetector.getScaleFactor();
+                        float scale = MaskImage.this.getScaleX()*currentScale;
+                        if(scale>1){
+                            MaskImage.this.setScaleX(scale);
+                            MaskImage.this.setScaleY(scale);
+                            downloadedImg.setScaleX(scale);
+                            downloadedImg.setScaleY(scale);
+                        }
                     }
                     MaskImage.this.invalidate();
 
@@ -165,8 +191,8 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
                         path.moveTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
                     else path.lineTo(track.getTrackList().get(idx).x, track.getTrackList().get(idx).y);
                 }
-                drawPaint.setStrokeWidth(points.get(tdx).getStroke());
                 erasePaint.setStrokeWidth(points.get(tdx).getStroke());
+                drawPaint.setStrokeWidth(points.get(tdx).getStroke());
                 canvas.drawPath(path, (points.get(tdx).isEraser() ? erasePaint : drawPaint));
             }
         }
@@ -183,16 +209,7 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     public void setStrokeWidth(float strokeWidth) {
-        erasePaint.setStrokeWidth(strokeWidth);
-        drawPaint.setStrokeWidth(strokeWidth);
-    }
-
-    public float getStroke(){
-        return stroke;
-    }
-
-    public void setStroke(float stroke){
-        this.stroke = stroke;
+        currentStroke = strokeWidth;
     }
 
     public void redo() {
@@ -204,5 +221,15 @@ public class MaskImage extends androidx.appcompat.widget.AppCompatImageView {
 
     }
 
+    public void setDownloadedImg(ImageView downloadedImg) {
+        this.downloadedImg = downloadedImg;
+    }
+
+    public Bitmap getDrawingBitmap() {
+        Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        this.draw(canvas);
+        return bitmap;
+    }
 }
 

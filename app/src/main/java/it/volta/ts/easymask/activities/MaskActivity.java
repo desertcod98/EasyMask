@@ -6,10 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,20 +19,29 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.slider.Slider;
 
 import it.volta.ts.easymask.R;
-import it.volta.ts.easymask.bean.Stats;
+import it.volta.ts.easymask.fileHandling.FileHandler;
+import it.volta.ts.easymask.networking.ThreadRunner;
+import it.volta.ts.easymask.networking.UrlHandler;
 import it.volta.ts.easymask.tools.ToolSelector;
 import it.volta.ts.easymask.util.GraphicUtil;
+import it.volta.ts.easymask.util.MathUtil;
 import it.volta.ts.easymask.widgets.MaskImage;
 
 public class MaskActivity extends AppCompatActivity
 {
-    private ImageView downloadedImg, brush, eraser, undo, redo, btnUpload;
+    private ThreadRunner threadRunner;
+
+    private FileHandler fileHandler;
+
+    private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn;
     private MaskImage maskImage;
     private RelativeLayout imageLayout;
     private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
     private Slider slider;
 
+    private Bitmap drawingBitmap;
+    private Bitmap resizedBitmap;
     private int screenHeight;
     private int screenWidth;
     private String url;
@@ -44,6 +51,7 @@ public class MaskActivity extends AppCompatActivity
 
     private final double maxHeightRatio = 0.6;
     private final double maxWidthRatio  = 0.95;
+    private final String urlKey = "url"; //TODO duplicate, dovrebbe essere solo in urlHandler, rivedi responsabilità classi
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,19 +64,25 @@ public class MaskActivity extends AppCompatActivity
         maxHeight    = (int)(screenHeight * maxHeightRatio);
         maxWidth     = (int)(screenWidth  * maxWidthRatio );
 
+        fileHandler = new FileHandler(this);
+
+
         Bundle b = getIntent().getExtras();
-        url = b.getString("url");
+        url = b.getString(urlKey);
         downloadedImg = findViewById(R.id.imgSlot     );
         imageLayout   = findViewById(R.id.image_layout);
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setFocusable(true);
+        maskImage.setDownloadedImg(downloadedImg);
 
+        uploadBtn = findViewById(R.id.btnUp);
+        uploadBtn.setOnClickListener(onUploadBtnClick);
         slider = findViewById(R.id.strokeSlider);
         slider.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                maskImage.setStroke(value * 50);
+                maskImage.setStrokeWidth(value * 50);
             }
         });
 
@@ -78,7 +92,6 @@ public class MaskActivity extends AppCompatActivity
         eraser    = findViewById(R.id.eraser);
         undo      = findViewById(R.id.undo);
         redo      = findViewById(R.id.redo);
-        btnUpload = findViewById(R.id.btnUp );
 
         brush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,13 +123,7 @@ public class MaskActivity extends AppCompatActivity
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         });
 
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                Toast.makeText(MaskActivity.this, ("Coverage percentage: " + Stats.getDimensStats(downloadedImg.getWidth(), downloadedImg.getHeight(), maskImage) + "%"), Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         zoomIn  = findViewById(R.id.zoom_in );
         zoomOut = findViewById(R.id.zoom_out);
@@ -191,23 +198,39 @@ public class MaskActivity extends AppCompatActivity
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
             float scale = downloadedImg.getScaleX();
+            scale = MathUtil.roundDown(scale,1);
 
-            switch (v.getId()) {
-                case R.id.zoom_in:
-                    scale += 0.1f;
-                    break;
-                case R.id.zoom_out:
-                    if (downloadedImg.getScaleX() > 1f)
-                        scale -= 0.1f;
-                    break;
+
+            if(v.getId() == R.id.zoom_in){
+                scale += 0.1f;
+            }else if(v.getId() == R.id.zoom_out){
+                if (scale > 1f)
+                    scale -= 0.1f;
             }
 
-//            System.out.println(maskImage.getStrokeWidthConst());
-//            maskImage.setStrokeWidth((1-(scale-1))*maskImage.getStrokeWidthConst());
             downloadedImg.setScaleX(scale);
             downloadedImg.setScaleY(scale);
             maskImage    .setScaleX(scale);
             maskImage    .setScaleY(scale);
         }
     };
+
+    View.OnClickListener onUploadBtnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //getBitmap
+            drawingBitmap = maskImage.getDrawingBitmap();
+            //resize bitmap
+            resizedBitmap = Bitmap.createScaledBitmap(
+                    drawingBitmap, imgWidth, imgHeight, false);
+            String imgCode = UrlHandler.getCodeFromUrl(url);
+            fileHandler.writeImageToFile(resizedBitmap, imgCode);
+
+            threadRunner = new ThreadRunner(MaskActivity.this);
+            threadRunner.setImgCode(imgCode);
+            threadRunner.start();
+        }
+    };
+
+
 }

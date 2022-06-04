@@ -1,0 +1,483 @@
+Index: app/src/main/res/layout/activity_mask.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <LinearLayout\r\n        android:id           =\"@+id/header\"\r\n        android:layout_width =\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation  =\"horizontal\"\r\n        android:gravity=\"end\"\r\n        >\r\n        <ImageView\r\n            android:layout_width=\"75dp\"\r\n            android:layout_height=\"50dp\"\r\n            android:src=\"@drawable/newlogoeasymask\"\r\n            android:layout_marginEnd=\"10dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            />\r\n        <ImageView\r\n            android:layout_width=\"90dp\"\r\n            android:layout_height=\"100dp\"\r\n            android:src=\"@drawable/logo\"\r\n            android:layout_marginEnd=\"5sp\"\r\n            android:layout_marginTop=\"-15sp\"\r\n            />\r\n\r\n    </LinearLayout>\r\n\r\n    <RelativeLayout\r\n        android:id           =\"@+id/image_layout\"\r\n        android:layout_width =\"400dp\"\r\n        android:layout_height=\"400dp\"\r\n        android:layout_below =\"@+id/header\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        >\r\n        <!--RelativeLayout\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:id=\"@+id/layout\"\r\n            -->\r\n            <ImageView\r\n                android:id=\"@+id/imgSlot\"\r\n                android:layout_width =\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_centerHorizontal=\"true\"\r\n                android:adjustViewBounds=\"true\"\r\n                android:scaleType=\"fitXY\"\r\n                android:src=\"@drawable/placeholder\"\r\n                />\r\n            <it.volta.ts.easymask.widgets.MaskImage\r\n                android:id=\"@+id/imgMask\"\r\n                android:layout_width =\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_centerHorizontal=\"true\"\r\n                />\r\n\r\n        <it.volta.ts.easymask.widgets.MaskEraser\r\n            android:id=\"@+id/imgEraser\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_centerHorizontal=\"true\" />\r\n        <!--/RelativeLayout-->\r\n    </RelativeLayout>\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/buttons\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"50dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:background=\"@drawable/toolbar\"\r\n        android:layout_above=\"@+id/btnUp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:gravity=\"center_horizontal\"\r\n        >\r\n        <ImageView\r\n            android:id=\"@+id/brush\"\r\n            android:layout_width    =\"@dimen/mask_buttons_size\"\r\n            android:layout_height   =\"@dimen/mask_buttons_size\"\r\n            android:layout_marginEnd=\"@dimen/mask_buttons_mSE\"\r\n            android:src=\"@drawable/brush\"\r\n            android:hapticFeedbackEnabled=\"true\"\r\n            android:layout_marginTop=\"5dp\"\r\n            >\r\n        </ImageView>\r\n\r\n        <ImageView\r\n            android:id=\"@+id/eraser\"\r\n            android:layout_width       =\"@dimen/mask_buttons_size\"\r\n            android:layout_height      =\"@dimen/mask_buttons_size\"\r\n            android:layout_marginStart =\"@dimen/mask_buttons_mSE\"\r\n            android:src=\"@drawable/eraser\"\r\n            android:hapticFeedbackEnabled=\"true\"\r\n            android:layout_marginTop=\"5dp\"\r\n            >\r\n        </ImageView>\r\n    </LinearLayout>\r\n\r\n<!--    <ImageView-->\r\n<!--        android:id=\"@+id/btnSave\"-->\r\n<!--        android:layout_width=\"300sp\"-->\r\n<!--        android:layout_height=\"150sp\"-->\r\n<!--        android:layout_centerHorizontal=\"true\"-->\r\n<!--        android:layout_alignParentBottom=\"true\"-->\r\n<!--        android:layout_marginBottom=\"45sp\"-->\r\n<!--        android:src=\"@drawable/savebtn\"-->\r\n<!--        android:visibility=\"invisible\">-->\r\n<!--    </ImageView>-->\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnUp\"\r\n        android:layout_width =\"150dp\"\r\n        android:layout_height=\"150dp\"\r\n        android:layout_centerHorizontal =\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:src=\"@drawable/uploadbtn\"\r\n        android:hapticFeedbackEnabled=\"true\"\r\n        >\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+--- a/app/src/main/res/layout/activity_mask.xml	
++++ b/app/src/main/res/layout/activity_mask.xml	
+@@ -40,11 +40,6 @@
+         android:layout_marginTop="10dp"
+         android:layout_centerHorizontal="true"
+         >
+-        <!--RelativeLayout
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:id="@+id/layout"
+-            -->
+             <ImageView
+                 android:id="@+id/imgSlot"
+                 android:layout_width ="match_parent"
+@@ -66,7 +61,6 @@
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_centerHorizontal="true" />
+-        <!--/RelativeLayout-->
+     </RelativeLayout>
+ 
+     <LinearLayout
+Index: app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.widgets;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.graphics.PorterDuff;\r\nimport android.graphics.PorterDuffXfermode;\r\nimport android.util.AttributeSet;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\n\r\nimport androidx.annotation.ColorInt;\r\nimport androidx.annotation.Nullable;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport it.volta.ts.easymask.obj.FPoint;\r\nimport it.volta.ts.easymask.tools.ToolSelector;\r\n\r\npublic class MaskImage extends androidx.appcompat.widget.AppCompatImageView\r\n{\r\n    @ColorInt\r\n    int drawColor  = 0xffffff00;\r\n    int stroke;\r\n\r\n    private OnMaskTouch onMaskTouch;\r\n    private Bitmap eraseBitmap;\r\n\r\n    List<List<FPoint>> points;\r\n    List<FPoint>       track;\r\n\r\n    int width, height;\r\n    float fromX, fromY, toX, toY;\r\n    Paint paint, paintEraser;\r\n\r\n    public MaskImage(Context context) {\r\n        super(context);\r\n        init();\r\n    }\r\n\r\n    public MaskImage(Context context, @Nullable AttributeSet attrs) {\r\n        super(context, attrs);\r\n        init();\r\n    }\r\n\r\n    public MaskImage(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\r\n        super(context, attrs, defStyleAttr);\r\n        init();\r\n    }\r\n\r\n    private void init()\r\n    {\r\n        points = new ArrayList<>();\r\n\r\n        paint = new Paint();\r\n\r\n        paint.setAntiAlias(true);\r\n        paint.setStrokeCap(Paint.Cap.ROUND);\r\n\r\n        setOnTouchListener(onTouch);\r\n    }\r\n\r\n    @Override\r\n    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)\r\n    {\r\n        super.onMeasure(widthMeasureSpec, heightMeasureSpec);\r\n        width  = MeasureSpec.getSize(widthMeasureSpec );\r\n        height = MeasureSpec.getSize(heightMeasureSpec);\r\n        stroke = width * 5 / 100;\r\n        paint.setStrokeWidth(stroke);\r\n    }\r\n\r\n    OnTouchListener onTouch = new OnTouchListener() {\r\n        @Override\r\n        public boolean onTouch(View view, MotionEvent event)\r\n        {\r\n            float x = event.getX();\r\n            float y = event.getY();\r\n\r\n            switch(event.getAction())\r\n            {\r\n                case MotionEvent.ACTION_DOWN:\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    track = new ArrayList<>();\r\n\r\n                    points.add(track);\r\n\r\n\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n                    break;\r\n                case MotionEvent.ACTION_UP:\r\n                    if (ToolSelector.toolState != 1)\r\n                    {\r\n\r\n                    }\r\n                    //show();\r\n                    break;\r\n                case MotionEvent.ACTION_MOVE:\r\n                    toX = x;\r\n                    toY = y;\r\n\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n\r\n                    break;\r\n            }\r\n\r\n            MaskImage.this.invalidate();\r\n            return true;\r\n\r\n        }\r\n    };\r\n\r\n    public void erase(Bitmap bitmap){\r\n        eraseBitmap = bitmap;\r\n        paintEraser = new Paint();\r\n        MaskImage.this.invalidate();\r\n    }\r\n\r\n    @Override\r\n    protected void onDraw(Canvas canvas)\r\n    {\r\n        //super.onDraw(canvas);\r\n\r\n        for (List<FPoint> track : points)\r\n        {\r\n            if (track.size() > 1) {\r\n                for (int idx = 1; idx < track.size(); idx++) {\r\n                    if(!(track.get(idx-1).eraser || track.get(idx).eraser)) {\r\n\r\n                        paint.setColor(drawColor);\r\n                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,\r\n                                track.get(idx).x, track.get(idx).y,\r\n                                paint);\r\n\r\n                        if(eraseBitmap!=null){\r\n                            paintEraser.setAlpha(0);\r\n                            paintEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));\r\n                            canvas.drawBitmap(eraseBitmap, 0,0,paintEraser);\r\n                        }\r\n                    }\r\n\r\n\r\n                    }\r\n\r\n                }\r\n            else {\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {\r\n        this.onMaskTouch = onMaskTouch;\r\n    }\r\n\r\n    public interface OnMaskTouch\r\n    {\r\n        void onPoint(float x, float y);\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    /*\r\n    private void show()\r\n    {\r\n        System.out.println(\"--------------------\");\r\n        for (List<FPoint> track : points) {\r\n            System.out.println(\"New track\");\r\n            for (FPoint point : track)\r\n                System.out.println(\"    \" + (int)point.x + \", \" + (int)point.y);\r\n        }\r\n    }\r\n    */\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java
+--- a/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	
++++ b/app/src/main/java/it/volta/ts/easymask/widgets/MaskImage.java	
+@@ -132,6 +132,8 @@
+ 
+     public void erase(Bitmap bitmap){
+         eraseBitmap = bitmap;
++        int width = this.getWidth();
++        int height = this.getHeight();
+         paintEraser = new Paint();
+         MaskImage.this.invalidate();
+     }
+Index: app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.activities;\r\n\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.drawable.BitmapDrawable;\r\nimport android.graphics.drawable.Drawable;\r\nimport android.os.Bundle;\r\nimport android.view.HapticFeedbackConstants;\r\nimport android.view.View;\r\nimport android.widget.ImageView;\r\nimport android.widget.RelativeLayout;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.bumptech.glide.Glide;\r\nimport com.bumptech.glide.request.target.CustomTarget;\r\nimport com.bumptech.glide.request.transition.Transition;\r\n\r\nimport it.volta.ts.easymask.R;\r\nimport it.volta.ts.easymask.tools.ToolSelector;\r\nimport it.volta.ts.easymask.util.GraphicUtil;\r\nimport it.volta.ts.easymask.widgets.MaskEraser;\r\nimport it.volta.ts.easymask.widgets.MaskImage;\r\n\r\npublic class MaskActivity extends AppCompatActivity\r\n{\r\n    private ImageView downloadedImg, brush, eraser, btnUpload;\r\n    private MaskImage maskImage;\r\n    private MaskEraser maskEraser;\r\n    RelativeLayout imageLayout;\r\n    private int screenHeight;\r\n    private int screenWidth;\r\n    private String url;\r\n    private int maxHeight, maxWidth;\r\n    private int imgHeight, imgWidth;\r\n    private int newHeight, newWidth;\r\n\r\n    private final double maxHeightRatio = 0.6;\r\n    private final double maxWidthRatio  = 0.9;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState)\r\n    {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_mask);\r\n\r\n        screenHeight = GraphicUtil.getScreenHeight(this);\r\n        screenWidth  = GraphicUtil.getScreenWidth(this);\r\n        maxHeight    = (int)(screenHeight * maxHeightRatio);\r\n        maxWidth     = (int)(screenWidth  * maxWidthRatio );\r\n\r\n        Bundle b = getIntent().getExtras();\r\n        url = b.getString(\"url\");\r\n        downloadedImg = findViewById(R.id.imgSlot);\r\n\r\n        imageLayout = findViewById(R.id.image_layout);\r\n\r\n        maskImage = findViewById(R.id.imgMask);\r\n        maskImage.setOnMaskTouch(onMaskTouch);\r\n\r\n        maskEraser = findViewById(R.id.imgEraser);\r\n        maskEraser.setOnMaskTouch(onMaskEraserTouch);\r\n        maskEraser.setMaskImage(maskImage);\r\n\r\n        loadImage(downloadedImg, url);\r\n\r\n\r\n        brush     = findViewById(R.id.brush );\r\n        eraser    = findViewById(R.id.eraser);\r\n        btnUpload = findViewById(R.id.btnUp );\r\n\r\n        brush.setOnClickListener(view -> {\r\n            ToolSelector.toolState = 1;\r\n            maskEraser.setEnabled(false);\r\n            maskImage.setEnabled(true);\r\n            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\r\n        });\r\n\r\n        eraser.setOnClickListener(view -> {\r\n            ToolSelector.toolState = 0;\r\n            maskEraser.setEnabled(true);\r\n            maskImage.setEnabled(false);\r\n            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\r\n        });\r\n\r\n        btnUpload.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);\r\n            }\r\n        });\r\n    }\r\n\r\n    private void setDimens(RelativeLayout imageLayout, int imgWidth, int imgHeight)\r\n    {\r\n        newHeight = imgHeight;\r\n        newWidth  = imgWidth;\r\n\r\n        if (imgWidth > imgHeight) {\r\n            float ratio = (float) maxWidth / (float) imgWidth;\r\n            newWidth  = (int)((float) imgWidth  * ratio);\r\n            newHeight = (int)((float) imgHeight * ratio);\r\n\r\n        } else {\r\n            float ratio = (float) maxHeight / (float) imgHeight;\r\n            newWidth  = (int)((float) imgWidth  * ratio);\r\n            newHeight = (int)((float) imgHeight * ratio);\r\n        }\r\n\r\n        GraphicUtil.applySize(imageLayout, newWidth, newHeight);\r\n    }\r\n\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n\r\n        int width  = downloadedImg.getWidth();\r\n        int height = downloadedImg.getHeight();\r\n    }\r\n\r\n    private void loadImage(ImageView view, String url)\r\n    {\r\n        Glide.with(this)\r\n                .asBitmap()\r\n                .load(url)\r\n                .into(new CustomTarget<Bitmap>() {\r\n                    @Override\r\n                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {\r\n                        imgWidth  = bitmap.getWidth();\r\n                        imgHeight = bitmap.getHeight();\r\n                        view.setImageBitmap(bitmap);\r\n\r\n                        setDimens(imageLayout, imgWidth,imgHeight);\r\n                        //TODO Error: maskImage == null nella seconda scansione del qr\r\n                        Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);\r\n                        BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);\r\n                        drawable.setAlpha(100);\r\n                        maskImage.setImageDrawable(drawable);\r\n                    }\r\n\r\n                    @Override\r\n                    public void onLoadCleared(@Nullable Drawable placeholder) {\r\n                    }\r\n                });\r\n    }\r\n\r\n    //-----------------------------------------------------------------------------------------\r\n\r\n\r\n    MaskEraser.OnMaskTouch onMaskEraserTouch = new MaskEraser.OnMaskTouch() {\r\n        @Override\r\n        public void onPoint(float x, float y) {\r\n\r\n        }\r\n    };\r\n\r\n\r\n    MaskImage.OnMaskTouch onMaskTouch = new MaskImage.OnMaskTouch()\r\n    {\r\n        @Override\r\n        public void onPoint(float x, float y) {\r\n            System.out.println(x + \", \" + y);\r\n        }\r\n    };\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java b/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java
+--- a/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java	
++++ b/app/src/main/java/it/volta/ts/easymask/activities/MaskActivity.java	
+@@ -35,7 +35,7 @@
+     private int imgHeight, imgWidth;
+     private int newHeight, newWidth;
+ 
+-    private final double maxHeightRatio = 0.6;
++    private final double maxHeightRatio = 0.7;
+     private final double maxWidthRatio  = 0.9;
+     @Override
+     protected void onCreate(Bundle savedInstanceState)
+@@ -129,9 +129,7 @@
+                         imgWidth  = bitmap.getWidth();
+                         imgHeight = bitmap.getHeight();
+                         view.setImageBitmap(bitmap);
+-
+                         setDimens(imageLayout, imgWidth,imgHeight);
+-                        //TODO Error: maskImage == null nella seconda scansione del qr
+                         Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
+                         BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+                         drawable.setAlpha(100);
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch	
++++ /dev/null	
+@@ -1,64 +0,0 @@
+-Index: app/build.gradle
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>plugins {\r\n    id 'com.android.application'\r\n}\r\n\r\n\r\nandroid {\r\n    compileSdk 32\r\n\r\n    defaultConfig {\r\n        applicationId \"it.volta.ts.easymask\"\r\n        minSdk 26\r\n        targetSdk 32\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'\r\n    implementation 'androidx.appcompat:appcompat:1.4.1'\r\n    implementation 'com.google.android.material:material:1.6.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'\r\n    testImplementation 'junit:junit:4.13.2'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.3'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'\r\n}\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/build.gradle b/app/build.gradle
+---- a/app/build.gradle	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/app/build.gradle	(date 1653376258618)
+-@@ -29,6 +29,8 @@
+- }
+- 
+- dependencies {
+-+    implementation 'com.github.bumptech.glide:glide:4.13.0' //img downloading library
+-+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+-     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+-     implementation 'androidx.appcompat:appcompat:1.4.1'
+-     implementation 'com.google.android.material:material:1.6.0'
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".maskUtility.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:src=\"\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653376717319)
+-@@ -7,7 +7,7 @@
+-     android:layout_height="match_parent"
+-     android:orientation="vertical"
+-     android:background="@color/white"
+--    tools:context=".maskUtility.MaskActivity">
+-+    tools:context=".activities.MaskActivity">
+- 
+-     <ImageView
+-         android:layout_width="wrap_content"
+-Index: .idea/misc.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml\" value=\"0.26766304347826086\" />\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_qr_capture.xml\" value=\"0.1609375\" />\r\n        <entry key=\"app/src/main/res/drawable-v24/ic_launcher_foreground.xml\" value=\"0.3365\" />\r\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.27203647416413373\" />\r\n        <entry key=\"app/src/main/res/layout/activity_mask.xml\" value=\"0.28442028985507245\" />\r\n        <entry key=\"app/src/main/res/layout/activity_qr_capture.xml\" value=\"0.1\" />\r\n        <entry key=\"app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml\" value=\"0.3365\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"Android Studio default JDK\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+---- a/.idea/misc.xml	(revision 74ff71d2fc6d107c2cdbff16cd1cd41dfac7ad91)
+-+++ b/.idea/misc.xml	(date 1653376810166)
+-@@ -3,13 +3,8 @@
+-   <component name="DesignSurface">
+-     <option name="filePathToZoomLevelMap">
+-       <map>
+--        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.26766304347826086" />
+--        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_qr_capture.xml" value="0.1609375" />
+--        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3365" />
+--        <entry key="app/src/main/res/layout/activity_main.xml" value="0.27203647416413373" />
+--        <entry key="app/src/main/res/layout/activity_mask.xml" value="0.28442028985507245" />
+--        <entry key="app/src/main/res/layout/activity_qr_capture.xml" value="0.1" />
+--        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3365" />
+-+        <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.15450861195542046" />
+-+        <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_mask.xml" value="0.16236068895643363" />
+-       </map>
+-     </option>
+-   </component>
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch	
++++ /dev/null	
+@@ -1,17 +0,0 @@
+-Index: .idea/gradle.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"GRADLE\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+---- a/.idea/gradle.xml	(revision 9e028738ea3341cf24ff7fef91a13cfd533ca34c)
+-+++ b/.idea/gradle.xml	(date 1653372767378)
+-@@ -1,5 +1,6 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-+  <component name="GradleMigrationSettings" migrationVersion="1" />
+-   <component name="GradleSettings">
+-     <option name="linkedExternalProjectsSettings">
+-       <GradleProjectSettings>
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]" date="1653381848211" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 10:44 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch	
++++ /dev/null	
+@@ -1,79 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    android:background=\"@color/white\"\n    tools:context=\".activities.MaskActivity\">\n\n    <ImageView\n        android:id=\"@+id/imgSlot\"\n        android:layout_width=\"350sp\"\n        android:layout_height=\"350sp\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"80sp\"\n        android:src=\"@drawable/placeholder\">\n\n    </ImageView>\n\n    <ImageView\n        android:layout_width=\"350sp\"\n        android:layout_height=\"50sp\"\n        android:src=\"@drawable/toolbar\"\n        android:layout_centerHorizontal=\"true\"\n        android:layout_marginTop=\"440sp\">\n\n    </ImageView>\n\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 856adaafd860cc381695cf139cdcf149777e6ce6)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653380423171)
+-@@ -11,20 +11,63 @@
+- 
+-     <ImageView
+-         android:id="@+id/imgSlot"
+--        android:layout_width="350sp"
+--        android:layout_height="350sp"
+-+        android:layout_width="300sp"
+-+        android:layout_height="300sp"
+-         android:layout_centerHorizontal="true"
+--        android:layout_marginTop="80sp"
+-+        android:layout_marginTop="120sp"
+-         android:src="@drawable/placeholder">
+- 
+-     </ImageView>
+- 
+-     <ImageView
+--        android:layout_width="350sp"
+-+        android:layout_width="150sp"
+-         android:layout_height="50sp"
+-         android:src="@drawable/toolbar"
+-+        android:layout_marginLeft="55sp"
+-+        android:layout_marginTop="430sp">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:layout_width="150sp"
+-+        android:layout_height="50sp"
+-+        android:src="@drawable/toolbar"
+-+        android:layout_alignParentRight="true"
+-+        android:layout_marginRight="55sp"
+-+        android:layout_marginTop="430sp">
+-+
+-+    </ImageView>
+-+
+-+
+-+    <ImageView
+-+        android:id="@+id/brush"
+-+        android:layout_width="30sp"
+-+        android:layout_height="30sp"
+-+        android:layout_marginTop="440sp"
+-+        android:layout_marginLeft="115sp"
+-+        android:src="@drawable/brush">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:id="@+id/eraser"
+-+        android:layout_width="30sp"
+-+        android:layout_height="30sp"
+-+        android:layout_marginTop="440sp"
+-+        android:layout_marginRight="115sp"
+-+        android:src="@drawable/eraser"
+-+        android:layout_alignParentRight="true">
+-+
+-+    </ImageView>
+-+
+-+    <ImageView
+-+        android:id="@+id/btnSave"
+-+        android:layout_width="300sp"
+-+        android:layout_height="150sp"
+-         android:layout_centerHorizontal="true"
+--        android:layout_marginTop="440sp">
+-+        android:layout_alignParentBottom="true"
+-+        android:layout_marginBottom="45sp"
+-+        android:src="@drawable/savebtn">
+- 
+-     </ImageView>
+- 
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]" date="1653383075469" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 11:04 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]" date="1653376833543" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_09_20_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/2022 09:20 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_11_04_[Changes]/shelved.patch	
++++ /dev/null	
+@@ -1,48 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"100sp\"\r\n        android:layout_height=\"100sp\"\r\n        android:src=\"@drawable/logo\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"15sp\">\r\n\r\n    </ImageView>\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imgSlot\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"300sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"120sp\"\r\n        android:src=\"@drawable/placeholder\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_marginLeft=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/brush\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginLeft=\"115sp\"\r\n        android:src=\"@drawable/brush\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/eraser\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginRight=\"115sp\"\r\n        android:src=\"@drawable/eraser\"\r\n        android:layout_alignParentRight=\"true\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnSave\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"150sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginBottom=\"45sp\"\r\n        android:src=\"@drawable/savebtn\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653381917521)
+-@@ -32,7 +32,7 @@
+-         android:layout_width="300sp"
+-         android:layout_height="50sp"
+-         android:src="@drawable/toolbar"
+--        android:layout_marginLeft="55sp"
+-+        android:layout_centerHorizontal="true"
+-         android:layout_marginTop="430sp">
+- 
+-     </ImageView>
+-Index: .idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22__9_12_AM__Default_Changelist_.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ /dev/null	(revision 71406386270664a192128f994801df6d6cba8e98)
+-@@ -1,9 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Merge_at_24_05_22,_9_12_AM_[Default_Changelist]" date="1653376403529" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_24_05_22,_9_12_AM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Merge at 24/05/22, 9:12 AM [Default Changelist]" />
+--  <binary>
+--    <option name="BEFORE_PATH" value="app/src/main/res/drawable/placeholder-image-square.jpeg" />
+--    <option name="AFTER_PATH" />
+--    <option name="SHELVED_PATH" />
+--  </binary>
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22__9_13_AM__Default_Changelist_.xml	(revision 71406386270664a192128f994801df6d6cba8e98)
+-+++ /dev/null	(revision 71406386270664a192128f994801df6d6cba8e98)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Checkout_at_24_05_22,_9_13_AM_[Default_Changelist]" date="1653376415573" recycled="false" toDelete="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_22,_9_13_AM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/22, 9:13 AM [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]" date="1653376247319" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/2022 09:10 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13__Changes_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]" date="1653372819122" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_08_13_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 24/05/2022 08:13 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_2022_10_44_[Changes]/shelved.patch	
++++ /dev/null	
+@@ -1,18 +0,0 @@
+-Index: app/src/main/res/layout/activity_mask.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<RelativeLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@color/white\"\r\n    tools:context=\".activities.MaskActivity\">\r\n\r\n    <ImageView\r\n        android:id=\"@+id/imgSlot\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"300sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_marginTop=\"120sp\"\r\n        android:src=\"@drawable/placeholder\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_marginLeft=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:layout_width=\"150sp\"\r\n        android:layout_height=\"50sp\"\r\n        android:src=\"@drawable/toolbar\"\r\n        android:layout_alignParentRight=\"true\"\r\n        android:layout_marginRight=\"55sp\"\r\n        android:layout_marginTop=\"430sp\">\r\n\r\n    </ImageView>\r\n\r\n\r\n    <ImageView\r\n        android:id=\"@+id/brush\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginLeft=\"115sp\"\r\n        android:src=\"@drawable/brush\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/eraser\"\r\n        android:layout_width=\"30sp\"\r\n        android:layout_height=\"30sp\"\r\n        android:layout_marginTop=\"440sp\"\r\n        android:layout_marginRight=\"115sp\"\r\n        android:src=\"@drawable/eraser\"\r\n        android:layout_alignParentRight=\"true\">\r\n\r\n    </ImageView>\r\n\r\n    <ImageView\r\n        android:id=\"@+id/btnSave\"\r\n        android:layout_width=\"300sp\"\r\n        android:layout_height=\"150sp\"\r\n        android:layout_centerHorizontal=\"true\"\r\n        android:layout_alignParentBottom=\"true\"\r\n        android:layout_marginBottom=\"45sp\"\r\n        android:src=\"@drawable/savebtn\">\r\n\r\n    </ImageView>\r\n\r\n</RelativeLayout>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/app/src/main/res/layout/activity_mask.xml b/app/src/main/res/layout/activity_mask.xml
+---- a/app/src/main/res/layout/activity_mask.xml	(revision fc6646c6d4e6e6f34de11a1002f25de087ddf541)
+-+++ b/app/src/main/res/layout/activity_mask.xml	(date 1653380751595)
+-@@ -1,7 +1,6 @@
+- <?xml version="1.0" encoding="utf-8"?>
+- <RelativeLayout
+-     xmlns:android="http://schemas.android.com/apk/res/android"
+--    xmlns:android="http://schemas.android.com/apk/res/android"
+-     xmlns:tools="http://schemas.android.com/tools"
+-     android:layout_width="match_parent"
+-     android:layout_height="match_parent"
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22__10_20_AM__Default_Changelist_.xml	
++++ /dev/null	
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]" date="1653380438707" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24_05_22,_10_20_AM_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24/05/22, 10:20 AM [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"../../../../../layout/custom_preview.xml\" value=\"0.1879432624113475\" />\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml\" value=\"0.26766304347826086\" />\r\n        <entry key=\"..\\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_mask.xml\" value=\"0.13518518518518519\" />\r\n        <entry key=\"..\\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_main.xml\" value=\"0.15450861195542046\" />\r\n        <entry key=\"..\\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_mask.xml\" value=\"0.16236068895643363\" />\r\n        <entry key=\"..\\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_qr_capture.xml\" value=\"0.16236068895643363\" />\r\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.33055555555555555\" />\r\n        <entry key=\"app/src/main/res/layout/activity_mask.xml\" value=\"0.33055555555555555\" />\r\n        <entry key=\"app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml\" value=\"0.193\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"Android Studio default JDK\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -4,8 +4,7 @@
+     <option name="filePathToZoomLevelMap">
+       <map>
+         <entry key="../../../../../layout/custom_preview.xml" value="0.1879432624113475" />
+-        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.26766304347826086" />
+-        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_mask.xml" value="0.13518518518518519" />
++        <entry key="..\:/Users/Utente/AndroidStudioProjects/EasyMask/app/src/main/res/layout/activity_mask.xml" value="0.26766304347826086" />
+         <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_main.xml" value="0.15450861195542046" />
+         <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_mask.xml" value="0.16236068895643363" />
+         <entry key="..\:/Users/quercioli.edoardo/Documents/GitHub/EasyMask/app/src/main/res/layout/activity_qr_capture.xml" value="0.16236068895643363" />
+Index: app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.util;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.util.DisplayMetrics;\r\nimport android.view.ViewGroup;\r\nimport android.widget.RelativeLayout;\r\n\r\npublic class GraphicUtil\r\n{\r\n    public static int getScreenWidth(Activity activity)\r\n    {\r\n        DisplayMetrics displayMetrics = new DisplayMetrics();\r\n        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);\r\n        return displayMetrics.widthPixels;\r\n    }\r\n    public static int getScreenHeight(Activity activity)\r\n    {\r\n        DisplayMetrics displayMetrics = new DisplayMetrics();\r\n        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);\r\n        return displayMetrics.heightPixels;\r\n    }\r\n\r\n    public static void applySize(RelativeLayout layout, int width, int height)\r\n    {\r\n        layout.getLayoutParams().width = width;\r\n        layout.getLayoutParams().height = height;\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java b/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java
+--- a/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java	
++++ b/app/src/main/java/it/volta/ts/easymask/util/GraphicUtil.java	
+@@ -25,5 +25,7 @@
+     {
+         layout.getLayoutParams().width = width;
+         layout.getLayoutParams().height = height;
++        int h = layout.getHeight();
++        int w = layout.getWidth();
+     }
+ }
+Index: app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.volta.ts.easymask.widgets;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.graphics.PorterDuff;\r\nimport android.graphics.PorterDuffXfermode;\r\nimport android.util.AttributeSet;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\n\r\nimport androidx.annotation.ColorInt;\r\nimport androidx.annotation.Nullable;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport it.volta.ts.easymask.obj.FPoint;\r\nimport it.volta.ts.easymask.tools.ToolSelector;\r\n\r\npublic class MaskEraser extends androidx.appcompat.widget.AppCompatImageView\r\n{\r\n\r\n    private MaskImage maskImage;\r\n\r\n    @ColorInt\r\n    int eraseColor = Color.WHITE;\r\n    int stroke;\r\n\r\n    private OnMaskTouch onMaskTouch;\r\n\r\n    List<List<FPoint>> points;\r\n    List<FPoint>       track;\r\n\r\n    int width, height;\r\n    float fromX, fromY, toX, toY;\r\n    Paint paint;\r\n\r\n\r\n    @Override\r\n    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)\r\n    {\r\n        super.onMeasure(widthMeasureSpec, heightMeasureSpec);\r\n        this.setDrawingCacheEnabled(true);\r\n        width  = MeasureSpec.getSize(widthMeasureSpec );\r\n        height = MeasureSpec.getSize(heightMeasureSpec);\r\n        stroke = width * 5 / 100;\r\n        paint.setStrokeWidth(stroke);\r\n    }\r\n\r\n    OnTouchListener onTouch = new OnTouchListener() {\r\n        @Override\r\n        public boolean onTouch(View view, MotionEvent event)\r\n        {\r\n            float x = event.getX();\r\n            float y = event.getY();\r\n\r\n            switch(event.getAction())\r\n            {\r\n                case MotionEvent.ACTION_DOWN:\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    track = new ArrayList<>();\r\n\r\n                    points.add(track);\r\n\r\n\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n                    break;\r\n                case MotionEvent.ACTION_UP:\r\n                    if (ToolSelector.toolState != 1)\r\n                    {\r\n\r\n                    }\r\n                    //show();\r\n                    break;\r\n                case MotionEvent.ACTION_MOVE:\r\n                    toX = x;\r\n                    toY = y;\r\n\r\n                    fromX = x;\r\n                    fromY = y;\r\n                    if (ToolSelector.toolState == 1)\r\n                    {\r\n                        track.add(new FPoint(x,y, false));\r\n                    } else {\r\n                        track.add(new FPoint(x,y, true));\r\n                    }\r\n                    if (onMaskTouch != null)\r\n                        onMaskTouch.onPoint(x,y);\r\n\r\n                    break;\r\n            }\r\n\r\n            MaskEraser.this.invalidate();\r\n            return true;\r\n        }\r\n    };\r\n\r\n\r\n    @Override\r\n    protected void onDraw(Canvas canvas)\r\n    {\r\n        //super.onDraw(canvas);\r\n\r\n        for (List<FPoint> track : points)\r\n        {\r\n            if (track.size() > 1) {\r\n                for (int idx = 1; idx < track.size(); idx++) {\r\n                    if(track.get(idx-1).eraser || track.get(idx).eraser) {\r\n\r\n                        paint.setColor(eraseColor);\r\n                        canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,\r\n                                track.get(idx).x, track.get(idx).y,\r\n                                paint);\r\n                        maskImage.erase(this.getDrawingCache());\r\n                    }\r\n                }\r\n            }\r\n            else {\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    public void setOnMaskTouch(OnMaskTouch onMaskTouch) {\r\n        this.onMaskTouch = onMaskTouch;\r\n    }\r\n\r\n    public interface OnMaskTouch\r\n    {\r\n        void onPoint(float x, float y);\r\n    }\r\n\r\n    //----------------------------------------------------------------------------------------------\r\n\r\n    public MaskEraser(Context context) {\r\n        super(context);\r\n        init();\r\n    }\r\n\r\n    public MaskEraser(Context context, @Nullable AttributeSet attrs) {\r\n        super(context, attrs);\r\n        init();\r\n    }\r\n\r\n    public MaskEraser(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {\r\n        super(context, attrs, defStyleAttr);\r\n        init();\r\n    }\r\n\r\n    private void init()\r\n    {\r\n        points = new ArrayList<>();\r\n\r\n        paint = new Paint();\r\n\r\n        paint.setAntiAlias(true);\r\n        paint.setStrokeCap(Paint.Cap.ROUND);\r\n\r\n        setBackgroundColor(0x00000000);\r\n        setOnTouchListener(onTouch);\r\n    }\r\n\r\n    public void setMaskImage(MaskImage maskImage) {\r\n        this.maskImage = maskImage;\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java b/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java
+--- a/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java	
++++ b/app/src/main/java/it/volta/ts/easymask/widgets/MaskEraser.java	
+@@ -122,6 +122,7 @@
+                         canvas.drawLine(track.get(idx - 1).x, track.get(idx - 1).y,
+                                 track.get(idx).x, track.get(idx).y,
+                                 paint);
++
+                         maskImage.erase(this.getDrawingCache());
+                     }
+                 }
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_24_05_2022_09_10_[Changes]/shelved.patch
+deleted file mode 100644

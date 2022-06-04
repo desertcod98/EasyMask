@@ -179,14 +179,12 @@
 
     <ImageView
         android:id="@+id/btnUp"
-        android:layout_width ="100dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_centerHorizontal ="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/uploadbtn"
-        android:hapticFeedbackEnabled="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
-        >
-    </ImageView>
+        android:hapticFeedbackEnabled="true"
+        android:src="@drawable/uploadbtn" />
 
 </RelativeLayout>
