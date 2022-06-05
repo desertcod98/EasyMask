@@ -15,6 +15,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
 import it.volta.ts.easymask.activities.MaskActivity;
+import it.volta.ts.easymask.networking.UrlHandler;
 import it.volta.ts.easymask.util.GraphicUtil;
 
 
