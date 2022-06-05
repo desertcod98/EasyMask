@@ -179,23 +179,23 @@
 
     <ImageView
         android:id="@+id/btnUp"
-        android:layout_width="@dimen/mask_buttons_width"
-        android:layout_height="@dimen/mask_buttons_height"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
         android:hapticFeedbackEnabled="true"
         android:src="@drawable/uploadbtn" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="stats"
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:src="@drawable/statsbtn"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/btnSt"
         android:hapticFeedbackEnabled="true">
 
-    </Button>
+    </ImageView>
 
 </RelativeLayout>

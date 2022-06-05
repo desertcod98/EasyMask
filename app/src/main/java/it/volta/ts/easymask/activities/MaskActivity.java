@@ -36,8 +36,7 @@ public class MaskActivity extends AppCompatActivity
 
     private FileHandler fileHandler;
 
-    private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn;
-    private Button btnStats;
+    private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn, btnStats;
     private MaskImage maskImage;
     private RelativeLayout imageLayout;
     private ImageView zoomIn, zoomOut;
@@ -230,6 +229,7 @@ public class MaskActivity extends AppCompatActivity
     View.OnClickListener onUploadBtnClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             //getBitmap
             drawingBitmap = maskImage.getDrawingBitmap();
             //resize bitmap
