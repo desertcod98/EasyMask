@@ -6,8 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.slider.Slider;
 
 import it.volta.ts.easymask.R;
+import it.volta.ts.easymask.bean.Stats;
 import it.volta.ts.easymask.fileHandling.FileHandler;
 import it.volta.ts.easymask.networking.ThreadRunner;
 import it.volta.ts.easymask.networking.UrlHandler;
@@ -34,6 +37,7 @@ public class MaskActivity extends AppCompatActivity
     private FileHandler fileHandler;
 
     private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn;
+    private Button btnStats;
     private MaskImage maskImage;
     private RelativeLayout imageLayout;
     private ImageView zoomIn, zoomOut;
@@ -92,6 +96,7 @@ public class MaskActivity extends AppCompatActivity
         eraser    = findViewById(R.id.eraser);
         undo      = findViewById(R.id.undo);
         redo      = findViewById(R.id.redo);
+        btnStats  = findViewById(R.id.btnSt);
 
         brush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +128,14 @@ public class MaskActivity extends AppCompatActivity
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         });
 
-
+        btnStats.setOnClickListener(view -> {
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            float px = (float)Stats.calculateNonTraspPixels(maskImage.getDrawingBitmap());
+            float w = maskImage.getDrawingBitmap().getWidth();
+            float h = maskImage.getDrawingBitmap().getHeight();
+            float perc = MathUtil.roundDown((px / (w*h)) * 100, 1);
+            Toast.makeText(this, ("Coverage: " + perc + "%"), Toast.LENGTH_SHORT).show();
+        });
 
         zoomIn  = findViewById(R.id.zoom_in );
         zoomOut = findViewById(R.id.zoom_out);

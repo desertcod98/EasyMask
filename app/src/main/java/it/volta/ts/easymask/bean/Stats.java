@@ -7,22 +7,24 @@ import android.widget.ImageView;
 
 public class Stats {
 
-    public static int getDimensStats (int baseWidth, int baseHeight, ImageView overlay) {
-        Bitmap b = ((BitmapDrawable)overlay.getDrawable()).getBitmap();
+//    public static double getDimensStats (int baseWidth, int baseHeight, Bitmap overlay) {
+//
+//        int bmColoredPixels = calculateNonTraspPixels(overlay);
+//
+//        double value = ((bmColoredPixels) / (baseWidth * baseHeight)) * 100;
+//
+//        return value;
+//    }
 
-        int bmColoredPixels = calculateNonTraspPixels(b);
-
-        return ((bmColoredPixels) / (baseWidth * baseHeight)) * 100;
-    }
-
-    private static int calculateNonTraspPixels (Bitmap b) {
+    public static int calculateNonTraspPixels (Bitmap b) {
         int pixelCounter = 0;
 
-        for (int idxW = 0; idxW < b.getWidth(); idxW++){
-            for (int idxH = 0; idxH < b.getHeight(); idxH++) {
-                if (b.getPixel(idxW, idxH) == 0x50ff0000)
-                    pixelCounter++;
-            }
+        int[] pixels = new int[b.getWidth() * b.getHeight()];
+        b.getPixels(pixels, 0, b.getWidth(), 0, 0, b.getWidth(), b.getHeight());
+
+        for (int idx = 0; idx < pixels.length; idx++){
+            if (pixels[idx] != 0)
+                pixelCounter++;
         }
 
         return pixelCounter;
