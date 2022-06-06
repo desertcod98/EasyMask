@@ -1,14 +1,23 @@
 package it.volta.ts.easymask.activities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -127,6 +136,8 @@ public class MaskActivity extends AppCompatActivity
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         });
 
+
+
         btnStats.setOnClickListener(view -> {
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             float px = (float)Stats.calculateNonTraspPixels(maskImage.getDrawingBitmap());
@@ -134,6 +145,22 @@ public class MaskActivity extends AppCompatActivity
             float h = maskImage.getDrawingBitmap().getHeight();
             float perc = MathUtil.roundDown((px / (w*h)) * 100, 1);
             Toast.makeText(this, ("Coverage: " + perc + "%"), Toast.LENGTH_SHORT).show();
+
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.popup_window, null);
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            dimBehind(popupWindow);
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
         });
 
         zoomIn  = findViewById(R.id.zoom_in );
@@ -244,5 +271,24 @@ public class MaskActivity extends AppCompatActivity
         }
     };
 
+    private void dimBehind(PopupWindow popupWindow) {
+        View container;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            container = (View) popupWindow.getContentView().getParent();
+        } else {
+            container = popupWindow.getContentView();
+        }
+        if (popupWindow.getBackground() != null) {
+            container = (View) container.getParent();
+        }
+        Context context = popupWindow.getContentView().getContext();
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
+        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        p.dimAmount = 0.6f;
+        wm.updateViewLayout(container, p);
+    }
+
 
 }
+
