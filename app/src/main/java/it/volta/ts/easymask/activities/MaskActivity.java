@@ -39,50 +39,49 @@ import it.volta.ts.easymask.util.GraphicUtil;
 import it.volta.ts.easymask.util.MathUtil;
 import it.volta.ts.easymask.widgets.MaskImage;
 
-public class MaskActivity extends AppCompatActivity
-{
+public class MaskActivity extends AppCompatActivity {
     private ThreadRunner threadRunner;
 
     private FileHandler fileHandler;
 
     private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn, btnStats;
     private MaskImage maskImage;
-    private RelativeLayout imageLayout;
+    private RelativeLayout imageLayout, popupstats, baseLayout;
     private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
     private Slider slider;
+    private TextView coverage, imageDimens, pixelsOutOf, closeBtn;
 
     private Bitmap drawingBitmap;
     private Bitmap resizedBitmap;
     private int screenHeight;
     private int screenWidth;
     private String url;
-    private int    maxHeight, maxWidth;
-    private int    imgHeight, imgWidth;
-    private int    newHeight, newWidth;
+    private int maxHeight, maxWidth;
+    private int imgHeight, imgWidth;
+    private int newHeight, newWidth;
 
     private final double maxHeightRatio = 0.6;
-    private final double maxWidthRatio  = 0.95;
+    private final double maxWidthRatio = 0.95;
     private final String urlKey = "url"; //TODO duplicate, dovrebbe essere solo in urlHandler, rivedi responsabilità classi
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mask);
 
         screenHeight = GraphicUtil.getScreenHeight(this);
-        screenWidth  = GraphicUtil.getScreenWidth(this);
-        maxHeight    = (int)(screenHeight * maxHeightRatio);
-        maxWidth     = (int)(screenWidth  * maxWidthRatio );
+        screenWidth = GraphicUtil.getScreenWidth(this);
+        maxHeight = (int) (screenHeight * maxHeightRatio);
+        maxWidth = (int) (screenWidth * maxWidthRatio);
 
         fileHandler = new FileHandler(this);
 
 
         Bundle b = getIntent().getExtras();
         url = b.getString(urlKey);
-        downloadedImg = findViewById(R.id.imgSlot     );
-        imageLayout   = findViewById(R.id.image_layout);
+        downloadedImg = findViewById(R.id.imgSlot);
+        imageLayout = findViewById(R.id.image_layout);
 
         maskImage = findViewById(R.id.imgMask);
         maskImage.setFocusable(true);
@@ -100,11 +99,18 @@ public class MaskActivity extends AppCompatActivity
 
         loadImage(downloadedImg, url);
 
-        brush     = findViewById(R.id.brush );
-        eraser    = findViewById(R.id.eraser);
-        undo      = findViewById(R.id.undo);
-        redo      = findViewById(R.id.redo);
-        btnStats  = findViewById(R.id.btnSt);
+        brush = findViewById(R.id.brush);
+        eraser = findViewById(R.id.eraser);
+        undo = findViewById(R.id.undo);
+        redo = findViewById(R.id.redo);
+        btnStats = findViewById(R.id.btnSt);
+
+        popupstats = findViewById(R.id.popupstats);
+        coverage = findViewById(R.id.coverage);
+        imageDimens = findViewById(R.id.imageDimens);
+        pixelsOutOf = findViewById(R.id.pixelsOutOf);
+        closeBtn = findViewById(R.id.closeBtn);
+        baseLayout = findViewById(R.id.baseLayout);
 
         brush.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,72 +143,68 @@ public class MaskActivity extends AppCompatActivity
         });
 
 
-
         btnStats.setOnClickListener(view -> {
             view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            float px = (float)Stats.calculateNonTraspPixels(maskImage.getDrawingBitmap());
+            float px = (float) Stats.calculateNonTraspPixels(maskImage.getDrawingBitmap());
             float w = maskImage.getDrawingBitmap().getWidth();
             float h = maskImage.getDrawingBitmap().getHeight();
-            float perc = MathUtil.roundDown((px / (w*h)) * 100, 1);
-//            Toast.makeText(this, ("Coverage: " + perc + "%"), Toast.LENGTH_SHORT).show();
+            float perc = MathUtil.roundDown((px / (w * h)) * 100, 1);
+            int totPx = (int) (w * h);
 
-            int totPx = (int)(w * h);
+            coverage.setText("Coverage: " + perc + "%");
+            imageDimens.setText("Image size: " + (int) (w) + "x" + (int) (h));
+            pixelsOutOf.setText((int) (px) + " pixels out of " + (int) (totPx));
 
-//            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-//            View popupView = inflater.inflate(R.layout.popup_window, null);
-
-            String cov = ("Coverage: " + perc + "%");
-            String size = ("Image size: " + (int)(w) + "x" + (int)(h));
-            String pixTxt = ((int)(px) + " pixels out of " + (int)(totPx));
-
-            Intent intent = new Intent(MaskActivity.this, PopupActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("covStr", cov);
-            bundle.putString("sizeStr", size);
-            bundle.putString("pixStr", pixTxt);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-//            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-//            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-//            boolean focusable = true;
-//            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-//            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-//            dimBehind(popupWindow);
-//            popupView.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    popupWindow.dismiss();
-//                    return true;
-//                }
-//            });
+            closeBtn.setEnabled(true);
+            popupstats.setVisibility(View.VISIBLE);
+            brush.setEnabled(false);
+            eraser.setEnabled(false);
+            slider.setEnabled(false);
+            undo.setEnabled(false);
+            redo.setEnabled(false);
+            zoomIn.setEnabled(false);
+            zoomOut.setEnabled(false);
+            maskImage.setEnabled(false);
         });
 
-        zoomIn  = findViewById(R.id.zoom_in );
+        zoomIn = findViewById(R.id.zoom_in);
         zoomOut = findViewById(R.id.zoom_out);
-        zoomIn .setOnClickListener(onZoom);
+        zoomIn.setOnClickListener(onZoom);
         zoomOut.setOnClickListener(onZoom);
+
+        closeBtn.setOnClickListener(view -> {
+            popupstats.setVisibility(View.INVISIBLE);
+            closeBtn.setEnabled(false);
+            brush.setEnabled(true);
+            eraser.setEnabled(true);
+            slider.setEnabled(true);
+            undo.setEnabled(true);
+            redo.setEnabled(true);
+            zoomIn.setEnabled(true);
+            zoomOut.setEnabled(true);
+            maskImage.setEnabled(true);
+        });
     }
 
-    private void setDimens(int imgWidth, int imgHeight)
-    {
+
+    private void setDimens(int imgWidth, int imgHeight) {
         newHeight = imgHeight;
-        newWidth  = imgWidth;
+        newWidth = imgWidth;
         float ratio;
 
         if (imgWidth > imgHeight) {
             ratio = (float) maxWidth / (float) imgWidth;
 
-        } else if (imgHeight > imgWidth){
+        } else if (imgHeight > imgWidth) {
             ratio = (float) maxHeight / (float) imgHeight;
-        }else{
-            if(maxWidth>maxWidth)
-                 ratio = (float) maxHeight / (float) imgHeight;
+        } else {
+            if (maxWidth > maxWidth)
+                ratio = (float) maxHeight / (float) imgHeight;
             else ratio = (float) maxWidth / (float) imgWidth;
         }
 
-        newWidth  = (int)((float) imgWidth  * ratio);
-        newHeight = (int)((float) imgHeight * ratio);
+        newWidth = (int) ((float) imgWidth * ratio);
+        newHeight = (int) ((float) imgHeight * ratio);
 
         GraphicUtil.applySize(imageLayout, newWidth, newHeight);
     }
@@ -212,12 +214,11 @@ public class MaskActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        int width  = downloadedImg.getWidth();
+        int width = downloadedImg.getWidth();
         int height = downloadedImg.getHeight();
     }
 
-    private void loadImage(ImageView view, String url)
-    {
+    private void loadImage(ImageView view, String url) {
         Glide.with(this)
                 .asBitmap()
                 .load(url)
@@ -228,8 +229,8 @@ public class MaskActivity extends AppCompatActivity
                         imgHeight = bitmap.getHeight();
                         view.setImageBitmap(bitmap);
 
-                        setDimens(imgWidth,imgHeight);
-                        Bitmap transBmp = Bitmap.createBitmap(imgWidth,imgHeight,Bitmap.Config.ARGB_8888);
+                        setDimens(imgWidth, imgHeight);
+                        Bitmap transBmp = Bitmap.createBitmap(imgWidth, imgHeight, Bitmap.Config.ARGB_8888);
                         sourceImage = new BitmapDrawable(getResources(), bitmap);
                         sourceImage.setAlpha(100);
                         maskImage.setImageDrawable(sourceImage);
@@ -246,25 +247,24 @@ public class MaskActivity extends AppCompatActivity
 
     View.OnClickListener onZoom = new View.OnClickListener() {
         @Override
-        public void onClick(View v)
-        {
+        public void onClick(View v) {
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
 
             float scale = downloadedImg.getScaleX();
-            scale = MathUtil.roundDown(scale,1);
+            scale = MathUtil.roundDown(scale, 1);
 
 
-            if(v.getId() == R.id.zoom_in){
+            if (v.getId() == R.id.zoom_in) {
                 scale += 0.1f;
-            }else if(v.getId() == R.id.zoom_out){
+            } else if (v.getId() == R.id.zoom_out) {
                 if (scale > 1f)
                     scale -= 0.1f;
             }
 
             downloadedImg.setScaleX(scale);
             downloadedImg.setScaleY(scale);
-            maskImage    .setScaleX(scale);
-            maskImage    .setScaleY(scale);
+            maskImage.setScaleX(scale);
+            maskImage.setScaleY(scale);
         }
     };
 
@@ -285,27 +285,8 @@ public class MaskActivity extends AppCompatActivity
             threadRunner.start();
         }
     };
-
-    //-----------------------------------------------------------------------------------------
-
-    private void dimBehind(PopupWindow popupWindow) {
-        View container;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            container = (View) popupWindow.getContentView().getParent();
-        } else {
-            container = popupWindow.getContentView();
-        }
-        if (popupWindow.getBackground() != null) {
-            container = (View) container.getParent();
-        }
-        Context context = popupWindow.getContentView().getContext();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams p = (WindowManager.LayoutParams) container.getLayoutParams();
-        p.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        p.dimAmount = 0.6f;
-        wm.updateViewLayout(container, p);
     }
 
 
-}
+
 
