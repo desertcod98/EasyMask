@@ -2,6 +2,8 @@ package it.volta.ts.easymask.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
@@ -14,8 +16,10 @@ public class PopupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        setTheme(R.style.Theme_Transparent);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popup_window);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         cov = findViewById(R.id.coverage);
         imgSize = findViewById(R.id.imageDimens);
