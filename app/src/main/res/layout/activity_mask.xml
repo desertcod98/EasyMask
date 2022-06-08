@@ -20,6 +20,7 @@
             android:orientation  ="horizontal"
             android:gravity="end"
             >
+
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="50dp"
@@ -42,7 +43,7 @@
             android:layout_width     ="400dp"
             android:layout_height    ="400dp"
             android:layout_below     ="@+id/header"
-            android:layout_marginTop ="35dp"
+            android:layout_marginTop="25dp"
             android:layout_centerHorizontal="true"
             android:background       ="#80008000"
             android:layout_marginBottom="10dp"
@@ -132,44 +133,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="150dp"
-            >
-            <com.google.android.material.slider.Slider
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/strokeSlider"
-                app:trackColor="#3880C8"
-                app:thumbColor="@color/black"
-                android:valueFrom="0.1"
-                android:valueTo="2.0"
-                android:value="1"
-                android:stepSize="0.1">
-            </com.google.android.material.slider.Slider>
 
-            <ImageView
-                android:id="@+id/zoom_in"
-                android:layout_width    ="@dimen/mask_buttons_width"
-                android:layout_height   ="@dimen/mask_buttons_height"
-                android:layout_marginEnd ="@dimen/mask_buttons_mSE"
-                android:layout_marginStart="@dimen/mask_buttons_mSE"
-                android:src="@drawable/btnzoomin"
-                android:hapticFeedbackEnabled="true"
-                />
-            <ImageView
-                android:id="@+id/zoom_out"
-                android:layout_width    ="@dimen/mask_buttons_width"
-                android:layout_height   ="@dimen/mask_buttons_height"
-                android:layout_marginStart ="@dimen/mask_buttons_mSE"
-                android:src="@drawable/btnzoomout"
-                android:hapticFeedbackEnabled="true"
-                />
-
-        </LinearLayout>
 
         <!--    <ImageView-->
         <!--        android:id="@+id/btnSave"-->
@@ -203,8 +167,43 @@
 
         </ImageView>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_above="@+id/buttons"
+            android:gravity="center_vertical"
+            android:id="@+id/sliderAndStroke"
+            android:layout_centerHorizontal="true"
+            >
+            <com.google.android.material.slider.Slider
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/strokeSlider"
+                app:trackColor="#3880C8"
+                app:thumbColor="@color/black"
+                android:valueFrom="0.1"
+                android:valueTo="2.0"
+                android:value="1"
+                android:stepSize="0.1"
+                android:layout_below="@+id/btnSt"
+                android:layout_marginLeft="15dp"
+                >
+            </com.google.android.material.slider.Slider>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:id="@+id/strokeDimens"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@+id/strokeSlider"
+                />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -231,11 +230,11 @@
                 android:layout_height="wrap_content"
                 android:text="CLOSE"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="15sp"
                 android:layout_alignParentRight="true"
                 android:textStyle="bold"
                 android:layout_marginRight="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:id="@+id/closeBtn"
                 android:enabled="false"
                 >
@@ -255,10 +254,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="15dp"
                     android:text="Coverage: 0%"
                     android:textColor="#3880C8"
-                    android:textSize="22sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -266,10 +265,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="15dp"
                     android:text="Image Size: 100x100"
                     android:textColor="#3880C8"
-                    android:textSize="22sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -277,11 +276,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_margin="30dp"
+                    android:layout_margin="15dp"
                     android:text="Tanti pixels out of Tutti"
                     android:textColor="#3880C8"
-                    android:textSize="22sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
         </RelativeLayout>

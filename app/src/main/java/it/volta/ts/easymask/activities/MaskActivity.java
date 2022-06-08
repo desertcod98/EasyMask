@@ -1,24 +1,14 @@
 package it.volta.ts.easymask.activities;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,10 +34,10 @@ public class MaskActivity extends AppCompatActivity {
 
     private FileHandler fileHandler;
 
-    private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn, btnStats;
+    private ImageView downloadedImg, brush, eraser, undo, redo, uploadBtn, btnStats, strokeDimens;
     private MaskImage maskImage;
     private RelativeLayout imageLayout, popupstats, baseLayout;
-    private ImageView zoomIn, zoomOut;
+//    private ImageView zoomIn, zoomOut;
     private BitmapDrawable sourceImage;
     private Slider slider;
     private TextView coverage, imageDimens, pixelsOutOf, closeBtn;
@@ -89,11 +79,19 @@ public class MaskActivity extends AppCompatActivity {
 
         uploadBtn = findViewById(R.id.btnUp);
         uploadBtn.setOnClickListener(onUploadBtnClick);
+
+        strokeDimens = findViewById(R.id.strokeDimens);
+        strokeDimens.getLayoutParams().width = 50;
+        strokeDimens.getLayoutParams().height = 50;
+
         slider = findViewById(R.id.strokeSlider);
         slider.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 maskImage.setStrokeWidth(value * 50);
+                strokeDimens.requestLayout();
+                strokeDimens.getLayoutParams().width = (int)(value * 50);
+                strokeDimens.getLayoutParams().height = (int)(value * 50);
             }
         });
 
@@ -162,15 +160,15 @@ public class MaskActivity extends AppCompatActivity {
             slider.setEnabled(false);
             undo.setEnabled(false);
             redo.setEnabled(false);
-            zoomIn.setEnabled(false);
-            zoomOut.setEnabled(false);
+//            zoomIn.setEnabled(false);
+//            zoomOut.setEnabled(false);
             maskImage.setEnabled(false);
         });
 
-        zoomIn = findViewById(R.id.zoom_in);
-        zoomOut = findViewById(R.id.zoom_out);
-        zoomIn.setOnClickListener(onZoom);
-        zoomOut.setOnClickListener(onZoom);
+//        zoomIn = findViewById(R.id.zoom_in);
+//        zoomOut = findViewById(R.id.zoom_out);
+//        zoomIn.setOnClickListener(onZoom);
+//        zoomOut.setOnClickListener(onZoom);
 
         closeBtn.setOnClickListener(view -> {
             popupstats.setVisibility(View.INVISIBLE);
@@ -180,8 +178,8 @@ public class MaskActivity extends AppCompatActivity {
             slider.setEnabled(true);
             undo.setEnabled(true);
             redo.setEnabled(true);
-            zoomIn.setEnabled(true);
-            zoomOut.setEnabled(true);
+//            zoomIn.setEnabled(true);
+//            zoomOut.setEnabled(true);
             maskImage.setEnabled(true);
         });
     }
@@ -245,28 +243,28 @@ public class MaskActivity extends AppCompatActivity {
     //-----------------------------------------------------------------------------------------
 
 
-    View.OnClickListener onZoom = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-
-            float scale = downloadedImg.getScaleX();
-            scale = MathUtil.roundDown(scale, 1);
-
-
-            if (v.getId() == R.id.zoom_in) {
-                scale += 0.1f;
-            } else if (v.getId() == R.id.zoom_out) {
-                if (scale > 1f)
-                    scale -= 0.1f;
-            }
-
-            downloadedImg.setScaleX(scale);
-            downloadedImg.setScaleY(scale);
-            maskImage.setScaleX(scale);
-            maskImage.setScaleY(scale);
-        }
-    };
+//    View.OnClickListener onZoom = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+//
+//            float scale = downloadedImg.getScaleX();
+//            scale = MathUtil.roundDown(scale, 1);
+//
+//
+//            if (v.getId() == R.id.zoom_in) {
+//                scale += 0.1f;
+//            } else if (v.getId() == R.id.zoom_out) {
+//                if (scale > 1f)
+//                    scale -= 0.1f;
+//            }
+//
+//            downloadedImg.setScaleX(scale);
+//            downloadedImg.setScaleY(scale);
+//            maskImage.setScaleX(scale);
+//            maskImage.setScaleY(scale);
+//        }
+//    };
 
     View.OnClickListener onUploadBtnClick = new View.OnClickListener() {
         @Override
