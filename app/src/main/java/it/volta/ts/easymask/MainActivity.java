@@ -1,0 +1,68 @@
+package it.volta.ts.easymask;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import it.volta.ts.easymask.activities.AnyOrientationCaptureActivity;
+import it.volta.ts.easymask.activities.MaskActivity;
+import it.volta.ts.easymask.networking.UrlHandler;
+import it.volta.ts.easymask.util.GraphicUtil;
+
+
+public class MainActivity extends AppCompatActivity {
+    private ImageView btn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+        intentIntegrator.setCaptureActivity(AnyOrientationCaptureActivity.class);
+        intentIntegrator.setPrompt("Scan a barcode or a QR Code");
+        intentIntegrator.setOrientationLocked(false);
+        intentIntegrator.setBeepEnabled(false);
+
+
+        btn = findViewById(R.id.btnAct);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                intentIntegrator.initiateScan();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (intentResult != null) {
+            if (intentResult.getContents() == null) {
+                Toast.makeText(getBaseContext(), "Scan cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, MaskActivity.class);
+                if(UrlHandler.setUrl(intentResult.getContents()) == -1){
+                    Toast.makeText(getBaseContext(), "Wrong URL format", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }else{
+                    startActivity(intent);
+                }
+
+            }
+
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+}

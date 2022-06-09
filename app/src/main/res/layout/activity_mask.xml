@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".activities.MaskActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/baseLayout">
+
+        <LinearLayout
+            android:id           ="@+id/header"
+            android:layout_width ="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation  ="horizontal"
+            android:gravity="end"
+            >
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="50dp"
+                android:src="@drawable/newlogoeasymask"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                />
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:src="@drawable/logo"
+                android:layout_marginEnd="5sp"
+                android:layout_marginTop="-15sp"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id               ="@+id/image_layout"
+            android:layout_width     ="400dp"
+            android:layout_height    ="400dp"
+            android:layout_below     ="@+id/header"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:background       ="#80008000"
+            android:layout_marginBottom="10dp"
+            android:splitMotionEvents="true"
+            >
+            <!--RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout"
+                -->
+            <ImageView
+                android:id="@+id/imgSlot"
+                android:layout_width ="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/placeholder"
+                />
+
+            <it.volta.ts.easymask.widgets.MaskImage
+                android:id="@+id/imgMask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true" />
+
+
+            <!--/RelativeLayout-->
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_above="@+id/btnUp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="35dp"
+            >
+            <ImageView
+                android:id="@+id/brush"
+                android:layout_width    ="@dimen/mask_buttons_width"
+                android:layout_height   ="@dimen/mask_buttons_height"
+                android:layout_marginEnd="@dimen/mask_buttons_mSE"
+                android:src="@drawable/btnpenna"
+                android:hapticFeedbackEnabled="true"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/eraser"
+                android:layout_width       ="@dimen/mask_buttons_width"
+                android:layout_height      ="@dimen/mask_buttons_height"
+                android:layout_marginStart ="@dimen/mask_buttons_mSE"
+                android:layout_marginEnd   ="@dimen/mask_buttons_mSE"
+                android:src="@drawable/btngomma"
+                android:hapticFeedbackEnabled="true"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/undo"
+                android:layout_width       ="@dimen/mask_buttons_width"
+                android:layout_height      ="@dimen/mask_buttons_height"
+                android:layout_marginStart ="@dimen/mask_buttons_mSE"
+                android:layout_marginEnd   ="@dimen/mask_buttons_mSE"
+                android:src="@drawable/btnundo"
+                android:hapticFeedbackEnabled="true"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/redo"
+                android:layout_width       ="@dimen/mask_buttons_width"
+                android:layout_height      ="@dimen/mask_buttons_height"
+                android:layout_marginStart ="@dimen/mask_buttons_mSE"
+                android:src="@drawable/btnredo"
+                android:hapticFeedbackEnabled="true"
+                android:layout_marginTop="5dp"
+                >
+            </ImageView>
+
+
+        </LinearLayout>
+
+
+
+        <!--    <ImageView-->
+        <!--        android:id="@+id/btnSave"-->
+        <!--        android:layout_width="300sp"-->
+        <!--        android:layout_height="150sp"-->
+        <!--        android:layout_centerHorizontal="true"-->
+        <!--        android:layout_alignParentBottom="true"-->
+        <!--        android:layout_marginBottom="45sp"-->
+        <!--        android:src="@drawable/savebtn"-->
+        <!--        android:visibility="invisible">-->
+        <!--    </ImageView>-->
+
+        <ImageView
+            android:id="@+id/btnUp"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:hapticFeedbackEnabled="true"
+            android:src="@drawable/uploadbtn" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:src="@drawable/statsbtn"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/btnSt"
+            android:hapticFeedbackEnabled="true">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_above="@+id/buttons"
+            android:gravity="center_vertical"
+            android:id="@+id/sliderAndStroke"
+            android:layout_centerHorizontal="true"
+            >
+            <com.google.android.material.slider.Slider
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/strokeSlider"
+                app:trackColor="#3880C8"
+                app:thumbColor="@color/black"
+                android:valueFrom="0.1"
+                android:valueTo="2.0"
+                android:value="1"
+                android:stepSize="0.1"
+                android:layout_below="@+id/btnSt"
+                android:layout_marginLeft="15dp"
+                >
+            </com.google.android.material.slider.Slider>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle"
+                android:id="@+id/strokeDimens"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@+id/strokeSlider"
+                />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/nero_semiopaco"
+        android:visibility="invisible"
+        android:id="@+id/popupstats"
+        >
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="400dp"
+            android:background="@color/white"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/statsbtn"
+                android:layout_centerHorizontal="true"
+                android:background="#3880C8" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLOSE"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:textStyle="bold"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/closeBtn"
+                android:enabled="false"
+                >
+
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/coverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="15dp"
+                    android:text="Coverage: 0%"
+                    android:textColor="#3880C8"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/imageDimens"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="15dp"
+                    android:text="Image Size: 100x100"
+                    android:textColor="#3880C8"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/pixelsOutOf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="15dp"
+                    android:text="Tanti pixels out of Tutti"
+                    android:textColor="#3880C8"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
