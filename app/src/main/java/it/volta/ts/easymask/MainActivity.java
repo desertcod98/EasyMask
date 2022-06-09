@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MaskActivity.class);
                 if(UrlHandler.setUrl(intentResult.getContents()) == -1){
                     Toast.makeText(getBaseContext(), "Wrong URL format", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
                 }else{
                     startActivity(intent);
                 }
